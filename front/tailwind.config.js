@@ -2,7 +2,9 @@ module.exports = {
   theme: {
     extend: {},
   },
-  variants: {},
+  variants: {
+    fontSize: ['responsive', 'hover'],
+  },
   plugins: [],
   prefix: 'tw-',
 };
