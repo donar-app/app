@@ -4,25 +4,32 @@ const express = require('express');
 const router = express.Router();
 const asyncHandler = require('../middlewares/async-handler');
 
+const { getPublication, getAllPublications, createPublication, updatePublication, deletePublication } = require('../controllers/publicacion');
+
 
 router.get('/todas', asyncHandler(async (req, res, next) => {
-  res.send('Estas listando todas las publicaciones');
+    const data = await getAllPublications();
+    res.json({ data });
 }));
 
 router.get('/:id', asyncHandler(async (req, res, next) => {
-  res.send('estas listando una publicacion');
+    const data = await getPublication(req.params.id);
+    res.json({ data })
 }))
 
 router.post('/', asyncHandler(async (req, res, next) => {
-  res.send('estas creando una publicacion');
+    const data = await createPublication(req.body);
+    res.json({ data });
 }))
 
 router.put('/:id', asyncHandler(async (req, res, next) => {
-  res.send('estas modificando una publicacion');
+    const data = await updatePublication(req.params.id, req.body);
+    res.json({ data });
 }))
 
 router.delete('/', asyncHandler(async (req, res, next) => {
-  res.send('estas eliminando una publicacion');
+    const data = await deletePublication(req.params.id);
+    res.json({ data });
 }))
 
 
