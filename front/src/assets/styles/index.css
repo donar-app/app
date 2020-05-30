@@ -2,3 +2,16 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+* {
+  --red-donar: rgb(237, 66, 66);
+  --orange-donar: rgb(251, 176, 59);
+}
+
+.bg-red-donar {
+  background-color: var(--red-donar);
+}
+
+.bg-orange-donar {
+  background-color: var(--orange-donar);
+}
