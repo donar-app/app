@@ -11,7 +11,8 @@ const getAllPublications = async () => {
 
 const getPublication = async (id) => {
 
-    let resp = await Publicacion.find({ id });
+    console.log('el id ', id)
+    let resp = await Publicacion.findById( id );
 
     // try {
 	// 	await fs.readFile(resp.imageRoute);
