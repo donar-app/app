@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 require('./config/config');
 
 const indexRouter = require('./routes/index');
-const seguridadRouter = require('./routes/seguridad');
+const seguridadRouter = require('./routes/seguridadRoute');
 const usuarioRouter = require('./routes/usuarioRoute');
 const publicacionRouter = require('./routes/publicacion');
 const comentarioPublicacionRouter = require('./routes/comentarioPublicacion');
