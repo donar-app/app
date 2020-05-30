@@ -12,6 +12,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const publicacionRouter = require('./routes/publicacion');
 const comentarioPublicacionRouter = require('./routes/comentarioPublicacion');
+const peticionRouter = require('./routes/peticion');
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/publicaciones', publicacionRouter);
 app.use('/comentarios-publicaciones', comentarioPublicacionRouter);
+app.use('/peticiones', peticionRouter);
 
 
 app.use(errorHandlers);
