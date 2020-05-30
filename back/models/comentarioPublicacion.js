@@ -20,6 +20,6 @@ let comentarioPublicacionSchema = new Schema({
         type: String,
         required: false
     }
-})
+}, { collection: 'comentariospublicaciones' })
 
 module.exports = mongoose.model('ComentarioPublicacion', comentarioPublicacionSchema)

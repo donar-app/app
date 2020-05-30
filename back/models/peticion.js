@@ -35,6 +35,6 @@ let peticion = new Schema({
         type: Number,
         required: false
     }
-})
+}, { collection: 'peticiones' })
 
 module.exports = mongoose.model('Peticion', peticion)
