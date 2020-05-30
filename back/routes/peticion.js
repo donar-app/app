@@ -3,27 +3,28 @@
 const express = require('express');
 const router = express.Router();
 const asyncHandler = require('../middlewares/async-handler');
-const { createComentarioPublication, updateComentarioPublication } = require('../controllers/comentarioPublicacion');
+const { createPeticion, updatePeticion } = require('../controllers/peticion');
 
 /**
- * Crear comentario
+ * Crear peticion
  */
 router.post('/', asyncHandler(async (req, res, next) => {
-    res.json( await createComentarioPublication({
-        pregunta: req.body.pregunta,
-        donacion_id: req.body.donacion_id,
-        usuario_id: req.body.usuario_id,
+    const usuario_id = 1;
+
+    res.json( await createPeticion({
+        usuario_id,
+        donacion_id: req.body.donacion_id
     }));
 }));
 
 /**
- * Modificar comentario
+ * Aceptar peticion
  */
 router.put('/:id', asyncHandler(async (req, res, next) => {
     const { id } = req.params
     // verificar si el usuario es el dueño de la publicación
-    res.json( await updateComentarioPublication(id, {
-        respuesta: req.body.respuesta
+    res.json( await updatePeticion(id, {
+        es_aceptada: req.body.es_aceptada
     }));
 }));
 
