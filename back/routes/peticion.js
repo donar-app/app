@@ -9,11 +9,12 @@ const { createPeticion, updatePeticion } = require('../controllers/peticion');
  * Crear peticion
  */
 router.post('/', asyncHandler(async (req, res, next) => {
-    const usuario_id = 1;
+    // obtener usuario del token
+    const usuario_id = req.body.usuario_id;
 
     res.json( await createPeticion({
         usuario_id,
-        donacion_id: req.body.donacion_id
+        publicacion_id: req.body.publicacion_id
     }));
 }));
 
