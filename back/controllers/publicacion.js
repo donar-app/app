@@ -5,20 +5,20 @@ const Publicacion = require('../models/publicacion')
 const { ResourceNotFound } = require('./../errors');
 
 const getAllPublications = async () => {
-    let resp = await Publicacion.find();
+    let resp = await Publicacion.find({ estado: 0});
     return resp;
 }
 
 const getPublication = async (id) => {
 
-    let resp = await Publicacion.find();
+    let resp = await Publicacion.find({ id });
 
-    try {
-		await fs.readFile(resp.imageRoute);
-	} catch (e) {
-		if (e.code === 'ENOENT') throw new ResourceNotFound();
-		throw e;
-	}
+    // try {
+	// 	await fs.readFile(resp.imageRoute);
+	// } catch (e) {
+	// 	if (e.code === 'ENOENT') throw new ResourceNotFound();
+	// 	throw e;
+	// }
 
     return resp;
 
@@ -26,15 +26,16 @@ const getPublication = async (id) => {
 
 
 const createPublication = async (publicacion) => {
+    const { anunciante_id, titulo, categoria, imagenRoute } = publicacion
+
     let nuevaPublicacion = new Publicacion({
-        anunciante_id = 'ObjectId("MaxiId")',
-        titulo = 'Computadora de escritorio',
-        categoria = 'informatica',
-        creada_en = new Date(),
-        actualizada_en = new Date(),
-        imageRoute = './images/lalala.png',
-        comentario = 'esto es un comentario',
-        solicitud = 'alguna solicitud'
+        anunciante_id,
+        titulo,
+        categoria,
+        creada_en: new Date(),
+        actualizada_en: new Date(),
+        imagenRoute,
+        estado: 0,
     })
 
     let publicacionSaved = await nuevaPublicacion.save();
@@ -43,11 +44,21 @@ const createPublication = async (publicacion) => {
 }
 
 const updatePublication = async (id, publicacion) => {
+    const { titulo, categoria, imagenRoute } = publicacion
 
+    let publicacionUpdated = await Publicacion.findOneAndUpdate(id, {
+        titulo,
+        categoria,
+        imagenRoute,
+        actualizada_en: new Date(),
+    }, {new: true})
+
+    return publicacionUpdated;
 }
 
 const deletePublication = async (id) => {
-
+    let publicacionDelete = await Publicacion.findOneAndUpdate(id, {estado: 1})
+    return publicacionDelete;
 }
 
 module.exports = {

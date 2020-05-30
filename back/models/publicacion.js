@@ -10,9 +10,7 @@ let publicacionSchema = new Schema({
     creada_en: Date,
     actualizada_en: Date,
     imagenRoute: String,
-    comentario: [{type: Schema.Types.ObjectId, ref: 'ComentarioPublicacion'}],
-    solicitud: [{type: Schema.Types.ObjectId, ref: 'Solicitud'}]
-
+    estado: Number
 })
 
 
