@@ -6,10 +6,10 @@ let comentarioPublicacionSchema = new Schema({
         type: String,
         required: [true, 'La pregunta es necesaria']
     },
-    donacion_id: {
+    publicacion_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Donacion',
-        required: [true, 'El ID de donación es necesario']
+        ref: 'Publicacion',
+        required: [true, 'El ID de publicación es necesario']
     },
     usuario_id: {
         type: Schema.Types.ObjectId,
