@@ -27,7 +27,7 @@ let peticion = new Schema({
         required: false,
         default: false
     },
-    calificacion_donante: {
+    calificacion_emisor: {
         type: Number,
         required: false
     },
