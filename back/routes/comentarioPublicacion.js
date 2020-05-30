@@ -9,7 +9,12 @@ const { createComentarioPublication, updateComentarioPublication } = require('..
  * Crear comentario
  */
 router.post('/', asyncHandler(async (req, res, next) => {
-    res.json( await createComentarioPublication({}) );
+    res.json( await createComentarioPublication({
+        pregunta: '¿Está disponible?',
+        respuesta: null,
+        donacion_id: 1,
+        usuario_id: 1,
+    }));
 }));
 
 /**
