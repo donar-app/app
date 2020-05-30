@@ -5,8 +5,10 @@
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config ./webpack.config.js --mode production",
+    "build": "rm -rf dist && webpack --mode production --config webpack.server.config.js && webpack --config ./webpack.dll.config.js --mode production && webpack --config ./webpack.config.js --mode production",
+    "build:server": "webpack --mode production --config webpack.server.config.js",
     "build:dll": "webpack --config ./webpack.dll.config.js --mode production",
+    "build:local": "webpack --config ./webpack.config.js --mode production",
     "dev": "webpack-dev-server  --config  ./webpack.dev.config.js --open --mode development"
   },
   "keywords": [],
@@ -17,6 +19,7 @@
     "animate.css": "^4.1.0",
     "bootstrap": "^4.5.0",
     "bootstrap.native": "^2.0.27",
+    "express": "^4.17.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
@@ -58,6 +61,7 @@
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }

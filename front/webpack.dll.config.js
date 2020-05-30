@@ -6,7 +6,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 module.exports = {
   entry: {
     modules: [
-      'fuse.js',
       'react',
       'react-dom',
       'react-router-dom',
