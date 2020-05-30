@@ -10,10 +10,9 @@ const { createComentarioPublication, updateComentarioPublication } = require('..
  */
 router.post('/', asyncHandler(async (req, res, next) => {
     res.json( await createComentarioPublication({
-        pregunta: '¿Está disponible?',
-        respuesta: null,
-        donacion_id: 1,
-        usuario_id: 1,
+        pregunta: req.body.pregunta,
+        donacion_id: req.body.donacion_id,
+        usuario_id: req.body.usuario_id,
     }));
 }));
 
@@ -21,7 +20,10 @@ router.post('/', asyncHandler(async (req, res, next) => {
  * Modificar comentario
  */
 router.put('/:id', asyncHandler(async (req, res, next) => {
-    res.json( await updateComentarioPublication(1, {}) );
+    // verificar si el usuario es el dueño de la publicación
+    res.json( await updateComentarioPublication(1, {
+        respuesta: req.body.respuesta
+    }));
 }));
 
 module.exports = router;
