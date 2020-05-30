@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-let usuario = new Schema({
+let Usuario = new Schema({
     nombre: {
         type: String,
         ref: 'Nombre',
@@ -21,6 +21,11 @@ let usuario = new Schema({
         type: String,
         ref: 'Alias',
         required: [true, 'El email es necesario']
+    },
+    clave: {
+        type: String,
+        ref: 'Clave',
+        required: [true, 'El clave es necesario']
     },
     pais: {
         type: String,
@@ -43,30 +48,30 @@ let usuario = new Schema({
         required: [true, 'El telefono es necesario']
     },
     es_fundacion: {
-        type: String,
+        type: Boolean,
         ref: 'Fundacion',
         required: [true, 'El Campo Fundacion es necesario']
     },
     es_acopio: {
-        type: String,
+        type: Boolean,
         ref: 'Acopio',
         required: [true, 'El Campo Acopio es necesario']
     },
     es_activo: {
-        type: String,
+        type: Boolean,
         ref: 'Activo',
         required: [true, 'El Campo Activo es necesario']
     },
-    creada_en: {
-        type: String,
+    creado_en: {
+        type: Date,
         ref: 'Creado',
         required: [true, 'El Creado es necesario']
     },
-    actualizada_en: {
-        type: String,
+    actualizado_en: {
+        type: Date,
         ref: 'Actualizo',
         required: [false, 'El alias es necesario']
     },
 })
 
-module.exports = mongoose.model('Usuario', usuario)
+module.exports = mongoose.model('Usuario', Usuario)
