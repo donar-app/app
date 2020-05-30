@@ -11,7 +11,7 @@ const { createComentarioPublication, updateComentarioPublication } = require('..
 router.post('/', asyncHandler(async (req, res, next) => {
     res.json( await createComentarioPublication({
         pregunta: req.body.pregunta,
-        donacion_id: req.body.donacion_id,
+        publicacion_id: req.body.publicacion_id,
         usuario_id: req.body.usuario_id,
     }));
 }));
