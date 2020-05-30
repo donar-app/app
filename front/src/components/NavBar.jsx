@@ -31,7 +31,7 @@ const NavBar = () => {
                     <div className="navegacion">
                         <div className="row py-1">
                                 <div className="col-12 d-flex justify-content-center">
-                                    <img src={Avatar} width={80} alt="avatar"/>
+                                    <img src={Avatar} width={72} alt="avatar"/>
                                 </div>
                                 <div className="col-12 text-center">
                                     <small>Ingresá para ayudar</small>
@@ -54,8 +54,7 @@ const NavBar = () => {
                                 <a href="#">Sobre Nosotros</a> 
                             </div>
                         </div>
-                    </div>
-                    
+                    </div>  
                 </div>
             </div>
         </nav>
