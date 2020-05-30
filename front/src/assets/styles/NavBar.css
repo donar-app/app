@@ -1,45 +1,42 @@
-.navbar{
-    background-color: #A6C9E8;
-    color: white;
+.navbar {
+  background-color: #a6c9e8;
+  color: white;
 }
 
-.links a{
-    font-weight: 500;
-    text-decoration: none !important;
+.links a {
+  font-weight: 500;
+  text-decoration: none !important;
 }
 
 .menu_nav {
-    height: 100vh;
-    position: absolute;
-    right: 0;
-    width: 15rem;
-    max-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: max-width 0.2s ease-out;
-    top: 5.2rem;
-    z-index: 20;
-    background-color: rgb(166, 201, 232);
-    color: white;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  width: 15rem;
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: max-width 0.2s ease-out;
+  top: 5.2rem;
+  z-index: 20;
+  background-color: rgb(166, 201, 232);
+  color: white;
 }
 
 .menu_open {
-    max-width: 175px;
-    transition: max-width 0.4s ease-in;
+  max-width: 175px;
+  transition: max-width 0.4s ease-in;
 }
 
 .navegacion a {
-    text-decoration: none !important;
+  text-decoration: none !important;
 }
 
-.button-desplegable{
-    padding: 0px 10px;
-    padding-bottom: 2px;
-    border: white 1px solid;
-    border-radius: 5px;
-    outline: none !important;
+.button-desplegable {
+  padding: 0 10px;
+  padding-bottom: 2px;
+  border: white 1px solid;
+  border-radius: 5px;
+  outline: none !important;
 }
-
-
-

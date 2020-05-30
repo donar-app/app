@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import donando from '../assets/static/donando.png';
 import dar from '../assets/static/dar.png';
@@ -8,9 +7,6 @@ import caja from '../assets/static/caja.png';
 const Home = () => {
   return (
     <main className='animate__animated animate__fadeIn'>
-      <div>
-        <Link to='/publicaciones'>Publicaciones</Link>
-      </div>
       <div>
         <Layout image={donando} buttonColor='bg-red-donar' buttonText='Quienes somos' position='tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-center' textColor='tw-text-white' fontSize='md:tw-text-4xl'>
           ¡Podés ayudar mucho donando algo que no usas!
