@@ -4,11 +4,25 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const errorHandlers = require('./middlewares/error');
+const mongoose = require('mongoose');
+
+require('./config/config');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+
+// Conexión a la DB
+mongoose.connect(process.env.URLDB,{
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+  }, (error, respuesta) => {
+    if(error) throw error;
+
+    console.log('Base de datos Online');
+})
 
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
