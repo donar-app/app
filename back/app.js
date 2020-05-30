@@ -10,6 +10,7 @@ require('./config/config');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const publicacionRouter = require('./routes/publicacion');
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/publicaciones', publicacionRouter);
+
 
 app.use(errorHandlers);
 
