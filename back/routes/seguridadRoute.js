@@ -37,7 +37,6 @@ router.post('/login', asyncHandler(async (req, res) => {
 
   const usuario = await obtenerUsuarioPorAlias(alias)
 
-  console.log(usuario);
   if (!usuario) {
     return res.json({
       mensaje: "alias o clave invalido",
