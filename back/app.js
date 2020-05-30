@@ -13,6 +13,7 @@ const usersRouter = require('./routes/users');
 const publicacionRouter = require('./routes/publicacion');
 const comentarioPublicacionRouter = require('./routes/comentarioPublicacion');
 const peticionRouter = require('./routes/peticion');
+const calificacionRouter = require('./routes/calificacion');
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use('/users', usersRouter);
 app.use('/publicaciones', publicacionRouter);
 app.use('/comentarios-publicaciones', comentarioPublicacionRouter);
 app.use('/peticiones', peticionRouter);
+app.use('/calificacion', calificacionRouter);
 
 
 app.use(errorHandlers);
