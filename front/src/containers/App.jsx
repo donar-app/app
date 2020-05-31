@@ -5,6 +5,8 @@ import Publicaciones from '../pages/Publicaciones';
 import ScrollToTop from '../components/ScrollToTop';
 import Publicar from '../pages/Publicar';
 import NavBar from '../components/NavBar';
+import Login from '../components/Login';
+import Registro from '../components/Registro';
 
 const App = () => {
   return (
@@ -12,7 +14,7 @@ const App = () => {
       <HashRouter>
         <NavBar />
         <div className='tw-container mx-auto'>
-          <Switch>
+          {/* <Switch>
             <Route exact path='/'>
               <ScrollToTop />
               <Home />
@@ -25,7 +27,8 @@ const App = () => {
               <ScrollToTop />
               <Publicaciones />
             </Route>
-          </Switch>
+          </Switch> */}
+          <Registro/>
         </div>
       </HashRouter>
     </div>

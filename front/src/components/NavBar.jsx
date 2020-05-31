@@ -7,7 +7,23 @@ import Avatar from '../assets/static/user.png';
 const NavBar = () => {
 
   function handleMenuOpen() {
-    document.querySelector('.menu_nav').classList.toggle('menu_open');
+    const menu_nav = document.querySelector('.menu_nav')
+    menu_nav.classList.toggle('menu_open');
+
+    if(menu_nav.classList.contains('menu_open')){
+        document.querySelector('body').classList.add('overflow-hiden');
+    }else{
+        document.querySelector('body').classList.remove('overflow-hiden');
+    }
+    
+  }
+
+  function closeMenu() {
+      const menu_nav = document.querySelector('.menu_nav');
+
+      if(menu_nav.classList.contains('menu_open')){
+        menu_nav.classList.remove('menu_open');
+      }
   }
 
   return (
@@ -50,20 +66,20 @@ const NavBar = () => {
             <hr />
             <div className='row'>
               <div className='col-12 py-4'>
-                <Link to='/publicar'>
+                <Link onClick={closeMenu} to='/publicar'>
                   <i className='text-secondary fas fa-file-import' />
                   <span className='pl-3'>Publica</span>
                   {' '}
                 </Link>
               </div>
               <div className='col-12 mb-4'>
-                <Link to='/donaciones'>
+                <Link onClick={closeMenu} to='/donaciones'>
                   <i className='text-secondary fas fa-shopping-basket' />
                   <span className='pl-3'>Donaciones</span>
                 </Link>
               </div>
               <div className='col-12'>
-                <Link to='/sobreNosotros'>
+                <Link onClick={closeMenu} to='/sobreNosotros'>
                   <i className='text-secondary fas fa-users' />
                   <span className='pl-3'>Sobre Nosotros</span>
                 </Link>

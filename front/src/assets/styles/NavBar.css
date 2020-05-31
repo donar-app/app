@@ -14,9 +14,9 @@
   left: 0;
   width: 0;
   overflow: hidden;
-
+  border-top: rgba(0, 0, 0, 0.068) solid 1px;
   /* transition: max-width 0.2s ease-out; */
-  top: 5.3rem;
+  top: 5.1rem;
   z-index: 20;
   background-color: white;
   color: rgb(0, 0, 0);
@@ -35,11 +35,16 @@
 .button-desplegable {
   padding: 0 10px;
   padding-bottom: 2px;
-  border: black 1px solid;
+  border: rgba(0, 0, 0, 0.226) 1px solid;
   border-radius: 5px;
   outline: none !important;
+  color: rgba(0, 0, 0, 0.445);
 }
 
 .font-size-lg {
   font-size: large;
+}
+
+.overflow-hiden{
+    overflow: hidden;
 }
