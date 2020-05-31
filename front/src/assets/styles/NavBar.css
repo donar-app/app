@@ -48,3 +48,8 @@
 .overflow-hiden{
     overflow: hidden;
 }
+
+.bg-button{
+  background-color: #0071BC!important;
+  color:white!important;
+}

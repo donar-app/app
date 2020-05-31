@@ -67,7 +67,7 @@ const Login = () => {
                 <hr />
                 <div className='row'>
                   <div className='col-lg-6 py-4'>
-                    <button type='submit' className='btn btn-primary w-100'>Ingresar</button>
+                    <button type='submit' className='btn bg-button w-100'>Ingresar</button>
                   </div>
                   <div className='col-lg-6 py-lg-4'>
                     <button type='button' className='btn-google btn w-100'>

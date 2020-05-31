@@ -21,6 +21,7 @@ const NavBar = () => {
     const menuNav = document.querySelector('.menu_nav');
 
     if (menuNav.classList.contains('menu_open')) {
+      handleMenuOpen();
       menuNav.classList.remove('menu_open');
     }
   }
@@ -39,7 +40,7 @@ const NavBar = () => {
           </div>
         </div>
         <Link className='navbar-brand d-flex align-items-center' to='/'>
-          <img src={LogoCompeto} alt='Donar' width={130} className='d-inline-block align-top pl-0' />
+          <img  src={LogoCompeto} alt='Donar' width={130} className='d-inline-block align-top pl-0' />
         </Link>
         <div className='menu_nav d-block d-sm-block d-md-none'>
           <div className='px-5'>
@@ -55,10 +56,10 @@ const NavBar = () => {
               </div>
               <div className='row'>
                 <div className='col-6'>
-                  <Link onClick={closeMenu} to='/iniciarSesion' className='btn btn-primary btn-block'>Ingresá</Link>
+                  <Link onClick={closeMenu} to='/iniciarSesion' className='btn bg-button btn-block'>Ingresá</Link>
                 </div>
                 <div className='col-6'>
-                  <Link onClick={closeMenu} to='/registrarse' className='btn btn-primary btn-block'>Registrate</Link>
+                  <Link onClick={closeMenu} to='/registrarse' className='btn bg-button btn-block'>Registrate</Link>
                 </div>
               </div>
             </div>
