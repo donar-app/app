@@ -15,7 +15,7 @@ router.post('/', asyncHandler(async (req, res, next) => {
     const usuario_id = req.body.jwt_usuario_id;
     
     const publicacion = await getPublication(publicacion_id);
-    if(publicacion.anunciante_id !== usuario_id){
+    if(String(publicacion.anunciante_id) !== String(usuario_id)){
 
         res.json( await createComentarioPublication({
             pregunta: req.body.pregunta,
@@ -42,7 +42,7 @@ router.put('/:id', asyncHandler(async (req, res, next) => {
     const comentario = await getComentarioPublication(id);
     const publicacion = await getPublication(comentario.publicacion_id);
 
-    if(publicacion.anunciante_id === usuario_id){
+    if(String(publicacion.anunciante_id) === String(usuario_id)){
         res.json( await updateComentarioPublication(id, {
             respuesta: req.body.respuesta
         }));
