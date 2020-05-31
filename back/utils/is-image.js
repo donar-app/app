@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports = (chunk) => {
     const types = [
 		{
@@ -8,7 +10,6 @@ module.exports = (chunk) => {
 		{
 			ext: 'png',
 			mime: 'image/png',
-			// bytes: [137, 80, 78, 71, 13, 10, 26, 10],
 			bytes: Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
 		},
 		{

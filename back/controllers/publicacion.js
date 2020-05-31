@@ -4,30 +4,31 @@ const fs = require('fs');
 const path = require('path');
 const Publicacion = require('../models/publicacion')
 const isImage = require('../utils/is-image');
-const { ResourceNotFound } = require('./../errors');
+const createImage = require('../utils/create-image');
+
+const { ResourceNotFound, ResourceNotImage } = require('./../errors');
 
 
 
 
 const getAllPublications = async () => {
     let resp = await Publicacion.find({ estado: 0});
+
+    for await (const publi of resp) {
+
+        publi.imagenRoute = await createImage(publi.imagenRoute);
+    }
+
     return resp;
 }
+
 
 const getPublication = async (id) => {
 
     try {
         let resp = await Publicacion.findById( id );
-        let chunks = '';
-        let imagen64 = await fs.createReadStream( path.resolve( __dirname, `../uploads/${ resp.imagenRoute }`) );
 
-        imagen64.setEncoding('base64');
-
-        for await (const chunk of imagen64) {
-            chunks += chunk;
-        }
-
-        resp.imagenRoute = chunks;
+        resp.imagenRoute = await createImage(resp.imagenRoute);
 
         return resp;
         
@@ -45,10 +46,8 @@ const createPublication = async ( publicacion ) => {
     let nameFile = `${anunciante_id}-${new Date().getTime()}`;
 
 
-    if ( !isImage( imagen ) ) {
-        console.log('ERRORRR');
-        return {message: 'no es una imagen'}
-    }
+    if ( !isImage( imagen ) ) throw new ResourceNotImage();
+
 
     fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}`), imagenRoute, 'base64')
 
