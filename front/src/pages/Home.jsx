@@ -5,9 +5,9 @@ import ButtonPill from '../components/ButtonPill';
 import SliderProduct from '../components/SliderProduct';
 
 const pStyle = {
-  width: "70%",
-  "margin-top": "-56px",
-  "margin-left": "-115px"
+  width: '70%',
+  'margin-top': '-56px',
+  'margin-left': '-115px',
 };
 
 const Home = () => {
@@ -24,8 +24,8 @@ const Home = () => {
       <div className='tw-relative'>
         <img className='tw-object-cover tw-h-40 tw-w-full opacity-80' src={donando} alt='' />
         <div className='tw-absolute tw-px-5 tw-inset-0 tw-flex tw-flex-col tw-justify-center tw-items-center'>
-          <p className='tw-pb-3 tw-font-bold tw-text-lg tw-text-white md:tw-text-4xl' style={pStyle}>
-           
+          <p className='tw-pb-3 tw-font-bold tw-text-lg tw-text-white md:tw-text-4xl text-shadow'>
+            Publicá lo que tenes para donar o elegí en las solicitudes
           </p>
           <div className='tw-hidden tw-text-right tw-w-full'>
             <ButtonPill bgColor='tw-bg-white' textColor='text-orange-donar' px='tw-px-6' py='tw-py-0' textSize='tw-text-2xl' handleClick={() => goTo('/publicar/donar')}>Donar</ButtonPill>

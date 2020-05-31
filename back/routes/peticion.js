@@ -6,6 +6,7 @@ const asyncHandler = require('../middlewares/async-handler');
 const { getPeticion, createPeticion, updatePeticion } = require('../controllers/peticion');
 const { NotHavePermissions } = require('./../errors');
 const { getPublication } = require('../controllers/publicacion');
+const { obtenerUsuario } = require('../controllers/usuarioController');
 
 /**
  * Crear peticion
@@ -41,16 +42,44 @@ router.put('/:id', asyncHandler(async (req, res, next) => {
     const usuario_id = req.body.jwt_usuario_id;
     const publicacion_id = req.body.publicacion_id;
     // Verificar permisos
-    const peticion = await getPeticion(id);
+    let peticion = await getPeticion(id);
     const publicacion = await getPublication(peticion.publicacion_id);
 
-    if(String(publicacion.anunciante_id) === String(usuario_id)){
+    let emisorObj = await obtenerUsuario(publicacion.anunciante_id);
+    let receptorObj = await obtenerUsuario(peticion.usuario_id);
 
-        res.json( await updatePeticion(id, {
+    emisorObj = {
+        nombre: emisorObj.nombre,
+        apellido: emisorObj.apellido,
+        alias: emisorObj.alias,
+        email: emisorObj.email,
+        pais: emisorObj.pais,
+        ciudad: emisorObj.ciudad
+    };
+
+    receptorObj = {
+        nombre: receptorObj.nombre,
+        apellido: receptorObj.apellido,
+        alias: receptorObj.alias,
+        email: receptorObj.email,
+        pais: receptorObj.pais,
+        ciudad: receptorObj.ciudad
+    };
+
+    if(String(publicacion.anunciante_id) === String(usuario_id)){
+        peticion =  await updatePeticion(id, {
             es_aceptada: req.body.es_aceptada
-        }));
+        });
+
+        res.json({
+            peticion,
+            emisorObj,
+            receptorObj
+        });
 
     } else {
+
+        throw new NotHavePermissions();
 
     }
 }));
