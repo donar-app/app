@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import LoaderDualRing from './LoaderDualRing';
@@ -6,7 +7,6 @@ import LabelInput from './LabelInput';
 import ImagenLogin from '../assets/static/ropa-donacion.jpg';
 import '../assets/styles/Login.css';
 import { petition } from '../functions';
-import { Link } from 'react-router-dom';
 
 const Login = () => {
 
@@ -31,7 +31,7 @@ const Login = () => {
   };
 
   return (
-    <div className='card mb-3'>
+    <div className='card mb-3 animate__animated animate__fadeIn'>
       <div className='row no-gutters'>
         <div className='col-md-6 d-none d-sm-none d-md-block'>
           <img src={ImagenLogin} className='card-img h-100' alt='Imagen Login' />
@@ -80,7 +80,7 @@ const Login = () => {
             </form>
           </div>
           <div className='card-footer text-center'>
-            <p className='tw-text-sm'><a href=''>¿Olvido la contraseña?</a></p>
+            <p className='tw-text-sm'><a href=''>¿Olvidó la contraseña?</a></p>
           </div>
         </div>
       </div>

@@ -30,24 +30,27 @@ const SliderProduct = ({ smallText, children }) => {
             <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
           </div>
           <div>
-            <h3>4</h3>
+            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
           </div>
           <div>
-            <h3>5</h3>
+            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
           </div>
           <div>
-            <h3>6</h3>
+            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
           </div>
           <div>
-            <h3>7</h3>
+            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
           </div>
           <div>
-            <h3>8</h3>
+            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+          </div>
+          <div>
+            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
           </div>
         </Slider>
       </div>
       <div className='tw-text-right pr-2 pt-2'>
-        <button type='button' className='tw-font-bold tw-text-gray-700'>Ver mas ...</button>
+        <button type='button' className='tw-font-bold tw-text-gray-700'>Ver más ...</button>
       </div>
     </div>
   );

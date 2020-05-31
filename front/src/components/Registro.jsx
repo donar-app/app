@@ -1,13 +1,26 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import LabelInput from './LabelInput';
 import ImagenRegistro from '../assets/static/registro2.jpg';
 import '../assets/styles/Login.css';
 import { petition } from '../functions';
+import LoaderDualRing from './LoaderDualRing';
 
 const Registro = () => {
+  const history = useHistory();
 
   const handleSubmit = (e) => {
+    console.log('hola');
     e.preventDefault();
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Enviando datos...',
+      html: <LoaderDualRing />,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
     petition('registro', 'POST', null, {
       alias: document.querySelector('#userRegister').value,
       nombre: document.querySelector('#nameRegister').value,
@@ -15,11 +28,22 @@ const Registro = () => {
       email: document.querySelector('#emailRegister').value,
       pais: document.querySelector('#countryRegister').value,
       ciudad: document.querySelector('#cityRegister').value,
-    });
+    })
+      .then((response) => {
+        Swal.fire({
+          icon: 'success',
+          title: response.mensaje,
+          confirmButtonText: '¡Continuar!',
+          confirmButtonColor: '#dd7f0e',
+          allowOutsideClick: false,
+        }).then(() => {
+          history.push('/');
+        });
+      });
   };
 
   return (
-    <div className='card mb-3'>
+    <div className='card mb-3 animate__animated animate__fadeIn'>
       <div className='row no-gutters'>
         <div className='col-md-6 d-none d-sm-none d-md-block'>
           <img src={ImagenRegistro} className='card-img' alt='Imagen Login' />
