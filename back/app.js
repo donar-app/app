@@ -6,7 +6,7 @@ const logger = require('morgan');
 const errorHandlers = require('./middlewares/error');
 const {verificaToken} = require('./middlewares/seguridad');
 const mongoose = require('mongoose');
-// var bodyParser = require('body-parser')
+
 
 require('./config/config');
 
