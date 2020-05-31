@@ -27,7 +27,7 @@ router.put('/:id', asyncHandler(async (req, res, next) => {
     res.json({ data });
 }))
 
-router.delete('/', asyncHandler(async (req, res, next) => {
+router.delete('/:id', asyncHandler(async (req, res, next) => {
     const data = await deletePublication(req.params.id);
     res.json({ data });
 }))
