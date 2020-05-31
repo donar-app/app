@@ -40,7 +40,7 @@ const NavBar = () => {
             <Link to='/registrarse'>Registro</Link>
             <Link to='/publicar'>Publicar</Link>
             <Link to='/donaciones'>Donaciones</Link>
-            <Link to='/sobreNosotros'>Sobre Nosotros</Link>
+            {/* <Link to='/sobreNosotros'>Sobre Nosotros</Link> */}
           </div>
         </div>
         <Link className='navbar-brand d-flex align-items-center' to='/'>
