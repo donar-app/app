@@ -39,7 +39,7 @@ const getPublication = async (id) => {
 
 
 const createPublication = async ( publicacion ) => {
-    const { anunciante_id, titulo, categoria, descripcion, imagenRoute } = publicacion;
+    const { anunciante_id, titulo, categoria, descripcion, tipo, imagenRoute } = publicacion;
     let imagen =  Buffer.from(imagenRoute, 'base64');
     let nameFile = `${anunciante_id}-${new Date().getTime()}`;
 
@@ -52,6 +52,7 @@ const createPublication = async ( publicacion ) => {
         titulo,
         categoria,
         descripcion,
+        tipo,
         creada_en: new Date(),
         actualizada_en: new Date(),
         imagenRoute: nameFile,
@@ -66,7 +67,7 @@ const createPublication = async ( publicacion ) => {
 
 const updatePublication = async (id, publicacion) => {
     
-    const { anunciante_id, titulo, categoria, descripcion, imagenRoute } = publicacion
+    const { anunciante_id, titulo, categoria, descripcion, tipo, imagenRoute } = publicacion
     let imagen =  Buffer.from(imagenRoute, 'base64');
 
     if ( !isImage( imagen ) ) throw new ResourceNotImage();
@@ -79,6 +80,7 @@ const updatePublication = async (id, publicacion) => {
         titulo,
         categoria,
         descripcion,
+        tipo,
         imagenRoute: publi.imagenRoute,
         actualizada_en: new Date(),
     }, {new: true})
