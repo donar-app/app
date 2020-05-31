@@ -1,4 +1,7 @@
 import React from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import LoaderDualRing from './LoaderDualRing';
 import LabelInput from './LabelInput';
 import ImagenLogin from '../assets/static/ropa-donacion.jpg';
 import '../assets/styles/Login.css';
@@ -8,7 +11,22 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    petition('login', 'POST', `Basic ${btoa(`${document.querySelector('#userLogin').value}:${document.querySelector('#passLogin').value}`)}`);
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Enviando datos...',
+      html: <LoaderDualRing />,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
+    petition('login', 'POST', `Basic ${btoa(`${document.querySelector('#userLogin').value}:${document.querySelector('#passLogin').value}`)}`)
+      .then((response) => {
+        Swal.fire({
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+          allowOutsideClick: false,
+        });
+      });
   };
 
   return (
@@ -25,7 +43,6 @@ const Login = () => {
                   <p style={{ fontSize: 40 }}>Ingresa</p>
                 </div>
               </div>
-
               <div className='pt-2'>
                 <div className='form-group'>
                   <LabelInput name='userLogin'>Usuario</LabelInput>
@@ -59,14 +76,11 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-
             </form>
           </div>
-
           <div className='card-footer text-center'>
             <p className='tw-text-sm'><a href=''>¿Olvido la contraseña?</a></p>
           </div>
-
         </div>
       </div>
     </div>
