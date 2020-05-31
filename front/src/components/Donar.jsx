@@ -9,18 +9,18 @@ const Donar = () => {
     setActiveConfetti(true);
   };
   return (
-    <main className='tw-flex tw-flex-col tw-items-center tw-max-w-xs tw-mx-auto'>
+    <main className='tw-flex tw-flex-col tw-items-center tw-max-w-xs tw-mx-auto animate__animated animate__fadeIn'>
       <h2 className='tw-pb-2 tw-border-b-2 tw-pt-6 tw-text-2xl tw-font-bold text-orange-donar'>Crear Donacion</h2>
       <form onSubmit={(e) => handleSubmit(e)} className='tw-space-y-4 tw-pt-4'>
         <Input placeholder='Titulo' />
-        <select className='tw-appearance-none tw-shadow tw-w-full tw-border tw-text-gray-700 tw-py-2 tw-px-4 tw-rounded focus:tw-outline-none focus:tw-shadow-outline'>
+        <select className='tw-appearance-none tw-shadow tw-w-full tw-border tw-text-gray-700 tw-py-2 tw-px-4 tw-rounded focus:tw-outline-none focus:tw-shadow-outline' required>
           <option value=''>Seleccionar Categoria</option>
           <option value='ropa'>Ropa</option>
           <option value='alimento'>Alimento no perecedero</option>
           <option value='mueble'>Mueble</option>
         </select>
         <textarea className='tw-resize-none tw-shadow tw-border tw-rounded focus:tw-outline-none focus:tw-shadow-outline tw-w-full tw-h-20 tw-p-2' placeholder='Descripcion del producto' />
-        <input type='file' className='tw-appearance-none tw-shadow tw-w-full tw-border tw-text-gray-700 tw-py-2 tw-px-4 tw-rounded focus:tw-outline-none focus:tw-shadow-outline' />
+        <input type='file' className='tw-appearance-none tw-shadow tw-w-full tw-border tw-text-gray-700 tw-py-2 tw-px-4 tw-rounded focus:tw-outline-none focus:tw-shadow-outline' required />
         <textarea className='tw-resize-none tw-shadow tw-border tw-rounded focus:tw-outline-none focus:tw-shadow-outline tw-w-full tw-h-20 tw-p-2' placeholder='Descripcion de envio' />
         <div className='tw-flex tw-flex-col tw-justify-center tw-items-center'>
           <Confetti active={activeConfetti} />
