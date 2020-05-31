@@ -1,9 +1,33 @@
 import React from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import LoaderDualRing from './LoaderDualRing';
 import LabelInput from './LabelInput';
 import ImagenLogin from '../assets/static/ropa-donacion.jpg';
 import '../assets/styles/Login.css';
+import { petition } from '../functions';
 
 const Login = () => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Enviando datos...',
+      html: <LoaderDualRing />,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
+    petition('login', 'POST', `Basic ${btoa(`${document.querySelector('#userLogin').value}:${document.querySelector('#passLogin').value}`)}`)
+      .then((response) => {
+        Swal.fire({
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+          allowOutsideClick: false,
+        });
+      });
+  };
 
   return (
     <div className='card mb-3'>
@@ -13,19 +37,18 @@ const Login = () => {
         </div>
         <div className='col-md-6'>
           <div className='card-body mx-5'>
-            <form action='#'>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <div className='row'>
                 <div className='col-12 text-center'>
                   <p style={{ fontSize: 40 }}>Ingresa</p>
                 </div>
               </div>
-
               <div className='pt-2'>
                 <div className='form-group'>
-                  <LabelInput>Usuario</LabelInput>
+                  <LabelInput name='userLogin'>Usuario</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput>Contraseña</LabelInput>
+                  <LabelInput name='passLogin' type='password'>Contraseña</LabelInput>
                 </div>
                 <div className='row pb-3'>
                   <div className='col-6 d-flex align-items-center'>
@@ -40,9 +63,7 @@ const Login = () => {
                     </p>
                   </div>
                 </div>
-
                 <hr />
-
                 <div className='row'>
                   <div className='col-lg-6 py-4'>
                     <button type='submit' className='btn btn-primary w-100'>Ingresar</button>
@@ -55,14 +76,11 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-
             </form>
           </div>
-
           <div className='card-footer text-center'>
             <p className='tw-text-sm'><a href=''>¿Olvido la contraseña?</a></p>
           </div>
-
         </div>
       </div>
     </div>

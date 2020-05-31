@@ -1,4 +1,6 @@
 /* purgecss start ignore */
+@import './slick.css';
+@import './slick-theme.css';
 
 .slick-list {
   /* Set spaces */
