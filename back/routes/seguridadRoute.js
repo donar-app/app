@@ -51,8 +51,9 @@ router.post('/login', asyncHandler(async (req, res) => {
   }
 
   const token = await handlerToken.crearToken({ id: usuario.id, alias: usuario.alias });
-
   await handlerToken.setTokenEnCabecera(res, token);
+  
+  usuario.clave = undefined
 
   res.json({
     usuario: usuario,
@@ -98,7 +99,7 @@ router.post('/registro', asyncHandler(async (req, res) => {
   };  
 
   const resultUsuario = await crearUsuario(bufferUsuario)
-
+  resultUsuario.clave = undefined
   return res.json({
     usuario: resultUsuario
   });

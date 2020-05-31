@@ -16,27 +16,11 @@ const obtenerUsuarioPorAlias = async (alias) => {
 }
 
 const actualizarUsuario = async (id, usuarioObject) => {
-    return await Usuario.findOneAndUpdate(
-        {_id: id}, 
-        usuarioObject, 
-        { 
-            new: true, 
-            runValidators: true, 
-            context: 'query'
-        }
-    );
+    return await Usuario.findOneAndUpdate({_id : id}, usuarioObject);
 }
 
-const eliminarUsuario = async (id, usuarioObject) => {
-    return await usuarioObject.findOneAndUpdate(
-        {_id: id}, 
-        usuarioObject, 
-        { 
-            new: true, 
-            runValidators: true, 
-            context: 'query'
-        }
-    );
+const eliminarUsuario = async (id) => {
+    return await Usuario.findOneAndUpdate({_id : id}, {es_activo : false});
 }
 
 module.exports = {
