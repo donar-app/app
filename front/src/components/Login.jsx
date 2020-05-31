@@ -4,6 +4,11 @@ import ImagenLogin from '../assets/static/ropa-donacion.jpg';
 import '../assets/styles/Login.css';
 import { petition } from '../functions';
 
+const buttonStyle = {
+  background: "#0170bc",
+  color: "white"
+};
+
 const Login = () => {
 
   const handleSubmit = (e) => {
@@ -49,7 +54,7 @@ const Login = () => {
                 <hr />
                 <div className='row'>
                   <div className='col-lg-6 py-4'>
-                    <button type='submit' className='btn btn-primary w-100'>Ingresar</button>
+                    <button type='submit' className='btn btn-primary w-100' style={buttonStyle}>Ingresar</button>
                   </div>
                   <div className='col-lg-6 py-lg-4'>
                     <button type='button' className='btn-google btn w-100'>
