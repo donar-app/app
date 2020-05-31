@@ -1,8 +1,13 @@
 'use strict';
 
-const fs = require('fs').promises;
+const fs = require('fs');
+const path = require('path');
 const Publicacion = require('../models/publicacion')
+const isImage = require('../utils/is-image');
 const { ResourceNotFound } = require('./../errors');
+
+
+
 
 const getAllPublications = async () => {
     let resp = await Publicacion.find({ estado: 0});
@@ -11,31 +16,51 @@ const getAllPublications = async () => {
 
 const getPublication = async (id) => {
 
-    console.log('el id ', id)
-    let resp = await Publicacion.findById( id );
+    try {
+        let resp = await Publicacion.findById( id );
+        let chunks = '';
+        let imagen64 = await fs.createReadStream( path.resolve( __dirname, `../uploads/${ resp.imagenRoute }`) );
 
-    // try {
-	// 	await fs.readFile(resp.imageRoute);
-	// } catch (e) {
-	// 	if (e.code === 'ENOENT') throw new ResourceNotFound();
-	// 	throw e;
-	// }
+        imagen64.setEncoding('base64');
 
-    return resp;
+        for await (const chunk of imagen64) {
+            chunks += chunk;
+        }
+
+        resp.imagenRoute = chunks;
+
+        return resp;
+        
+	} catch (e) {
+		if (e.code === 'ENOENT') throw new ResourceNotFound();
+		throw e;
+    }
 
 }
 
 
-const createPublication = async (publicacion) => {
-    const { anunciante_id, titulo, categoria, imagenRoute } = publicacion
+const createPublication = async ( publicacion ) => {
+    const { anunciante_id, titulo, categoria, descripcion, imagenRoute } = publicacion;
+    let imagen =  Buffer.from(imagenRoute, 'base64');
+    let nameFile = `${anunciante_id}-${new Date().getTime()}`;
+
+
+    if ( !isImage( imagen ) ) {
+        console.log('ERRORRR');
+        return {message: 'no es una imagen'}
+    }
+
+    fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}`), imagenRoute, 'base64')
+
 
     let nuevaPublicacion = new Publicacion({
         anunciante_id,
         titulo,
         categoria,
+        descripcion,
         creada_en: new Date(),
         actualizada_en: new Date(),
-        imagenRoute,
+        imagenRoute: nameFile,
         estado: 0,
     })
 
@@ -43,6 +68,7 @@ const createPublication = async (publicacion) => {
     return publicacionSaved;
 
 }
+
 
 const updatePublication = async (id, publicacion) => {
     const { titulo, categoria, imagenRoute } = publicacion
@@ -57,10 +83,12 @@ const updatePublication = async (id, publicacion) => {
     return publicacionUpdated;
 }
 
+
 const deletePublication = async (id) => {
     let publicacionDelete = await Publicacion.findOneAndUpdate(id, {estado: 1})
     return publicacionDelete;
 }
+
 
 module.exports = {
     getAllPublications,
