@@ -16,6 +16,7 @@ const publicacionRouter = require('./routes/publicacion');
 const comentarioPublicacionRouter = require('./routes/comentarioPublicacion');
 const peticionRouter = require('./routes/peticion');
 const calificacionRouter = require('./routes/calificacion');
+const contactoRouter = require('./routes/contactoRoute');
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/', seguridadRouter);
+app.use('/contacto', contactoRouter);
 app.use('/usuarios', verificaToken, usuarioRouter);
 app.use('/publicaciones', publicacionRouter);
 app.use('/comentarios-publicaciones', comentarioPublicacionRouter);

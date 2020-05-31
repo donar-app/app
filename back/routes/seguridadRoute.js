@@ -2,79 +2,53 @@ const express = require('express');
 
 const router = express.Router();
 const asyncHandler = require('../middlewares/async-handler');
-const handlerToken = require('../middlewares/seguridad');
+const {crearToken,setTokenEnCabecera,verificaCredenciales} = require('../middlewares/seguridad');
 const {generaStringRandom} = require("../utils/myUtils")
 const { crearUsuario,obtenerUsuario,obtenerUsuarioPorAlias } = require('../controllers/usuarioController');
+const {responseJSON} = require('../utils/responseJSON');
 const bcrypt = require('bcryptjs');
 const SALT = bcrypt.genSaltSync(10);
 
 /**
  * Login de Usuario
- * @param {string} correo correo electronico del usuario
+ * @param {string} alias alias del usuario
  * @param {string} clave clave del usuario
  * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
- * @returns {String} Se retorna el token
+ * @returns {String} Se retorna el token en la cabecera
  */
-router.post('/login', asyncHandler(async (req, res) => {
+router.post('/login', verificaCredenciales, asyncHandler(async (req, res) => {
   
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    return res.status(200).json({ message: 'Sin Credenciales' });
-  }
-
-  const [tipo,credencialesEnbase64] = authorization.split(' ');
-
-  if (!tipo || !credencialesEnbase64 || tipo !== 'Basic') {
-    return res.status(200).json({ message: 'Error en Credenciales' });
-  }
-
-  const [alias,clave] =  Buffer.from(credencialesEnbase64,'base64').toString('utf8').split(':');
-
-  if (!alias || !clave) {
-    return res.status(200).json({ message: 'Error en Credenciales.' });
-  }
+  const { credencial_alias : alias,credencial_clave : clave } = req.body;
 
   const usuario = await obtenerUsuarioPorAlias(alias)
 
-  if (!usuario) {
-    return res.json({
-      mensaje: "alias o clave invalido",
-    });
+  if (!usuario || !usuario.clave) {
+    return res.json(responseJSON(false,"usuario_no_encontrado","Usuario no encontrado",[]));
   }
   const validaClave = await bcrypt.compareSync(clave, usuario.clave);
 
   if (!validaClave) {
-    return res.json({
-      mensaje: "alias o clave invalido",
-    });
+    return res.json(responseJSON(false,"usuario_no_encontrado","Usuario no encontrado",[]));
   }
 
-  const token = await handlerToken.crearToken({ id: usuario.id, alias: usuario.alias });
-  await handlerToken.setTokenEnCabecera(res, token);
+  const token = await crearToken({ id: usuario.id, alias: usuario.alias });
+  await setTokenEnCabecera(res, token);
   
   usuario.clave = undefined
 
-  res.json({
-    usuario: usuario,
-  });
+  return res.json(responseJSON(true,"usuario_logeado","Usuario logeado con exito!",usuario));
 }));
 
 /**
  * Registro de Usuario
- * @param {string} correo correo electronico del usuario
- * @param {string} clave clave del usuario
  * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
- * @returns {String} Se retorna el token
  */
 router.post('/registro', asyncHandler(async (req, res) => {
 
   //const clave = generaStringRandom(8);
 
   if (!req.body.alias) {
-    res.json({
-      "mensaje" : "falta parametro alias"
-    });
+    return res.json(responseJSON(true,"falta_alias","Falta el parametro alias",[]));
   }
   const clave = await bcrypt.hashSync(req.body.alias, SALT);
   const bufferUsuario = {
@@ -98,11 +72,14 @@ router.post('/registro', asyncHandler(async (req, res) => {
     )
   };  
 
-  const resultUsuario = await crearUsuario(bufferUsuario)
-  resultUsuario.clave = undefined
-  return res.json({
-    usuario: resultUsuario
-  });
+  try {
+    const resultUsuario = await crearUsuario(bufferUsuario)
+    resultUsuario.clave = undefined
+    return res.status(201).json(responseJSON(true,"usuario_registrado","Usuario registrado con exito!",resultUsuario));
+  } catch (error) {
+    return res.json(responseJSON(false,"valor_duplicado","Uno de los valores ya existe en nuestra db.",error.keyValue));
+  }
+
 }));
 
 module.exports = router;
