@@ -10,6 +10,10 @@ const buttonStyle = {
   color: "#0170bc"
 };
 
+const containerStyle = {
+  padding: "3% 10%"
+};
+
 const SliderProduct = ({ smallText, children }) => {
   const settings = useRef({
     slidesToShow: 3,
@@ -17,7 +21,7 @@ const SliderProduct = ({ smallText, children }) => {
     swipeToSlide: true,
   });
   return (
-    <div className='tw-px-2 tw-pt-5'>
+    <div className='tw-px-2 tw-pt-5' style={containerStyle}>
       <div className='leading-tight tw-pb-2'>
         <h2 className='tw-text-xl tw-font-bold text-orange-donar'>{children}</h2>
         <p className='tw-font-bold tw-text-gray-800 tw-text-sm'>{smallText}</p>

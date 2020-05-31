@@ -13,7 +13,7 @@ const App = () => {
     <div className='tw-min-h-screen tw-flex tw-flex-col'>
       <HashRouter>
         <NavBar />
-        <div className='tw-container mx-auto tw-flex-grow tw-flex tw-flex-col'>
+        <div className='tw-sticky'>
           <Switch>
             <Route exact path='/'>
               <ScrollToTop />
