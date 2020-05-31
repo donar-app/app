@@ -5,10 +5,11 @@ import Producto from './Producto';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/slickStyle.css';
+import imagen1 from '../assets/static/remeraGris.jpg' 
 
 const SliderProduct = ({ smallText, children, productos }) => {
   const settings = useRef({
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
     swipeToSlide: true,
   });
@@ -20,7 +21,7 @@ const SliderProduct = ({ smallText, children, productos }) => {
       </div>
       <div className='tw-overflow-x-hidden'>
         <Slider {...settings.current}>
-          { productos && productos.map((producto) => {
+          {/* { productos && productos.map((producto) => {
             const { _id, imagenRoute, titulo } = producto;
             return (
               <div key={_id}>
@@ -29,7 +30,35 @@ const SliderProduct = ({ smallText, children, productos }) => {
                 </Link>
               </div>
             );
-          })}
+          })} */}
+
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
+          <div>
+            <Producto image={imagen1} name={'titulo'} />
+          </div>
         </Slider>
       </div>
       {/*<div className='tw-text-right pr-2 pt-2'>

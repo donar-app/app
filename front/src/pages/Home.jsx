@@ -14,7 +14,7 @@ const Home = ({ authorization }) => {
     history.push(`${path}`);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     petition('publicaciones', 'GET')
       .then((response) => {
         if (response.tipo === 'error' || response.message === 'Internal Server Error') {
@@ -34,7 +34,7 @@ const Home = ({ authorization }) => {
           setproductos(response.data);
         }
       });
-  }, []);
+  }, []);*/
 
   return (
     <main className='animate__animated animate__fadeIn'>
