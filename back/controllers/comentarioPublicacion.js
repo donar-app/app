@@ -2,6 +2,20 @@
 
 let ComentarioPublicacion = require('../models/comentarioPublicacion')
 
+const getComentariosPublicationes = async (id) => {
+
+    try {
+        let resp = await ComentarioPublicacion.find( {publicacion_id: id} );
+
+        return resp;
+        
+	} catch (e) {
+		if (e.code === 'ENOENT') throw new ResourceNotFound();
+		throw e;
+    }
+
+}
+
 const getComentarioPublication = async (id) => {
 
     try {
@@ -37,5 +51,6 @@ const updateComentarioPublication = async (id, comentarioPublicacion) => {
 module.exports = {
     createComentarioPublication,
     updateComentarioPublication,
-    getComentarioPublication
+    getComentarioPublication,
+    getComentariosPublicationes
 }
