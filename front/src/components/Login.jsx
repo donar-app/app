@@ -6,6 +6,7 @@ import LabelInput from './LabelInput';
 import ImagenLogin from '../assets/static/ropa-donacion.jpg';
 import '../assets/styles/Login.css';
 import { petition } from '../functions';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 
@@ -59,7 +60,7 @@ const Login = () => {
                     <p className='tw-text-sm'>
                       ¿No tienes cuenta?
                       {' '}
-                      <a href=''>Registrate</a>
+                      <Link to='/Registrarse'>Registrate</Link>
                     </p>
                   </div>
                 </div>

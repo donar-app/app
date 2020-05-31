@@ -14,7 +14,7 @@ const App = () => {
       <HashRouter>
         <NavBar />
         <div className='tw-container mx-auto tw-flex-grow tw-flex tw-flex-col'>
-          {/* <Switch>
+          <Switch>
             <Route exact path='/'>
               <ScrollToTop />
               <Home />
@@ -35,8 +35,7 @@ const App = () => {
               <ScrollToTop />
               <Registro />
             </Route>
-          </Switch> */}
-          <Registro/>
+          </Switch>
         </div>
       </HashRouter>
     </div>

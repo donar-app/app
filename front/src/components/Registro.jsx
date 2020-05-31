@@ -11,7 +11,7 @@ const Registro = () => {
     petition('registro', 'POST', null, {
       alias: document.querySelector('#userRegister').value,
       nombre: document.querySelector('#nameRegister').value,
-      appellido: document.querySelector('#lastNameRegister').value,
+      apellido: document.querySelector('#lastNameRegister').value,
       email: document.querySelector('#emailRegister').value,
       pais: document.querySelector('#countryRegister').value,
       ciudad: document.querySelector('#cityRegister').value,
