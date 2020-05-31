@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import Publicaciones from '../pages/Publicaciones';
@@ -7,12 +7,17 @@ import Publicar from '../pages/Publicar';
 import NavBar from '../components/NavBar';
 import Login from '../components/Login';
 import Registro from '../components/Registro';
+import Donar from '../pages/Donar';
+import Solicitar from '../pages/Solicitar';
+import ViewProducto from '../pages/ViewProducto';
 
 const App = () => {
+  const [authorization, setAuthorization] = useState(null);
+
   return (
     <div className='tw-min-h-screen tw-flex tw-flex-col '>
       <HashRouter>
-        <NavBar />
+        <NavBar authorization={authorization} />
         <div className='tw-container mx-auto tw-flex-grow tw-flex tw-flex-col'>
           <Switch>
             <Route exact path='/'>
@@ -20,8 +25,24 @@ const App = () => {
               <Home />
             </Route>
             <Route path='/publicar'>
+              <Switch>
+                <Route exact path='/publicar'>
+                  <ScrollToTop />
+                  <Publicar />
+                </Route>
+                <Route path='/publicar/donar'>
+                  <ScrollToTop />
+                  <Donar authorization={authorization} setAuthorization={setAuthorization} />
+                </Route>
+                <Route path='/publicar/solicitar'>
+                  <ScrollToTop />
+                  <Solicitar authorization={authorization} setAuthorization={setAuthorization} />
+                </Route>
+              </Switch>
+            </Route>
+            <Route path='/producto'>
               <ScrollToTop />
-              <Publicar />
+              <ViewProducto authorization={authorization} setAuthorization={setAuthorization} />
             </Route>
             <Route path='/donaciones'>
               <ScrollToTop />
@@ -29,7 +50,7 @@ const App = () => {
             </Route>
             <Route path='/iniciarSesion'>
               <ScrollToTop />
-              <Login />
+              <Login setAuthorization={setAuthorization} />
             </Route>
             <Route path='/Registrarse'>
               <ScrollToTop />

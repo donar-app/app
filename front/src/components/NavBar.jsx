@@ -4,7 +4,7 @@ import '../assets/styles/NavBar.css';
 import LogoCompeto from '../assets/static/logo-completo.png';
 import Avatar from '../assets/static/user.png';
 
-const NavBar = () => {
+const NavBar = ({ authorization }) => {
 
   function handleMenuOpen() {
     const menuNav = document.querySelector('.menu_nav');
@@ -44,24 +44,35 @@ const NavBar = () => {
         </Link>
         <div className='menu_nav d-block d-sm-block d-md-none'>
           <div className='px-5'>
-            <div className='py-5'>
-              <div className='row d-flex align-items-center pb-3'>
+            <div className={`${authorization ? 'tw-py-5' : 'py-5'}`}>
+              <div className={`row d-flex align-items-center${!authorization && 'pb-3'}`}>
                 <div className='col-3'>
                   <img src={Avatar} width={55} alt='avatar' />
                 </div>
                 <div className='col-9'>
-                  <h3>Bienvenido</h3>
-                  <small>Ingresa para donar o recibir donación.</small>
+                  <h3>¡Bienvenido!</h3>
+                  {
+                    authorization ? (
+                      <div>
+                        <p>{authorization.nombre}</p>
+                        <p>{authorization.apellido}</p>
+                      </div>
+                    ) : <small>Ingresa para donar o recibir donación.</small>
+                  }
                 </div>
               </div>
-              <div className='row'>
-                <div className='col-6'>
-                  <Link onClick={closeMenu} to='/iniciarSesion' className='btn bg-button btn-block'>Ingresá</Link>
-                </div>
-                <div className='col-6'>
-                  <Link onClick={closeMenu} to='/registrarse' className='btn bg-button btn-block'>Registrate</Link>
-                </div>
-              </div>
+              {
+                !authorization && (
+                  <div className='row'>
+                    <div className='col-6'>
+                      <Link onClick={closeMenu} to='/iniciarSesion' className='btn bg-button btn-block'>Ingresá</Link>
+                    </div>
+                    <div className='col-6'>
+                      <Link onClick={closeMenu} to='/registrarse' className='btn bg-button btn-block'>Registrate</Link>
+                    </div>
+                  </div>
+                )
+              }
             </div>
             <hr />
             <div className='row'>

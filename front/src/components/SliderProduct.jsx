@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/slickStyle.css';
 
-const SliderProduct = ({ smallText, children }) => {
+const SliderProduct = ({ smallText, children, productos }) => {
   const settings = useRef({
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -20,33 +20,14 @@ const SliderProduct = ({ smallText, children }) => {
       </div>
       <div className='tw-overflow-x-hidden'>
         <Slider {...settings.current}>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
-          <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
-          </div>
+          { productos && productos.map((producto) => {
+            //const { id } = producto;
+            return (
+              <div>
+                <Producto image={remeraGris} name='Remera Gris' />
+              </div>
+            );
+          })}
         </Slider>
       </div>
       <div className='tw-text-right pr-2 pt-2'>
