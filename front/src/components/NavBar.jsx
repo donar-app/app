@@ -50,15 +50,15 @@ const NavBar = () => {
                 </div>
                 <div className='col-9'>
                   <h3>Bienvenido</h3>
-                  <small>Ingresa para donar o recibir donacion.</small>
+                  <small>Ingresa para donar o recibir donación.</small>
                 </div>
               </div>
               <div className='row'>
                 <div className='col-6'>
-                  <Link to='/iniciarSesion' className='btn btn-primary btn-block'>Ingresa</Link>
+                  <Link onClick={closeMenu} to='/iniciarSesion' className='btn btn-primary btn-block'>Ingresá</Link>
                 </div>
                 <div className='col-6'>
-                  <Link to='/registrarse' className='btn btn-primary btn-block'>Registrate</Link>
+                  <Link onClick={closeMenu} to='/registrarse' className='btn btn-primary btn-block'>Registrate</Link>
                 </div>
               </div>
             </div>

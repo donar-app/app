@@ -1,6 +1,6 @@
 import React from 'react';
-import Input from './Input';
-import ImagenRegistro from '../assets/static/registro.jpg';
+import LabelInput from './LabelInput.jsx';
+import ImagenRegistro from '../assets/static/registro2.jpg';
 import '../assets/styles/Login.css';
 
 const Registro = () => {
@@ -9,9 +9,9 @@ const Registro = () => {
     <div className='card mb-3'>
       <div className='row no-gutters'>
         <div className='col-md-6 d-none d-sm-none d-md-block'>
-          <img src={ImagenRegistro} className='card-img h-100' alt='Imagen Login' />
+          <img src={ImagenRegistro} className='card-img' alt='Imagen Login' />
         </div>
-        <div className='col-md-6'>
+        <div className='col-md-6 d-flex align-items-center'>
           <div className='card-body mx-5'>
             <form action='#'>
               <div className='row'>
@@ -22,47 +22,34 @@ const Registro = () => {
 
               <div className='pt-2'>
                 <div className='form-group'>
-                  <LabelInput children='Usuario' />
+                  <LabelInput placeholder={'Nombre'}>Nombre</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput placeholder={'Apellido'}>Apellido</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput type={'email'} placeholder={'example@example.com'}>Email</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput placeholder={'Alias'}>Alias</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput placeholder={'País'}>País</LabelInput>
                 </div>
-                <div className='form-group'>
-                  <LabelInput children='Contraseña' />
-                </div>
-                <div className='row pb-3'>
-                  <div className='col-6 d-flex align-items-center'>
-                    <input type='checkbox' id='recordame' />
-                    <label className='m-0 ml-2 tw-text-sm' htmlFor='recordame'>Recuerdame</label>
-                  </div>
-                  <div className='col-6 d-flex justify-content-end'>
-                    <p className='tw-text-sm'>
-                      ¿No tienes cuenta?
-                      {' '}
-                      <a href=''>Registrate</a>
-                    </p>
-                  </div>
+                <div className='form-group pb-1'>
+                  <LabelInput placeholder={'Ciudad'}>Ciudad</LabelInput>
                 </div>
 
                 <hr />
 
                 <div className='row'>
                   <div className='col-lg-6 py-4'>
-                    <button type='submit' className='btn btn-primary w-100'>Ingresar</button>
+                    <button type='submit' className='btn btn-primary w-100'>Registrate</button>
                   </div>
                   <div className='col-lg-6 py-lg-4'>
                     <button type='button' className='btn-google btn w-100'>
                       <i className='fab fa-google-plus-g' />
-                      <span className='pl-2'>Ingresar con Google</span>
+                      <span className='pl-2'>Registrate con Google</span>
                     </button>
                   </div>
                 </div>
@@ -70,11 +57,6 @@ const Registro = () => {
 
             </form>
           </div>
-
-          <div className='card-footer text-center'>
-            <p className='tw-text-sm'><a href=''>¿Olvido la contraseña?</a></p>
-          </div>
-
         </div>
       </div>
     </div>
