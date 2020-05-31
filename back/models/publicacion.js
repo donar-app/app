@@ -12,7 +12,7 @@ let publicacionSchema = new Schema({
     actualizada_en: Date,
     imagenRoute: String,
     estado: Number
-})
+},{strict: true})
 
 
 module.exports = mongoose.model('Publicacion', publicacionSchema)
