@@ -1,4 +1,47 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
+@import "bootstrap/dist/css/bootstrap.min.css";
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "animate.css/animate.min.css";
+
+* {
+  --red-donar: rgb(237, 66, 66);
+  --orange-donar: #dd7f0e;
+  --yellow-donar: #d9e021;
+  --blue-donar: #0071bc;
+}
+
+.text-blue-donar {
+  color: var(--blue-donar);
+}
+
+.text-orange-donar {
+  color: var(--orange-donar);
+}
+
+.text-yellow-donar {
+  color: var(--yellow-donar);
+}
+
+.bg-red-donar {
+  background-color: var(--red-donar);
+}
+
+.bg-orange-donar {
+  background-color: var(--orange-donar);
+}
+
+.bg-yellow-donar {
+  background-color: var(--yellow-donar);
+}
+
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
+}
+
+input[type="file"] {
+  /* display: none; */
+}

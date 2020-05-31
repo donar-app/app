@@ -1,6 +1,6 @@
 .navbar{
-    background-color: #A6C9E8;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 .links a{
@@ -11,22 +11,19 @@
 .menu_nav {
     height: 100vh;
     position: absolute;
-    right: 0;
-    width: 15rem;
-    max-width: 0;
+    left: 0;
+    width: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: max-width 0.2s ease-out;
-    top: 5.2rem;
+    /* transition: max-width 0.2s ease-out; */
+    top: 5.3rem;
     z-index: 20;
-    background-color: rgb(166, 201, 232);
-    color: white;
+    background-color:white;
+    color: rgb(0, 0, 0);
 }
 
 .menu_open {
-    max-width: 175px;
-    transition: max-width 0.4s ease-in;
+    width: 100%;
+    /* transition: max-width 1.4s ease-in; */
 }
 
 .navegacion a {
@@ -36,9 +33,13 @@
 .button-desplegable{
     padding: 0px 10px;
     padding-bottom: 2px;
-    border: white 1px solid;
+    border: black 1px solid;
     border-radius: 5px;
     outline: none !important;
+}
+
+.font-size-lg{
+    font-size: large;
 }
 
 
