@@ -3,28 +3,30 @@
 const fs = require('fs');
 const path = require('path');
 const Publicacion = require('../models/publicacion')
-const { ResourceNotFound } = require('./../errors');
+const isImage = require('../utils/is-image');
+const createImage = require('../utils/create-image');
+
+const { ResourceNotFound, ResourceNotImage } = require('./../errors');
+
 
 const getAllPublications = async () => {
     let resp = await Publicacion.find({ estado: 0});
+
+    for await (const publi of resp) {
+
+        publi.imagenRoute = await createImage(publi.imagenRoute);
+    }
+
     return resp;
 }
 
+
 const getPublication = async (id) => {
 
-    let resp = await Publicacion.findById( id );
-
     try {
-        let chunks = '';
-        let imagen64 = await fs.createReadStream(path.resolve( __dirname, `../uploads/${ resp.imagenRoute }`));
+        let resp = await Publicacion.findById( id );
 
-        imagen64.setEncoding('base64')
-
-        for await (const chunk of imagen64) {
-            chunks += chunk;
-        }
-
-        resp.imagenRoute = chunks;
+        resp.imagenRoute = await createImage(resp.imagenRoute);
 
         return resp;
         
@@ -36,18 +38,24 @@ const getPublication = async (id) => {
 }
 
 
-const createPublication = async (publicacion) => {
-    const { anunciante_id, titulo, categoria, imagenRoute } = publicacion
+const createPublication = async ( publicacion ) => {
+    const { anunciante_id, titulo, categoria, descripcion, tipo, imagenRoute } = publicacion;
+    let imagen =  Buffer.from(imagenRoute, 'base64');
+    let nameFile = `${anunciante_id}-${new Date().getTime()}`;
 
-    fs
+    if ( !isImage( imagen ) ) throw new ResourceNotImage();
+
+    fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}`), imagenRoute, 'base64')
 
     let nuevaPublicacion = new Publicacion({
         anunciante_id,
         titulo,
         categoria,
+        descripcion,
+        tipo,
         creada_en: new Date(),
         actualizada_en: new Date(),
-        imagenRoute,
+        imagenRoute: nameFile,
         estado: 0,
     })
 
@@ -56,23 +64,36 @@ const createPublication = async (publicacion) => {
 
 }
 
+
 const updatePublication = async (id, publicacion) => {
-    const { titulo, categoria, imagenRoute } = publicacion
+    
+    const { anunciante_id, titulo, categoria, descripcion, tipo, imagenRoute } = publicacion
+    let imagen =  Buffer.from(imagenRoute, 'base64');
+
+    if ( !isImage( imagen ) ) throw new ResourceNotImage();
+
+    let publi = await Publicacion.findById(id);
+
+    fs.writeFileSync(path.resolve( __dirname, `../uploads/${publi.imagenRoute}`), imagenRoute, 'base64')
 
     let publicacionUpdated = await Publicacion.findOneAndUpdate(id, {
         titulo,
         categoria,
-        imagenRoute,
+        descripcion,
+        tipo,
+        imagenRoute: publi.imagenRoute,
         actualizada_en: new Date(),
     }, {new: true})
 
     return publicacionUpdated;
 }
 
+
 const deletePublication = async (id) => {
     let publicacionDelete = await Publicacion.findOneAndUpdate(id, {estado: 1})
     return publicacionDelete;
 }
+
 
 module.exports = {
     getAllPublications,

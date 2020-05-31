@@ -5,13 +5,15 @@ import Publicaciones from '../pages/Publicaciones';
 import ScrollToTop from '../components/ScrollToTop';
 import Publicar from '../pages/Publicar';
 import NavBar from '../components/NavBar';
+import Login from '../components/Login';
+import Registro from '../components/Registro';
 
 const App = () => {
   return (
-    <div className='min-h-screen'>
+    <div className='tw-min-h-screen tw-flex tw-flex-col '>
       <HashRouter>
         <NavBar />
-        <div className='tw-container mx-auto'>
+        <div className='tw-sticky'>
           <Switch>
             <Route exact path='/'>
               <ScrollToTop />
@@ -21,9 +23,17 @@ const App = () => {
               <ScrollToTop />
               <Publicar />
             </Route>
-            <Route path='/publicaciones'>
+            <Route path='/donaciones'>
               <ScrollToTop />
               <Publicaciones />
+            </Route>
+            <Route path='/iniciarSesion'>
+              <ScrollToTop />
+              <Login />
+            </Route>
+            <Route path='/Registrarse'>
+              <ScrollToTop />
+              <Registro />
             </Route>
           </Switch>
         </div>

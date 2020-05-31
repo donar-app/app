@@ -1,0 +1,15 @@
+/* purgecss start ignore */
+@import './slick.css';
+@import './slick-theme.css';
+
+.slick-list {
+  /* Set spaces */
+  margin: 0 -5px;
+}
+
+.slick-slide > div {
+  /* Set spaces */
+  padding: 0 5px;
+}
+
+/* purgecss end ignore */

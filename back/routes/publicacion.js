@@ -3,33 +3,34 @@
 const express = require('express');
 const router = express.Router();
 const asyncHandler = require('../middlewares/async-handler');
+const {verificaToken} = require('../middlewares/seguridad');
 
 const { getPublication, getAllPublications, createPublication, updatePublication, deletePublication } = require('../controllers/publicacion');
 
 
-router.get('/todas', asyncHandler(async (req, res, next) => {
+router.get('/', asyncHandler(async (req, res, next) => {
     const data = await getAllPublications();
-    res.status(200).json({ data });
+    res.json({ data });
 }));
 
 router.get('/:id', asyncHandler(async (req, res, next) => {
     const data = await getPublication(req.params.id);
-    res.status(200).json({ data })
+    res.json({ data })
 }))
 
-router.post('/', asyncHandler(async (req, res, next) => {
+router.post('/', verificaToken, asyncHandler(async (req, res, next) => {
     const data = await createPublication(req.body);
-    res.status(200).json({ data });
+    res.json({ data });
 }))
 
-router.put('/:id', asyncHandler(async (req, res, next) => {
+router.put('/:id', verificaToken, asyncHandler(async (req, res, next) => {
     const data = await updatePublication(req.params.id, req.body);
-    res.status(200).json({ data });
+    res.json({ data });
 }))
 
-router.delete('/', asyncHandler(async (req, res, next) => {
+router.delete('/:id', verificaToken, asyncHandler(async (req, res, next) => {
     const data = await deletePublication(req.params.id);
-    res.status(200).json({ data });
+    res.json({ data });
 }))
 
 
