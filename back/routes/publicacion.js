@@ -7,7 +7,7 @@ const asyncHandler = require('../middlewares/async-handler');
 const { getPublication, getAllPublications, createPublication, updatePublication, deletePublication } = require('../controllers/publicacion');
 
 
-router.get('/todas', asyncHandler(async (req, res, next) => {
+router.get('/', asyncHandler(async (req, res, next) => {
     const data = await getAllPublications();
     res.json({ data });
 }));
