@@ -4,6 +4,11 @@ import '../assets/styles/NavBar.css';
 import LogoCompeto from '../assets/static/logo-completo.png';
 import Avatar from '../assets/static/user.png';
 
+const buttonStyle = {
+  background: "#0170bc",
+  color: "white"
+};
+
 const NavBar = () => {
 
   function handleMenuOpen() {
@@ -55,10 +60,10 @@ const NavBar = () => {
               </div>
               <div className='row'>
                 <div className='col-6'>
-                  <Link to='/iniciarSesion' className='btn btn-primary btn-block'>Ingresa</Link>
+                  <Link to='/iniciarSesion' className='btn btn-block' style={buttonStyle}>Ingresa</Link>
                 </div>
                 <div className='col-6'>
-                  <Link to='/registrarse' className='btn btn-primary btn-block'>Registrate</Link>
+                  <Link to='/registrarse' className='btn btn-block' style={buttonStyle}>Registrate</Link>
                 </div>
               </div>
             </div>
