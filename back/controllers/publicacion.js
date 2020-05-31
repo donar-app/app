@@ -1,6 +1,7 @@
 'use strict';
 
-const fs = require('fs').promises;
+const fs = require('fs');
+const path = require('path');
 const Publicacion = require('../models/publicacion')
 const { ResourceNotFound } = require('./../errors');
 
@@ -11,23 +12,34 @@ const getAllPublications = async () => {
 
 const getPublication = async (id) => {
 
-    console.log('el id ', id)
     let resp = await Publicacion.findById( id );
 
-    // try {
-	// 	await fs.readFile(resp.imageRoute);
-	// } catch (e) {
-	// 	if (e.code === 'ENOENT') throw new ResourceNotFound();
-	// 	throw e;
-	// }
+    try {
+        let chunks = '';
+        let imagen64 = await fs.createReadStream(path.resolve( __dirname, `../uploads/${ resp.imagenRoute }`));
 
-    return resp;
+        imagen64.setEncoding('base64')
+
+        for await (const chunk of imagen64) {
+            chunks += chunk;
+        }
+
+        resp.imagenRoute = chunks;
+
+        return resp;
+        
+	} catch (e) {
+		if (e.code === 'ENOENT') throw new ResourceNotFound();
+		throw e;
+    }
 
 }
 
 
 const createPublication = async (publicacion) => {
     const { anunciante_id, titulo, categoria, imagenRoute } = publicacion
+
+    fs
 
     let nuevaPublicacion = new Publicacion({
         anunciante_id,
