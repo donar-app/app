@@ -70,7 +70,7 @@ const createPublication = async ( publicacion ) => {
 
 const updatePublication = async (id, publicacion) => {
     
-    const { jwt_usuario_id : id, titulo, categoria, descripcion, tipo, imagenRoute } = publicacion
+    const { titulo, categoria, descripcion, tipo, imagenRoute } = publicacion
     let imagen =  Buffer.from(imagenRoute, 'base64');
 
     if ( !isImage( imagen ) ) throw new ResourceNotImage();
