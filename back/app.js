@@ -6,6 +6,7 @@ const logger = require('morgan');
 const errorHandlers = require('./middlewares/error');
 const {verificaToken} = require('./middlewares/seguridad');
 const mongoose = require('mongoose');
+// var bodyParser = require('body-parser')
 
 require('./config/config');
 
@@ -31,12 +32,13 @@ mongoose.connect(process.env.URLDB,{
 })
 
 app.use(logger('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(express.json({}));
 app.use(helmet());
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 
 app.use('/', indexRouter);
 app.use('/', seguridadRouter);
