@@ -8,10 +8,10 @@ import NavBar from '../components/NavBar';
 
 const App = () => {
   return (
-    <div className='min-h-screen'>
+    <div className='tw-min-h-screen tw-flex tw-flex-col'>
       <HashRouter>
         <NavBar />
-        <div className='tw-container mx-auto'>
+        <div className='tw-container mx-auto tw-flex-grow tw-flex tw-flex-col'>
           <Switch>
             <Route exact path='/'>
               <ScrollToTop />
@@ -21,7 +21,7 @@ const App = () => {
               <ScrollToTop />
               <Publicar />
             </Route>
-            <Route path='/publicaciones'>
+            <Route path='/donaciones'>
               <ScrollToTop />
               <Publicaciones />
             </Route>
