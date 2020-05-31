@@ -1,26 +1,31 @@
 
 export const petition = (path, method, authorization = '', objectBody = {}) => {
-
+  let authorizationChange;
   const headers = { method,
-    body: JSON.stringify(objectBody),
+    body: JSON.stringify(objectBody || {}),
     headers: {
       'Content-Type': 'application/json',
-      authorization,
+      Authorization: authorization,
     },
   // credentials: 'include',
   };
   return fetch(`https://donar-back.herokuapp.com/${path}`, headers)
     .then((response) => {
+      authorizationChange = `Bearer ${response.headers.get('Authorization')}`;
       return response.json();
     }).catch((error) => {
       console.log(error);
+      return { tipo: 'error' };
     })
     .then((response) => {
       console.log(response);
-      return response;
+      return { ...response, authorization: authorizationChange };
     });
 };
 
-export const a = () => {
-
-};
+export const toBase64 = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = (error) => reject(error);
+});

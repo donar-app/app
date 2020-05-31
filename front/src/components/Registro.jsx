@@ -30,15 +30,25 @@ const Registro = () => {
       ciudad: document.querySelector('#cityRegister').value,
     })
       .then((response) => {
-        Swal.fire({
-          icon: 'success',
-          title: response.mensaje,
-          confirmButtonText: '¡Continuar!',
-          confirmButtonColor: '#dd7f0e',
-          allowOutsideClick: false,
-        }).then(() => {
-          history.push('/');
-        });
+        if (response.tipo === 'error') {
+          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar';
+          Swal.fire(
+            'Error al registrarse',
+            mensaje,
+            'error',
+          );
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: response.mensaje,
+            confirmButtonText: '¡Continuar!',
+            confirmButtonColor: '#dd7f0e',
+            allowOutsideClick: false,
+          })
+            .then(() => {
+              history.push('/');
+            });
+        }
       });
   };
 

@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import donando from '../assets/static/donando.png';
 import ButtonPill from '../components/ButtonPill';
 import SliderProduct from '../components/SliderProduct';
+import { petition } from '../functions';
 
 const Home = () => {
   const history = useHistory();
+  const [productos, setproductos] = useState(null);
 
   const goTo = (path) => {
     history.push(`${path}`);
   };
+
+  useEffect(() => {
+    petition('publicaciones/todas', 'GET')
+      .then((response) => {
+        if (response.tipo === 'error') {
+          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';
+          Swal.fire(
+            'Error al traer las publicaciones',
+            mensaje,
+            'error',
+          );
+        } else {
+          //setproductos(response);
+        }
+      });
+  }, []);
 
   return (
     <main className='animate__animated animate__fadeIn'>
@@ -24,8 +43,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <SliderProduct smallText='Dona lo que tenes o recibi ayuda'>Donaciones</SliderProduct>
-      <SliderProduct smallText='Dona lo que tenes o recibi ayuda'>Solicitudes de donaciones</SliderProduct>
+      <SliderProduct smallText='Recibé una donación' productos={productos}>Donaciones</SliderProduct>
+      <SliderProduct smallText='Solicita una donación' productos={productos}>Solicitudes de donaciones</SliderProduct>
     </main>
   );
 };

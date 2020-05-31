@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import LoaderDualRing from './LoaderDualRing';
@@ -8,8 +8,8 @@ import ImagenLogin from '../assets/static/ropa-donacion.jpg';
 import '../assets/styles/Login.css';
 import { petition } from '../functions';
 
-const Login = () => {
-
+const Login = ({ setAuthorization }) => {
+  const history = useHistory();
   const handleSubmit = (e) => {
     e.preventDefault();
     const MySwal = withReactContent(Swal);
@@ -21,17 +21,34 @@ const Login = () => {
     });
     petition('login', 'POST', `Basic ${btoa(`${document.querySelector('#userLogin').value}:${document.querySelector('#passLogin').value}`)}`)
       .then((response) => {
-        Swal.fire({
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500,
-          allowOutsideClick: false,
-        });
+        if (response.tipo === 'error') {
+          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar';
+          Swal.fire(
+            'Error al registrarse',
+            mensaje,
+            'error',
+          );
+        } else {
+          setAuthorization({
+            ...response.cuerpo,
+            authorization: response.authorization,
+          });
+          Swal.fire({
+            icon: 'success',
+            title: 'Logueado con Exito!',
+            showConfirmButton: false,
+            timer: 1500,
+            allowOutsideClick: false,
+          })
+            .then(() => {
+              history.push('/');
+            });
+        }
       });
   };
 
   return (
-    <div className="tw-flex-grow tw-flex tw-justify-center tw-items-center">
+    <div className='animate__animated animate__fadeIn tw-flex-grow tw-flex tw-justify-center tw-items-center'>
       <div className='card mb-3'>
         <div className='row no-gutters'>
           <div className='col-md-6 d-none d-sm-none d-md-block'>
@@ -78,26 +95,16 @@ const Login = () => {
                     </div>
                   </div>
                 </div>
-<<<<<<< HEAD
-              </div>
-            </form>
-          </div>
-          <div className='card-footer text-center'>
-            <p className='tw-text-sm'><a href=''>¿Olvidó la contraseña?</a></p>
-=======
+
               </form>
             </div>
             <div className='card-footer text-center'>
-              <p className='tw-text-sm'><a href=''>¿Olvido la contraseña?</a></p>
+              <p className='tw-text-sm'><a href=''>¿Olvidó la contraseña?</a></p>
             </div>
->>>>>>> 57e068d0d9534b6b1836143a6f00c40c392693af
           </div>
         </div>
       </div>
-
     </div>
-    
-
   );
 };
 
