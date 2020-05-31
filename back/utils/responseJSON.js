@@ -1,8 +1,11 @@
-export const responseJSON = (tipo, codigo, mensaje, cuerpo) => {
+const responseJSON = (tipo, codigo, mensaje, cuerpo) => {
     return {
-      tipo: tipo ? 'correcto' : 'fallo',
-      resultado,
+      tipo: tipo ? 'correcto' : 'error',
+      codigo,
       mensaje,
       cuerpo
     }
 }
+module.exports = {
+  responseJSON
+};

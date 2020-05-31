@@ -4,16 +4,19 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const errorHandlers = require('./middlewares/error');
+const {verificaToken} = require('./middlewares/seguridad');
 const mongoose = require('mongoose');
 
 require('./config/config');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const seguridadRouter = require('./routes/seguridadRoute');
+const usuarioRouter = require('./routes/usuarioRoute');
 const publicacionRouter = require('./routes/publicacion');
 const comentarioPublicacionRouter = require('./routes/comentarioPublicacion');
 const peticionRouter = require('./routes/peticion');
 const calificacionRouter = require('./routes/calificacion');
+const contactoRouter = require('./routes/contactoRoute');
 
 const app = express();
 
@@ -37,7 +40,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', seguridadRouter);
+app.use('/contacto', contactoRouter);
+app.use('/usuarios', verificaToken, usuarioRouter);
 app.use('/publicaciones', publicacionRouter);
 app.use('/comentarios-publicaciones', comentarioPublicacionRouter);
 app.use('/peticiones', peticionRouter);
@@ -45,5 +50,7 @@ app.use('/calificacion', calificacionRouter);
 
 
 app.use(errorHandlers);
+
+
 
 module.exports = app;
