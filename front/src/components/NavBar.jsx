@@ -40,7 +40,7 @@ const NavBar = () => {
           </div>
         </div>
         <Link className='navbar-brand d-flex align-items-center' to='/'>
-          <img  src={LogoCompeto} alt='Donar' width={130} className='d-inline-block align-top pl-0' />
+          <img onClick={closeMenu} src={LogoCompeto} alt='Donar' width={130} className='d-inline-block align-top pl-0' />
         </Link>
         <div className='menu_nav d-block d-sm-block d-md-none'>
           <div className='px-5'>
