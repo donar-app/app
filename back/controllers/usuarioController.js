@@ -28,10 +28,15 @@ const eliminarUsuario = async (id) => {
         });
 }
 
+const loginGoogle = async(objUsuario)=>{
+    return await Usuario.create(objUsuario)
+}
+
 module.exports = {
     crearUsuario,
     obtenerUsuario,
     obtenerUsuarioPorAlias,
     actualizarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    loginGoogle
 }

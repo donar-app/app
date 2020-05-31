@@ -25,15 +25,19 @@ const crearToken = async (objToken) => {
 
 const verificaToken = async (req, res, next) => {
   const { authorization } = req.headers;
-  const token = authorization.split(' ');
 
-  if (!token || token.length < 2 || token[0] !== 'Bearer') {
-    return res.status(401).json(responseJSON(false,"token_nulo","No Autorizado",[]));
+  if (!authorization) {
+    return res.status(200).json(responseJSON(false,"token_nulo","No Autorizado",[]));
   }
 
+  const [tipo,token] = authorization.split(' ');
+
+  if (!tipo || !token || tipo !== 'Bearer') {
+    return res.status(401).json(responseJSON(false,"token_erroneo","No Autorizado",[]));
+  }
   try {
     
-    const decoded = await jwt.verify(token[1], process.env.SECRETKEY);
+    const decoded = await jwt.verify(token, process.env.SECRETKEY);
 
     if (!decoded) {
       return res.status(401).json(responseJSON(false,"token_no_valido","No Autorizado",[]));
