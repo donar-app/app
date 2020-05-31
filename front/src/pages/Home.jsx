@@ -14,21 +14,21 @@ const Home = ({ authorization }) => {
     history.push(`${path}`);
   };
 
-  useEffect(() => {
-    petition('publicaciones', 'GET')
-      .then((response) => {
-        if (response.tipo === 'error' || response.message === 'Internal Server Error') {
-          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';
-          Swal.fire(
-            'Error al traer las publicaciones',
-            mensaje,
-            'error',
-          );
-        } else {
-          setproductos(response.data);
-        }
-      });
-  }, []);
+  // useEffect(() => {
+  //   petition('publicaciones', 'GET')
+  //     .then((response) => {
+  //       if (response.tipo === 'error' || response.message === 'Internal Server Error') {
+  //         const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';
+  //         Swal.fire(
+  //           'Error al traer las publicaciones',
+  //           mensaje,
+  //           'error',
+  //         );
+  //       } else {
+  //         setproductos(response.data);
+  //       }
+  //     });
+  // }, []);
 
   return (
     <main className='animate__animated animate__fadeIn'>
