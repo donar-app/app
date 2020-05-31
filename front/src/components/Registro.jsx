@@ -1,9 +1,22 @@
 import React from 'react';
-import Input from './Input';
+import LabelInput from './LabelInput';
 import ImagenRegistro from '../assets/static/registro.jpg';
 import '../assets/styles/Login.css';
+import { petition } from '../functions';
 
 const Registro = () => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    petition('registro', 'POST', null, {
+      alias: document.querySelector('#userRegister').value,
+      nombre: document.querySelector('#nameRegister').value,
+      appellido: document.querySelector('#lastNameRegister').value,
+      email: document.querySelector('#emailRegister').value,
+      pais: document.querySelector('#countryRegister').value,
+      ciudad: document.querySelector('#cityRegister').value,
+    });
+  };
 
   return (
     <div className='card mb-3'>
@@ -13,7 +26,7 @@ const Registro = () => {
         </div>
         <div className='col-md-6'>
           <div className='card-body mx-5'>
-            <form action='#'>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <div className='row'>
                 <div className='col-12 text-center'>
                   <p style={{ fontSize: 40 }}>Registrate</p>
@@ -22,22 +35,22 @@ const Registro = () => {
 
               <div className='pt-2'>
                 <div className='form-group'>
-                  <LabelInput children='Usuario' />
+                  <LabelInput name='nameRegister' children='Usuario' />
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput name='lastNameRegister' children='Usuario' />
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput name='emailRegister' children='Contraseña' />
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput name='userRegister' children='Contraseña' />
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput name='countryRegister' children='Contraseña' />
                 </div>
                 <div className='form-group'>
-                  <LabelInput children='Contraseña' />
+                  <LabelInput name='cityRegister' children='Contraseña' />
                 </div>
                 <div className='row pb-3'>
                   <div className='col-6 d-flex align-items-center'>
