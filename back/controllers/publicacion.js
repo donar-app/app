@@ -11,6 +11,7 @@ const { ResourceNotFound, ResourceNotImage } = require('./../errors');
 
 const getAllPublications = async () => {
     let resp = await Publicacion.find({ estado: 0});
+    console.log(resp);
 
     for await (const publi of resp) {
 
@@ -39,16 +40,16 @@ const getPublication = async (id) => {
 
 
 const createPublication = async ( publicacion ) => {
-    const { anunciante_id, titulo, categoria, descripcion, tipo, imagenRoute } = publicacion;
+    const { jwt_usuario_id : id , titulo, categoria, descripcion, tipo, imagenRoute } = publicacion;
     let imagen =  Buffer.from(imagenRoute, 'base64');
-    let nameFile = `${anunciante_id}-${new Date().getTime()}`;
+    let nameFile = `${id}-${new Date().getTime()}`;
 
-    if ( !isImage( imagen ) ) throw new ResourceNotImage();
+    //if ( !isImage( imagen ) ) throw new ResourceNotImage();
 
     fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}`), imagenRoute, 'base64')
 
     let nuevaPublicacion = new Publicacion({
-        anunciante_id,
+        id,
         titulo,
         categoria,
         descripcion,

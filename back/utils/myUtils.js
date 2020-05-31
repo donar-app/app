@@ -1,3 +1,8 @@
+/**
+ * 
+ * @param {Number} cantidad Es el largo del string que deseas
+ * @returns {String} Retorna la cadena random de la longitud indicada
+ */
 const generaStringRandom = (cantidad)=> {
     let randomString="";
     const possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
