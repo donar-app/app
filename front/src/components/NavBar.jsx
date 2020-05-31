@@ -11,46 +11,60 @@ const NavBar = () => {
   }
 
   return (
-    <nav className='navbar shadow tw-sticky md:tw-static tw-top-0 tw-left-0 tw-z-10'>
+    <nav className='navbar shadow'>
       <div className='container'>
-        <Link className='navbar-brand d-flex align-items-center' to='/'>
-          <img src={LogoCompeto} width={130} alt='Donar' className='d-inline-block align-top pl-0' />
-        </Link>
         <button type='button' className='d-block d-sm-block d-md-none button-desplegable' onClick={handleMenuOpen}><i className='fas fa-bars fa-sm' /></button>
         <div className='d-none d-sm-none d-md-block'>
           <div className='links tw-flex tw-flex-row-reverse tw-space-x-4 tw-space-x-reverse'>
-            <Link to='/'>Login</Link>
-            <Link to='/'>Registro</Link>
-            <Link to='/publicar'>Publicar</Link>
-            <Link to='/publicaciones'>Donaciones</Link>
-            <Link to='/'>Sobre Nosotros</Link>
+            <a href='#'>Login</a>
+            <a href='#'>Registro</a>
+            <a href='#'>Publicar</a>
+            <a href='#'>Donaciones</a>
+            <a href='#'>Sobre Nosotros</a>
           </div>
         </div>
-        <div className='menu_nav shadow d-block d-sm-block d-md-none'>
-          <div className='navegacion'>
-            <div className='row py-1'>
-              <div className='col-12 d-flex justify-content-center'>
-                <img src={Avatar} width={72} alt='avatar' />
+        <a className='navbar-brand d-flex align-items-center' href='#'>
+          <img src={LogoCompeto} width={130} className='d-inline-block align-top pl-0' />
+        </a>
+        <div className='menu_nav d-block d-sm-block d-md-none'>
+          <div className='px-5'>
+            <div className='py-5'>
+              <div className='row d-flex align-items-center pb-3'>
+                <div className='col-3'>
+                  <img src={Avatar} width={55} alt='avatar' />
+                </div>
+                <div className='col-9'>
+                  <h3>Bienvenido</h3>
+                  <small>Ingresa para donar o recibir donacion.</small>
+                </div>
               </div>
-              <div className='col-12 text-center'>
-                <small>Ingresá para ayudar</small>
+              <div className='row'>
+                <div className='col-6'>
+                  <button className='btn btn-primary btn-block'>Ingresa</button>
+                </div>
+                <div className='col-6'>
+                  <button className='btn btn-primary btn-block'>Registrate</button>
+                </div>
               </div>
             </div>
+
+            <hr />
+
             <div className='row'>
-              <div className='col-12 d-flex justify-content-center'>
-                <Link to='/' className='btn btn-secondary p-0 px-3 mr-1'>Login</Link>
-                <Link to='/' className='btn btn-outline-secondary p-0 px-2'>Registro</Link>
+              <div className='col-12 py-4'>
+                <a href=''>
+                  <i className='text-secondary fas fa-file-import' />
+                  <span className='pl-3'>Publica</span>
+                  {' '}
+                </a>
               </div>
-            </div>
-            <div className='row'>
-              <div className='col-12 d-flex justify-content-center py-1 pt-2'>
-                <Link to='/publicaciones'>Donaciones</Link>
+              <div className='col-12 mb-4'>
+                <i className='text-secondary fas fa-shopping-basket' />
+                <span className='pl-3'>Donaciones</span>
               </div>
-              <div className='col-12 d-flex justify-content-center py-1'>
-                <Link to='/publicar'>Publicar</Link>
-              </div>
-              <div className='col-12 d-flex justify-content-center py-1'>
-                <Link to='/'>Sobre Nosotros</Link>
+              <div className='col-12'>
+                <i className='text-secondary fas fa-users' />
+                <span className='pl-3'>Sobre Nosotros</span>
               </div>
             </div>
           </div>
