@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import LoaderDualRing from './LoaderDualRing';
@@ -8,8 +9,8 @@ import '../assets/styles/Login.css';
 import { petition } from '../functions';
 
 const buttonStyle = {
-  background: "#0170bc",
-  color: "white"
+  background: '#0170bc',
+  color: 'white',
 };
 
 const Login = () => {
@@ -35,7 +36,7 @@ const Login = () => {
   };
 
   return (
-    <div className='card mb-3'>
+    <div className='card mb-3 animate__animated animate__fadeIn'>
       <div className='row no-gutters'>
         <div className='col-md-6 d-none d-sm-none d-md-block'>
           <img src={ImagenLogin} className='card-img h-100' alt='Imagen Login' />
@@ -64,14 +65,14 @@ const Login = () => {
                     <p className='tw-text-sm'>
                       ¿No tienes cuenta?
                       {' '}
-                      <a href=''>Registrate</a>
+                      <Link to='/Registrarse'>Registrate</Link>
                     </p>
                   </div>
                 </div>
                 <hr />
                 <div className='row'>
                   <div className='col-lg-6 py-4'>
-                    <button type='submit' className='btn btn-primary w-100' style={buttonStyle}>Ingresar</button>
+                    <button type='submit' className='btn bg-button w-100'>Ingresar</button>
                   </div>
                   <div className='col-lg-6 py-lg-4'>
                     <button type='button' className='btn-google btn w-100'>
@@ -84,7 +85,7 @@ const Login = () => {
             </form>
           </div>
           <div className='card-footer text-center'>
-            <p className='tw-text-sm'><a href=''>¿Olvido la contraseña?</a></p>
+            <p className='tw-text-sm'><a href=''>¿Olvidó la contraseña?</a></p>
           </div>
         </div>
       </div>
