@@ -16,12 +16,12 @@ describe('Registro de donar', () => {
       registro('Ana', 'Diaz', 'anadiaz@hotmail.com','ana00','argentina', 'buenos aires');
       cy.get('.py-4 > .btn')
     });
-
+/*
     it('registrar con google', () => {
         cy.get('.links > [href="#/registrarse"]').click()
       cy.get('.btn-google').click()
     });
-
+*/
 });
 
 function registro(nombre, apellido, email, alias, pais, ciudad) {

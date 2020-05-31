@@ -5,17 +5,17 @@ describe('publicar', () => {
         cy.visit('https://donar-front.herokuapp.com');
       });
 
-      it('donarSin logear', () => {
+      it('donar', () => {
         cy.get('.links > [href="#/publicar"]').click()
         cy.get(':nth-child(1) > .tw-text-lg').click()
         publicar('zapatos rojos','Ropa','son unos zapatos rojos que', 'puedo entregar en palermo' )
         cy.get('.bg-orange-donar').click();
     });
 
-    it('solicitarSin logear', () => {
+    it('solicitar', () => {
       cy.get('.links > [href="#/publicar"]').click()
       cy.get(':nth-child(2) > .tw-text-lg').click()
-      publicar('zapatos rojos','Ropa','son unos zapatos rojos que', 'puedo entregar en palermo' )
+      publicar('ropa','Ropa','alguna ropa que puedan ayudar', 'estoy en palermo' )
       cy.get('.bg-blue-donar').click();
   });
     
