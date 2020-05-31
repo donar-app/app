@@ -1,0 +1,15 @@
+{
+  "name": "donar",
+  "version": "1.0.0",
+  "description": "pruebas app donar",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "./node_modules/.bin/cypress open",
+    "cypress:run": "./node_modules/.bin/cypress run"
+  },
+  "author": "aliuska rodriguez",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^4.7.0"
+  }
+}
