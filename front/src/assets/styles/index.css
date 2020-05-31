@@ -57,3 +57,7 @@ a:active {
 input[type="file"] {
   /* display: none; */
 }
+
+body{
+  background-color: #EBEBEB;
+}

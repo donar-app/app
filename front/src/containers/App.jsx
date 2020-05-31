@@ -7,6 +7,7 @@ import Publicar from '../pages/Publicar';
 import NavBar from '../components/NavBar';
 import Login from '../components/Login';
 import Registro from '../components/Registro';
+import SobreNosotros from '../pages/SobreNosotros';
 
 const App = () => {
   return (
@@ -34,6 +35,10 @@ const App = () => {
             <Route path='/Registrarse'>
               <ScrollToTop />
               <Registro />
+            </Route>
+            <Route path='/sobreNosotros'>
+              <ScrollToTop />
+              <SobreNosotros/>
             </Route>
           </Switch>
         </div>

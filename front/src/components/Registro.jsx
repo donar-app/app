@@ -43,7 +43,7 @@ const Registro = () => {
   };
 
   return (
-    <div className='card mb-3 animate__animated animate__fadeIn'>
+    <div className='card mb-3 '>
       <div className='row no-gutters'>
         <div className='col-md-6 d-none d-sm-none d-md-block'>
           <img src={ImagenRegistro} className='card-img' alt='Imagen Login' />
@@ -92,6 +92,7 @@ const Registro = () => {
         </div>
       </div>
     </div>
+
   );
 };
 
