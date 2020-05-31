@@ -16,8 +16,8 @@ router.post('/', asyncHandler(async (req, res, next) => {
     const publicacion_id = req.body.publicacion_id;
     // Verificar permisos
     const publicacion = await getPublication(publicacion_id);
-    
-    if(publicacion.anunciante_id !== usuario_id){
+
+    if(String(publicacion.anunciante_id) !== String(usuario_id)){
 
         res.json( await createPeticion({
             usuario_id,
@@ -44,7 +44,7 @@ router.put('/:id', asyncHandler(async (req, res, next) => {
     const peticion = await getPeticion(id);
     const publicacion = await getPublication(peticion.publicacion_id);
 
-    if(publicacion.anunciante_id === usuario_id){
+    if(String(publicacion.anunciante_id) === String(usuario_id)){
 
         res.json( await updatePeticion(id, {
             es_aceptada: req.body.es_aceptada
