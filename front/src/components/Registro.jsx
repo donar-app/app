@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import LabelInput from './LabelInput';
 import ImagenRegistro from '../assets/static/registro2.jpg';
-import '../assets/styles/Login.css';
+import '../assets/styles/Registro.css';
 import { petition } from '../functions';
 import LoaderDualRing from './LoaderDualRing';
 
@@ -77,7 +77,7 @@ const Registro = () => {
                 </div>
                 <div className='row'>
                   <div className='col-lg-6 py-4'>
-                    <button type='submit' className='btn btn-primary w-100'>Registrate</button>
+                    <button type='submit' className='btn bg-button w-100'>Registrate</button>
                   </div>
                   <div className='col-lg-6 py-lg-4'>
                     <button type='button' className='btn-google btn w-100'>
