@@ -9,7 +9,7 @@ const {responseJSON} = require('../utils/responseJSON');
 const bcrypt = require('bcryptjs');
 const SALT = bcrypt.genSaltSync(10);
 const passport = require('passport');
-require("../utils/oauth")
+require("../middlewares/oauth")
 
 /**
  * Login de Usuario
@@ -18,7 +18,7 @@ require("../utils/oauth")
  * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
  * @returns {String} Se retorna el token en la cabecera
  */
-router.post('/login', verificaCredenciales, asyncHandler(async (req, res) => {
+router.post('/ingreso', verificaCredenciales, asyncHandler(async (req, res) => {
   
   const { credencial_alias : alias,credencial_clave : clave } = req.body;
 
@@ -127,5 +127,24 @@ router.get('/google-oauth/callback', verificaCredenciales, asyncHandler(async (r
 }));
 
 */
+
+// GET /auth/google
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Google authentication will involve
+//   redirecting the user to google.com.  After authorization, Google
+//   will redirect the user back to this application at /auth/google/callback
+router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }),(req,res)=>{
+  console.log("asdadsasd");
+});
+
+// GET /auth/google/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'https://donar-front.herokuapp.com/#/iniciarSesion' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 
 module.exports = router;
