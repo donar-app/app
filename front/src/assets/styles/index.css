@@ -27,12 +27,24 @@
   background-color: var(--red-donar);
 }
 
+.bg-blue-donar {
+  background-color: var(--blue-donar);
+}
+
 .bg-orange-donar {
   background-color: var(--orange-donar);
 }
 
 .bg-yellow-donar {
   background-color: var(--yellow-donar);
+}
+
+.opacity-80 {
+  filter: opacity(80%);
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 8px black;
 }
 
 a:hover,
