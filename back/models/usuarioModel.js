@@ -65,17 +65,17 @@ let Usuario = new Schema({
         ref: 'Telefono',
         minlength : 8,
         maxlength : 20,
-        required: [true, 'El telefono es necesario']
+        required: [false, 'El telefono es necesario']
     },
     es_fundacion: {
         type: Boolean,
         ref: 'Fundacion',
-        required: [true, 'El Campo Fundacion es necesario']
+        required: [false, 'El Campo Fundacion es necesario']
     },
     es_acopio: {
         type: Boolean,
         ref: 'Acopio',
-        required: [true, 'El Campo Acopio es necesario']
+        required: [false, 'El Campo Acopio es necesario']
     },
     es_activo: {
         type: Boolean,

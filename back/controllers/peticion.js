@@ -2,6 +2,20 @@
 
 let Peticion = require('../models/peticion')
 
+const getPeticion = async (id) => {
+
+    try {
+        let resp = await Peticion.findById( id );
+
+        return resp;
+        
+	} catch (e) {
+		if (e.code === 'ENOENT') throw new ResourceNotFound();
+		throw e;
+    }
+
+}
+
 const createPeticion = async (peticionObject) => {
     let peticion = new Peticion( peticionObject );
 
@@ -23,4 +37,5 @@ const updatePeticion = async (id, peticion) => {
 module.exports = {
     createPeticion,
     updatePeticion,
+    getPeticion
 }

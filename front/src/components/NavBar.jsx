@@ -4,6 +4,11 @@ import '../assets/styles/NavBar.css';
 import LogoCompeto from '../assets/static/logo-completo.png';
 import Avatar from '../assets/static/user.png';
 
+const buttonStyle = {
+  background: "#0170bc",
+  color: "white"
+};
+
 const NavBar = () => {
 
   function handleMenuOpen() {
@@ -35,7 +40,7 @@ const NavBar = () => {
             <Link to='/registrarse'>Registro</Link>
             <Link to='/publicar'>Publicar</Link>
             <Link to='/donaciones'>Donaciones</Link>
-            <Link to='/sobreNosotros'>Sobre Nosotros</Link>
+            {/* <Link to='/sobreNosotros'>Sobre Nosotros</Link> */}
           </div>
         </div>
         <Link className='navbar-brand d-flex align-items-center' to='/'>
@@ -55,10 +60,10 @@ const NavBar = () => {
               </div>
               <div className='row'>
                 <div className='col-6'>
-                  <Link to='/iniciarSesion' className='btn btn-primary btn-block'>Ingresa</Link>
+                  <Link to='/iniciarSesion' className='btn btn-block' style={buttonStyle}>Ingresa</Link>
                 </div>
                 <div className='col-6'>
-                  <Link to='/registrarse' className='btn btn-primary btn-block'>Registrate</Link>
+                  <Link to='/registrarse' className='btn btn-block' style={buttonStyle}>Registrate</Link>
                 </div>
               </div>
             </div>
@@ -67,20 +72,38 @@ const NavBar = () => {
               <div className='col-12 py-4'>
                 <Link onClick={closeMenu} to='/publicar'>
                   <i className='text-secondary fas fa-file-import' />
-                  <span className='pl-3'>Publica</span>
+                  <span className='pl-3'>Publicar</span>
                   {' '}
                 </Link>
               </div>
               <div className='col-12 mb-4'>
-                <Link onClick={closeMenu} to='/donaciones'>
+                <Link onClick={closeMenu} to='/'>
                   <i className='text-secondary fas fa-shopping-basket' />
-                  <span className='pl-3'>Donaciones</span>
+                  <span className='pl-3'>Mis Publicaciones</span>
+                </Link>
+              </div>
+              <div className='col-12 mb-4'>
+                <Link onClick={closeMenu} to='/'>
+                  <i className='text-secondary fas fa-shopping-basket' />
+                  <span className='pl-3'>Mis peticiones</span>
+                </Link>
+              </div>
+              <div className='col-12 mb-4'>
+                <Link onClick={closeMenu} to='/'>
+                  <i className='text-secondary fas fa-shopping-basket' />
+                  <span className='pl-3'>Todas las Publicaciones</span>
+                </Link>
+              </div>
+              <div className='col-12 mb-4'>
+                <Link onClick={closeMenu} to='/'>
+                  <i className='text-secondary fas fa-shopping-basket' />
+                  <span className='pl-3'>Editar Perfil</span>
                 </Link>
               </div>
               <div className='col-12'>
-                <Link onClick={closeMenu} to='/sobreNosotros'>
+                <Link onClick={closeMenu} to='/'>
                   <i className='text-secondary fas fa-users' />
-                  <span className='pl-3'>Sobre Nosotros</span>
+                  <span className='pl-3'>Salir</span>
                 </Link>
               </div>
             </div>
