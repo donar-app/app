@@ -89,12 +89,12 @@ const Registro = () => {
                   <div className='col-lg-6 py-4'>
                     <button type='submit' className='btn bg-button w-100'>Registrate</button>
                   </div>
-                  <div className='col-lg-6 py-lg-4'>
+                  {/*<div className='col-lg-6 py-lg-4'>
                     <button type='button' className='btn-google btn w-100'>
                       <i className='fab fa-google-plus-g' />
                       <span className='pl-2'>Registrate con Google</span>
                     </button>
-                  </div>
+                  </div>*/}
                 </div>
               </div>
             </form>

@@ -15,6 +15,11 @@ const Solicitar = ({ authorization, setAuthorization }) => {
     e.preventDefault();
     const MySwal = withReactContent(Swal);
     setActiveConfetti(true);
+    const file = document.querySelector('#fileRegister').files[0];
+    const result = await toBase64(file).catch((e) => Error(e));
+    if (result instanceof Error) {
+      console.log('Error: ', result.message);
+    }
     MySwal.fire({
       title: 'Enviando datos...',
       html: <LoaderDualRing />,
@@ -24,6 +29,7 @@ const Solicitar = ({ authorization, setAuthorization }) => {
     petition('publicaciones', 'POST', authorization, {
       titulo: document.querySelector('#titleRegister').value,
       categoria: document.querySelector('#categoryRegister').value,
+      imagenRoute: result,
       descripcion: document.querySelector('#descriptionRegister').value,
       tipo: 'solicitar',
     })
@@ -65,7 +71,8 @@ const Solicitar = ({ authorization, setAuthorization }) => {
           <option value='mueble'>Mueble</option>
         </select>
         <textarea id='descriptionRegister' className='tw-resize-none tw-shadow tw-border tw-rounded focus:tw-outline-none focus:tw-shadow-outline tw-w-full tw-h-20 tw-p-2' placeholder='Descripcion del producto' />
-        <textarea className='tw-resize-none tw-shadow tw-border tw-rounded focus:tw-outline-none focus:tw-shadow-outline tw-w-full tw-h-20 tw-p-2' placeholder='Descripcion de envio' />
+        {/*<textarea className='tw-resize-none tw-shadow tw-border tw-rounded focus:tw-outline-none focus:tw-shadow-outline tw-w-full tw-h-20 tw-p-2' placeholder='Descripcion de envio' />*/}
+        <input id='fileRegister' type='file' className='tw-appearance-none tw-shadow tw-w-full tw-border tw-text-gray-700 tw-py-2 tw-px-4 tw-rounded focus:tw-outline-none focus:tw-shadow-outline' required />
         <div className='tw-flex tw-flex-col tw-justify-center tw-items-center'>
           <Confetti active={activeConfetti} />
           <button className='bg-blue-donar tw-rounded tw-px-4 tw-py-1 tw-text-white tw-font-bold tw-text-lg tw-transform hover:tw-scale-110 tw-duration-200' type='submit'>¡Enviar!</button>

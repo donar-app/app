@@ -25,6 +25,12 @@ const Home = ({ authorization }) => {
             'error',
           );
         } else {
+          response.data.forEach((element, i) => {
+            const { imagenRoute } = element;
+            const image = imagenRoute.split('image/pngbase64')[1];
+            response.data[i].imagenRoute = `data:image/png;base64,${image}`;
+          });
+          console.log(response);
           setproductos(response.data);
         }
       });

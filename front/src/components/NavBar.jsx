@@ -35,7 +35,7 @@ const NavBar = ({ authorization }) => {
             <Link to='/iniciarSesion'>Ingresa</Link>
             <Link to='/registrarse'>Registro</Link>
             <Link to='/publicar'>Publicar</Link>
-            <Link to='/donaciones'>Donaciones</Link>
+            {/*<Link to='/donaciones'>Donaciones</Link>*/}
             <Link to='/sobreNosotros'>Sobre Nosotros</Link>
           </div>
         </div>
@@ -83,12 +83,12 @@ const NavBar = ({ authorization }) => {
                   {' '}
                 </Link>
               </div>
-              <div className='col-12 mb-4'>
+              {/*<div className='col-12 mb-4'>
                 <Link onClick={closeMenu} to='/donaciones'>
                   <i className='text-secondary fas fa-shopping-basket' />
                   <span className='pl-3'>Donaciones</span>
                 </Link>
-              </div>
+            </div>*/}
               <div className='col-12'>
                 <Link onClick={closeMenu} to='/sobreNosotros'>
                   <i className='text-secondary fas fa-users' />

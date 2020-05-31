@@ -39,7 +39,7 @@ const Donar = ({ authorization, setAuthorization }) => {
         if (response.tipo === 'error') {
           const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar';
           Swal.fire(
-            'Error al registrarse',
+            'Error al Crear la donacion',
             mensaje,
             'error',
           );

@@ -70,11 +70,11 @@ const Login = ({ setAuthorization }) => {
                     <LabelInput name='passLogin' type='password'>Contraseña</LabelInput>
                   </div>
                   <div className='row pb-3'>
-                    <div className='col-6 d-flex align-items-center'>
+                    {/*<div className='col-6 d-flex align-items-center'>
                       <input type='checkbox' id='recordame' />
                       <label className='m-0 ml-2 tw-text-sm' htmlFor='recordame'>Recuerdame</label>
-                    </div>
-                    <div className='col-6 d-flex justify-content-end'>
+  </div>*/}
+                    <div className='col-12 d-flex justify-content-end'>
                       <p className='tw-text-sm'>
                         ¿No tienes cuenta?
                         {' '}
@@ -95,12 +95,11 @@ const Login = ({ setAuthorization }) => {
                     </div>*/}
                   </div>
                 </div>
-
               </form>
             </div>
-            <div className='card-footer text-center'>
+            {/*<div className='card-footer text-center'>
               <p className='tw-text-sm'><a href=''>¿Olvidó la contraseña?</a></p>
-            </div>
+                  </div>*/}
           </div>
         </div>
       </div>
