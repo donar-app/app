@@ -3,10 +3,18 @@
 const express = require('express');
 const router = express.Router();
 const asyncHandler = require('../middlewares/async-handler');
-const { getPeticion, createPeticion, updatePeticion } = require('../controllers/peticion');
+const { getPeticion, createPeticion, updatePeticion, getPeticiones } = require('../controllers/peticion');
 const { NotHavePermissions } = require('./../errors');
 const { getPublication } = require('../controllers/publicacion');
 const { obtenerUsuario } = require('../controllers/usuarioController');
+
+/**
+ * Obtener peticiones de una Publicacion
+ */
+router.get('/:id', asyncHandler(async (req, res, next) => {
+    const data = await getPeticiones(req.params.id);
+    res.json({ data })
+}))
 
 /**
  * Crear peticion
