@@ -11,7 +11,6 @@ const { ResourceNotFound, ResourceNotImage } = require('./../errors');
 
 const getAllPublications = async () => {
     let resp = await Publicacion.find({ estado: 0});
-    console.log(resp);
 
     for await (const publi of resp) {
 
