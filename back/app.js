@@ -46,9 +46,9 @@ app.use('/', seguridadRouter);
 app.use('/contacto', contactoRouter);
 app.use('/usuarios', verificaToken, usuarioRouter);
 app.use('/publicaciones', publicacionRouter);
-app.use('/comentarios-publicaciones', comentarioPublicacionRouter);
-app.use('/peticiones', peticionRouter);
-app.use('/calificacion', calificacionRouter);
+app.use('/comentarios-publicaciones', verificaToken, comentarioPublicacionRouter);
+app.use('/peticiones', verificaToken, peticionRouter);
+app.use('/calificacion', verificaToken, calificacionRouter);
 
 
 app.use(errorHandlers);
