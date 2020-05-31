@@ -36,7 +36,7 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(express.json({}));
 app.use(helmet());
-app.options('*', cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
@@ -45,7 +45,7 @@ app.use('/', indexRouter);
 app.use('/', seguridadRouter);
 app.use('/contacto', contactoRouter);
 app.use('/usuarios', verificaToken, usuarioRouter);
-app.use('/publicaciones', verificaToken, publicacionRouter);
+app.use('/publicaciones', publicacionRouter);
 app.use('/comentarios-publicaciones', verificaToken, comentarioPublicacionRouter);
 app.use('/peticiones', verificaToken, peticionRouter);
 app.use('/calificacion', verificaToken, calificacionRouter);
