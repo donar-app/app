@@ -2,6 +2,13 @@
 
 let Peticion = require('../models/peticion')
 
+
+const getPeticiones = async (id) => {
+    let resp = await Peticion.find({ publicacion_id: id });
+    return resp;
+}
+
+
 const getPeticion = async (id) => {
 
     try {
@@ -37,5 +44,6 @@ const updatePeticion = async (id, peticion) => {
 module.exports = {
     createPeticion,
     updatePeticion,
-    getPeticion
+    getPeticion,
+    getPeticiones
 }
