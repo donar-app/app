@@ -19,12 +19,12 @@ const Login = ({ setAuthorization }) => {
       showConfirmButton: false,
       allowOutsideClick: false,
     });
-    petition('login', 'POST', `Basic ${btoa(`${document.querySelector('#userLogin').value}:${document.querySelector('#passLogin').value}`)}`)
+    petition('ingreso', 'POST', `Basic ${btoa(`${document.querySelector('#userLogin').value}:${document.querySelector('#passLogin').value}`)}`)
       .then((response) => {
         if (response.tipo === 'error') {
           const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar';
           Swal.fire(
-            'Error al registrarse',
+            'Error al Loguearse',
             mensaje,
             'error',
           );
@@ -87,12 +87,12 @@ const Login = ({ setAuthorization }) => {
                     <div className='col-lg-6 py-4'>
                       <button type='submit' className='btn bg-button w-100'>Ingresar</button>
                     </div>
-                    <div className='col-lg-6 py-lg-4'>
+                    {/*<div className='col-lg-6 py-lg-4'>
                       <button type='button' className='btn-google btn w-100'>
                         <i className='fab fa-google-plus-g' />
                         <span className='pl-2'>Ingresar con Google</span>
                       </button>
-                    </div>
+                    </div>*/}
                   </div>
                 </div>
 

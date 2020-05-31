@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import Producto from './Producto';
-import remeraGris from '../assets/static/remeraGris.jpg';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/slickStyle.css';
 
 const SliderProduct = ({ smallText, children, productos }) => {
   const settings = useRef({
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: true,
   });
@@ -21,18 +21,20 @@ const SliderProduct = ({ smallText, children, productos }) => {
       <div className='tw-overflow-x-hidden'>
         <Slider {...settings.current}>
           { productos && productos.map((producto) => {
-            //const { id } = producto;
+            const { _id, imagenRoute, titulo } = producto;
             return (
-              <div>
-                <Producto image={remeraGris} name='Remera Gris' />
+              <div key={_id}>
+                <Link to={`/producto/${_id}`}>
+                  <Producto image={imagenRoute} name={titulo} />
+                </Link>
               </div>
             );
           })}
         </Slider>
       </div>
-      <div className='tw-text-right pr-2 pt-2'>
+      {/*<div className='tw-text-right pr-2 pt-2'>
         <button type='button' className='tw-font-bold tw-text-gray-700'>Ver más ...</button>
-      </div>
+        </div>*/}
     </div>
   );
 };

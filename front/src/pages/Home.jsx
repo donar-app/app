@@ -6,7 +6,7 @@ import ButtonPill from '../components/ButtonPill';
 import SliderProduct from '../components/SliderProduct';
 import { petition } from '../functions';
 
-const Home = () => {
+const Home = ({ authorization }) => {
   const history = useHistory();
   const [productos, setproductos] = useState(null);
 
@@ -15,9 +15,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    petition('publicaciones/todas', 'GET')
+    petition('publicaciones', 'GET')
       .then((response) => {
-        if (response.tipo === 'error') {
+        if (response.tipo === 'error' || response.message === 'Internal Server Error') {
           const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';
           Swal.fire(
             'Error al traer las publicaciones',
@@ -25,7 +25,7 @@ const Home = () => {
             'error',
           );
         } else {
-          //setproductos(response);
+          setproductos(response.data);
         }
       });
   }, []);

@@ -21,13 +21,14 @@ const Donar = ({ authorization, setAuthorization }) => {
     if (result instanceof Error) {
       console.log('Error: ', result.message);
     }
+    console.log(result);
     MySwal.fire({
       title: 'Enviando datos...',
       html: <LoaderDualRing />,
       showConfirmButton: false,
       allowOutsideClick: false,
     });
-    petition('publicaciones', 'POST', authorization, {
+    petition('publicaciones', 'POST', authorization.authorization, {
       titulo: document.querySelector('#donarRegister').value,
       categoria: document.querySelector('#categoryRegister').value,
       imagenRoute: result,
@@ -73,7 +74,6 @@ const Donar = ({ authorization, setAuthorization }) => {
         </select>
         <textarea id='descriptionRegister' className='tw-resize-none tw-shadow tw-border tw-rounded focus:tw-outline-none focus:tw-shadow-outline tw-w-full tw-h-20 tw-p-2' placeholder='Descripcion del producto' />
         <input id='fileRegister' type='file' className='tw-appearance-none tw-shadow tw-w-full tw-border tw-text-gray-700 tw-py-2 tw-px-4 tw-rounded focus:tw-outline-none focus:tw-shadow-outline' required />
-        <textarea className='tw-resize-none tw-shadow tw-border tw-rounded focus:tw-outline-none focus:tw-shadow-outline tw-w-full tw-h-20 tw-p-2' placeholder='Descripcion de envio' />
         <div className='tw-flex tw-flex-col tw-justify-center tw-items-center'>
           <Confetti active={activeConfetti} />
           <button className='bg-orange-donar tw-rounded tw-px-4 tw-py-1 tw-text-white tw-font-bold tw-text-lg tw-transform hover:tw-scale-110 tw-duration-200' type='submit'>¡Enviar!</button>

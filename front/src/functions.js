@@ -1,14 +1,25 @@
 
 export const petition = (path, method, authorization = '', objectBody = {}) => {
   let authorizationChange;
-  const headers = { method,
-    body: JSON.stringify(objectBody || {}),
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: authorization,
-    },
-  // credentials: 'include',
-  };
+  let headers;
+  if (method === 'POST') {
+    headers = { method,
+      body: JSON.stringify(objectBody || {}),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+      },
+      // credentials: 'include',
+    };
+  } else {
+    headers = { method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+      },
+      // credentials: 'include',
+    };
+  }
   return fetch(`https://donar-back.herokuapp.com/${path}`, headers)
     .then((response) => {
       authorizationChange = `Bearer ${response.headers.get('Authorization')}`;

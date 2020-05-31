@@ -23,13 +23,13 @@ const App = () => {
           <Switch>
             <Route exact path='/'>
               <ScrollToTop />
-              <Home />
+              <Home authorization={authorization} />
             </Route>
             <Route path='/publicar'>
               <Switch>
                 <Route exact path='/publicar'>
                   <ScrollToTop />
-                  <Publicar />
+                  <Publicar authorization={authorization} />
                 </Route>
                 <Route path='/publicar/donar'>
                   <ScrollToTop />
@@ -41,7 +41,7 @@ const App = () => {
                 </Route>
               </Switch>
             </Route>
-            <Route path='/producto'>
+            <Route path='/producto/:id'>
               <ScrollToTop />
               <ViewProducto authorization={authorization} setAuthorization={setAuthorization} />
             </Route>
