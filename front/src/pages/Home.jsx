@@ -1,35 +1,35 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import { useHistory } from 'react-router-dom';
 import donando from '../assets/static/donando.png';
-import dar from '../assets/static/dar.png';
-import caja from '../assets/static/caja.png';
+import ButtonPill from '../components/ButtonPill';
+import SliderProduct from '../components/SliderProduct';
+
+const pStyle = {
+  width: "70%",
+  "margin-top": "-56px",
+  "margin-left": "-115px"
+};
 
 const Home = () => {
+  const history = useHistory();
+
+  const goTo = (path) => {
+    history.push(`${path}`);
+  };
+
   return (
     <main className='animate__animated animate__fadeIn'>
-      <div>
-        <Layout image={donando} buttonColor='bg-red-donar' buttonText='Quienes somos' position='tw-flex tw-flex-col tw-justify-center tw-items-center tw-text-center' textColor='tw-text-white' fontSize='md:tw-text-4xl'>
-          ¡Podés ayudar mucho donando algo que no usas!
-        </Layout>
-      </div>
-      <div className='md:tw-grid md:tw-grid-cols-2 md:tw-gap-4 md:tw-pt-2'>
-        <div>
-          <h2 className='tw-text-center tw-text-gray-700 tw-font-bold tw-text-3xl md:tw-text-2xl lg:tw-text-3xl tw-py-3 md:tw-leading-tight'>¿Donar o solicitar?</h2>
-          <Layout image={dar} buttonColor='bg-orange-donar' buttonText='Donaciones'>
-            Publica lo que tenes para donar o elige en las solicitudes
-          </Layout>
-        </div>
-        <div>
-          <h2 className='tw-uppercase tw-text-center text-blue-donar tw-font-bold tw-text-3xl md:tw-text-2xl lg:tw-text-3xl tw-py-3 tw-leading-none md:tw-leading-tight'>Entre todos nos ayudamos</h2>
-          <Layout image={caja} buttonColor='bg-yellow-donar' buttonText='Solicitudes'>
-            Publica lo que necesitas o elige en donaciones disponibles
-          </Layout>
-        </div>
-      </div>
-      <div className='md:tw-pt-4'>
-        <h2 className='tw-font-bold tw-text-xl tw-text-center tw-text-4xl tw-text-gray-700'>Registrate acá</h2>
-        <div>
-          <img src='tw-object-contain' alt='' />
+      <SliderProduct smallText='Recibe una donación'>Donaciones</SliderProduct>
+      <SliderProduct smallText='Solicita una donación'>Solicitudes de donaciones</SliderProduct>
+      <div className='tw-relative'>
+        <img className='tw-object-cover tw-h-40 tw-w-full opacity-80' src={donando} alt='' />
+        <div className='tw-absolute tw-px-5 tw-inset-0 tw-flex tw-flex-col tw-justify-center tw-items-center'>
+          <p className='tw-pb-3 tw-font-bold tw-text-lg tw-text-white md:tw-text-4xl' style={pStyle}>
+           
+          </p>
+          <div className='tw-hidden tw-text-right tw-w-full'>
+            <ButtonPill bgColor='tw-bg-white' textColor='text-orange-donar' px='tw-px-6' py='tw-py-0' textSize='tw-text-2xl' handleClick={() => goTo('/publicar/donar')}>Donar</ButtonPill>
+          </div>
         </div>
       </div>
     </main>

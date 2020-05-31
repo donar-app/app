@@ -8,6 +8,8 @@ const { crearUsuario,obtenerUsuario,obtenerUsuarioPorAlias } = require('../contr
 const {responseJSON} = require('../utils/responseJSON');
 const bcrypt = require('bcryptjs');
 const SALT = bcrypt.genSaltSync(10);
+const passport = require('passport');
+require("../utils/oauth")
 
 /**
  * Login de Usuario
@@ -39,6 +41,7 @@ router.post('/login', verificaCredenciales, asyncHandler(async (req, res) => {
   return res.json(responseJSON(true,"usuario_logeado","Usuario logeado con exito!",usuario));
 }));
 
+
 /**
  * Registro de Usuario
  * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
@@ -57,14 +60,9 @@ router.post('/registro', asyncHandler(async (req, res) => {
     alias: req.body.alias,
     email: req.body.email,
     clave : clave,
-    es_receptor: req.body.receptor,
     pais: req.body.pais,
     ciudad: req.body.ciudad,
-    direccion: req.body.direccion,
-    telefono: req.body.telefono,
-    es_fundacion: req.body.fundacion,
-    es_acopio: req.body.acopio,
-    es_activo: req.body.activo,
+    es_activo: true,
     creado_en: new Date(
       new Date().toLocaleString('es-AR', {
         timeZone: 'America/Argentina/Buenos_Aires'
@@ -81,5 +79,53 @@ router.post('/registro', asyncHandler(async (req, res) => {
   }
 
 }));
+
+ /*
+
+router.get('/loginGoogle', passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
+
+router.get('/loginGoogle/callback', passport.authenticate('google', { failureRedirect: 'https://donar-front.herokuapp.com/#/iniciarSesion' }),
+  (req, res)=> {
+    console.log(req);
+    return responseJSON(true,"login_correcto","Logeado con Google",[])
+});
+
+ 
+
+router.get('/loginGoogle', asyncHandler(async (req, res) => {
+
+  passport.use(new GoogleStrategy({
+    consumerKey: "226196706149-ftdlhd36nlatgn0kc9abupdjcbiu0o0f.apps.googleusercontent.com",
+    consumerSecret: "t2U9F8SDeGlyXN0WNphN0ddn",
+    callbackURL: "http://localhost:3000/google/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+    console.log(token);
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return done(err, user);
+      });
+  }
+));
+
+}));
+
+router.get('/google-oauth/callback', verificaCredenciales, asyncHandler(async (req, res) => {
+  
+  console.log("adsa");
+  passport.use(new GoogleStrategy({
+    consumerKey: "226196706149-ftdlhd36nlatgn0kc9abupdjcbiu0o0f.apps.googleusercontent.com",
+    consumerSecret: "t2U9F8SDeGlyXN0WNphN0ddn",
+    callbackURL: "http://www.example.com/auth/google/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return done(err, user);
+      });
+  }
+  ));
+
+}));
+
+*/
 
 module.exports = router;
