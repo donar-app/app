@@ -10,7 +10,7 @@ import Registro from '../components/Registro';
 
 const App = () => {
   return (
-    <div className='tw-min-h-screen tw-flex tw-flex-col'>
+    <div className='tw-min-h-screen tw-flex tw-flex-col '>
       <HashRouter>
         <NavBar />
         <div className='tw-sticky'>

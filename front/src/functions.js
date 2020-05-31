@@ -1,4 +1,6 @@
+
 export const petition = (path, method, authorization = '', objectBody = {}) => {
+
   const headers = { method,
     body: JSON.stringify(objectBody),
     headers: {
@@ -7,7 +9,7 @@ export const petition = (path, method, authorization = '', objectBody = {}) => {
     },
   // credentials: 'include',
   };
-  fetch(`https://donar-back.herokuapp.com/${path}`, headers)
+  return fetch(`https://donar-back.herokuapp.com/${path}`, headers)
     .then((response) => {
       return response.json();
     }).catch((error) => {
@@ -15,6 +17,7 @@ export const petition = (path, method, authorization = '', objectBody = {}) => {
     })
     .then((response) => {
       console.log(response);
+      return response;
     });
 };
 
