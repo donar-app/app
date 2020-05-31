@@ -7,23 +7,22 @@ import Avatar from '../assets/static/user.png';
 const NavBar = () => {
 
   function handleMenuOpen() {
-    const menu_nav = document.querySelector('.menu_nav')
-    menu_nav.classList.toggle('menu_open');
+    const menuNav = document.querySelector('.menu_nav');
+    menuNav.classList.toggle('menu_open');
 
-    if(menu_nav.classList.contains('menu_open')){
-        document.querySelector('body').classList.add('overflow-hiden');
-    }else{
-        document.querySelector('body').classList.remove('overflow-hiden');
+    if (menuNav.classList.contains('menu_open')) {
+      document.querySelector('body').classList.add('overflow-hiden');
+    } else {
+      document.querySelector('body').classList.remove('overflow-hiden');
     }
-    
   }
 
   function closeMenu() {
-      const menu_nav = document.querySelector('.menu_nav');
+    const menuNav = document.querySelector('.menu_nav');
 
-      if(menu_nav.classList.contains('menu_open')){
-        menu_nav.classList.remove('menu_open');
-      }
+    if (menuNav.classList.contains('menu_open')) {
+      menuNav.classList.remove('menu_open');
+    }
   }
 
   return (
@@ -32,8 +31,8 @@ const NavBar = () => {
         <button type='button' className='d-block d-sm-block d-md-none button-desplegable' aria-label='Menu' onClick={handleMenuOpen}><i className='fas fa-bars fa-sm' /></button>
         <div className='d-none d-sm-none d-md-block'>
           <div className='links tw-flex tw-flex-row-reverse tw-space-x-4 tw-space-x-reverse'>
-            <Link to='/ingresa'>Ingresa</Link>
-            <Link to='/registro'>Registro</Link>
+            <Link to='/iniciarSesion'>Ingresa</Link>
+            <Link to='/registrarse'>Registro</Link>
             <Link to='/publicar'>Publicar</Link>
             <Link to='/donaciones'>Donaciones</Link>
             <Link to='/sobreNosotros'>Sobre Nosotros</Link>
@@ -56,10 +55,10 @@ const NavBar = () => {
               </div>
               <div className='row'>
                 <div className='col-6'>
-                  <Link to='/ingresa' className='btn btn-primary btn-block'>Ingresa</Link>
+                  <Link to='/iniciarSesion' className='btn btn-primary btn-block'>Ingresa</Link>
                 </div>
                 <div className='col-6'>
-                  <Link to='/registro' className='btn btn-primary btn-block'>Registrate</Link>
+                  <Link to='/registrarse' className='btn btn-primary btn-block'>Registrate</Link>
                 </div>
               </div>
             </div>

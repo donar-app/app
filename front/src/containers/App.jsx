@@ -27,6 +27,14 @@ const App = () => {
               <ScrollToTop />
               <Publicaciones />
             </Route>
+            <Route path='/iniciarSesion'>
+              <ScrollToTop />
+              <Login />
+            </Route>
+            <Route path='/Registrarse'>
+              <ScrollToTop />
+              <Registro />
+            </Route>
           </Switch>
         </div>
       </HashRouter>
