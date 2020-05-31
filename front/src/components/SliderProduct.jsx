@@ -1,20 +1,13 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import Producto from './Producto';
-import remeraGris from '../assets/static/remeraGris.jpg';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/slickStyle.css';
+import imagen1 from '../assets/static/remeraGris.jpg';
 
-const buttonStyle = {
-  color: '#0170bc',
-};
-
-const containerStyle = {
-  padding: '3% 10%',
-};
-
-const SliderProduct = ({ smallText, children }) => {
+const SliderProduct = ({ smallText, children, productos }) => {
   const settings = useRef({
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -28,38 +21,49 @@ const SliderProduct = ({ smallText, children }) => {
       </div>
       <div className='tw-overflow-x-hidden'>
         <Slider {...settings.current}>
+          {/* { productos && productos.map((producto) => {
+            const { _id, imagenRoute, titulo } = producto;
+            return (
+              <div key={_id}>
+                <Link to={`/producto/${_id}`}>
+                  <Producto image={imagenRoute} name={titulo} />
+                </Link>
+              </div>
+            );
+          })} */}
+
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
           <div>
-            <Producto image={remeraGris} name='Remera Gris' city='Capital Federal' />
+            <Producto image={imagen1} name='titulo' />
           </div>
         </Slider>
       </div>
-      <div className='tw-text-right pr-2 pt-2'>
+      {/*<div className='tw-text-right pr-2 pt-2'>
         <button type='button' className='tw-font-bold tw-text-gray-700'>Ver más ...</button>
-      </div>
+        </div>*/}
     </div>
   );
 };

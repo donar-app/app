@@ -47,6 +47,10 @@
   text-shadow: 1px 1px 8px black;
 }
 
+.shadow-left {
+  box-shadow: -2px 1px 1px #a0a0a08c;
+}
+
 a:hover,
 a:visited,
 a:link,
@@ -56,4 +60,8 @@ a:active {
 
 input[type="file"] {
   /* display: none; */
+}
+
+body{
+  background-color: #EBEBEB;
 }

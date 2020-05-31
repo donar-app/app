@@ -4,12 +4,7 @@ import '../assets/styles/NavBar.css';
 import LogoCompeto from '../assets/static/logo-completo.png';
 import Avatar from '../assets/static/user.png';
 
-const buttonStyle = {
-  background: '#0170bc',
-  color: 'white',
-};
-
-const NavBar = () => {
+const NavBar = ({ authorization }) => {
 
   function handleMenuOpen() {
     const menuNav = document.querySelector('.menu_nav');
@@ -40,8 +35,8 @@ const NavBar = () => {
             <Link to='/iniciarSesion'>Ingresa</Link>
             <Link to='/registrarse'>Registro</Link>
             <Link to='/publicar'>Publicar</Link>
-            <Link to='/donaciones'>Donaciones</Link>
-            {/* <Link to='/sobreNosotros'>Sobre Nosotros</Link> */}
+            {/*<Link to='/donaciones'>Donaciones</Link>*/}
+            <Link to='/sobreNosotros'>Sobre Nosotros</Link>
           </div>
         </div>
         <Link className='navbar-brand d-flex align-items-center' to='/'>
@@ -49,24 +44,35 @@ const NavBar = () => {
         </Link>
         <div className='menu_nav d-block d-sm-block d-md-none'>
           <div className='px-5'>
-            <div className='py-5'>
-              <div className='row d-flex align-items-center pb-3'>
+            <div className={`${authorization ? 'tw-py-5' : 'py-5'}`}>
+              <div className={`row d-flex align-items-center${!authorization && 'pb-3'}`}>
                 <div className='col-3'>
                   <img src={Avatar} width={55} alt='avatar' />
                 </div>
                 <div className='col-9'>
-                  <h3>Bienvenido</h3>
-                  <small>Ingresa para donar o recibir donación.</small>
+                  <h3>¡Bienvenido!</h3>
+                  {
+                    authorization ? (
+                      <div>
+                        <p>{authorization.nombre}</p>
+                        <p>{authorization.apellido}</p>
+                      </div>
+                    ) : <small>Ingresa para donar o recibir donación.</small>
+                  }
                 </div>
               </div>
-              <div className='row'>
-                <div className='col-6'>
-                  <Link onClick={closeMenu} to='/iniciarSesion' className='btn bg-button btn-block'>Ingresá</Link>
-                </div>
-                <div className='col-6'>
-                  <Link onClick={closeMenu} to='/registrarse' className='btn bg-button btn-block'>Registrate</Link>
-                </div>
-              </div>
+              {
+                !authorization && (
+                  <div className='row'>
+                    <div className='col-6'>
+                      <Link onClick={closeMenu} to='/iniciarSesion' className='btn bg-button btn-block'>Ingresá</Link>
+                    </div>
+                    <div className='col-6'>
+                      <Link onClick={closeMenu} to='/registrarse' className='btn bg-button btn-block'>Registrate</Link>
+                    </div>
+                  </div>
+                )
+              }
             </div>
             <hr />
             <div className='row'>
@@ -77,30 +83,12 @@ const NavBar = () => {
                   {' '}
                 </Link>
               </div>
-              <div className='col-12 mb-4'>
-                <Link onClick={closeMenu} to='/'>
-                  <i className='text-secondary fas fa-shopping-basket' />
-                  <span className='pl-3'>Mis Publicaciones</span>
-                </Link>
-              </div>
-              <div className='col-12 mb-4'>
-                <Link onClick={closeMenu} to='/'>
-                  <i className='text-secondary fas fa-shopping-basket' />
-                  <span className='pl-3'>Mis peticiones</span>
-                </Link>
-              </div>
-              <div className='col-12 mb-4'>
-                <Link onClick={closeMenu} to='/'>
-                  <i className='text-secondary fas fa-shopping-basket' />
-                  <span className='pl-3'>Todas las Publicaciones</span>
-                </Link>
-              </div>
-              <div className='col-12 mb-4'>
-                <Link onClick={closeMenu} to='/'>
+              {/*<div className='col-12 mb-4'>
+                <Link onClick={closeMenu} to='/donaciones'>
                   <i className='text-secondary fas fa-shopping-basket' />
                   <span className='pl-3'>Editar Perfil</span>
                 </Link>
-              </div>
+            </div>*/}
               <div className='col-12'>
                 <Link onClick={closeMenu} to='/'>
                   <i className='text-secondary fas fa-users' />

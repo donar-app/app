@@ -1,26 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import donando from '../assets/static/donando.png';
 import ButtonPill from '../components/ButtonPill';
 import SliderProduct from '../components/SliderProduct';
+import { petition } from '../functions';
 
-const pStyle = {
-  width: '70%',
-  'margin-top': '-56px',
-  'margin-left': '-115px',
-};
-
-const Home = () => {
+const Home = ({ authorization }) => {
   const history = useHistory();
+  const [productos, setproductos] = useState(null);
 
   const goTo = (path) => {
     history.push(`${path}`);
   };
 
+  /*useEffect(() => {
+    petition('publicaciones', 'GET')
+      .then((response) => {
+        if (response.tipo === 'error' || response.message === 'Internal Server Error') {
+          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';
+          Swal.fire(
+            'Error al traer las publicaciones',
+            mensaje,
+            'error',
+          );
+        } else {
+          response.data.forEach((element, i) => {
+            const { imagenRoute } = element;
+            const image = imagenRoute.split('image/pngbase64')[1];
+            response.data[i].imagenRoute = `data:image/png;base64,${image}`;
+          });
+          console.log(response);
+          setproductos(response.data);
+        }
+      });
+  }, []);*/
+
   return (
     <main className='animate__animated animate__fadeIn'>
-      <SliderProduct smallText='Recibe una donación'>Donaciones</SliderProduct>
-      <SliderProduct smallText='Solicita una donación'>Solicitudes de donaciones</SliderProduct>
       <div className='tw-relative'>
         <img className='tw-object-cover tw-h-40 tw-w-full opacity-80' src={donando} alt='' />
         <div className='tw-absolute tw-px-5 tw-inset-0 tw-flex tw-flex-col tw-justify-center tw-items-center'>
@@ -32,6 +49,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <SliderProduct smallText='Recibé una donación' productos={productos}>Donaciones</SliderProduct>
+      <SliderProduct smallText='Solicita una donación' productos={productos}>Solicitudes de donaciones</SliderProduct>
     </main>
   );
 };

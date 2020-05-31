@@ -35,20 +35,30 @@ const Registro = () => {
       ciudad: document.querySelector('#cityRegister').value,
     })
       .then((response) => {
-        Swal.fire({
-          icon: 'success',
-          title: response.mensaje,
-          confirmButtonText: '¡Continuar!',
-          confirmButtonColor: '#dd7f0e',
-          allowOutsideClick: false,
-        }).then(() => {
-          history.push('/');
-        });
+        if (response.tipo === 'error') {
+          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar';
+          Swal.fire(
+            'Error al registrarse',
+            mensaje,
+            'error',
+          );
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: response.mensaje,
+            confirmButtonText: '¡Continuar!',
+            confirmButtonColor: '#dd7f0e',
+            allowOutsideClick: false,
+          })
+            .then(() => {
+              history.push('/');
+            });
+        }
       });
   };
 
   return (
-    <div className='card mb-3 animate__animated animate__fadeIn'>
+    <div className='card mb-3 '>
       <div className='row no-gutters'>
         <div className='col-md-6 d-none d-sm-none d-md-block'>
           <img src={ImagenRegistro} className='card-img' alt='Imagen Login' />
@@ -84,12 +94,12 @@ const Registro = () => {
                   <div className='col-lg-6 py-4'>
                     <button type='submit' className='btn bg-button w-100'>Registrate</button>
                   </div>
-                  <div className='col-lg-6 py-lg-4'>
+                  {/*<div className='col-lg-6 py-lg-4'>
                     <button type='button' className='btn-google btn w-100'>
                       <i className='fab fa-google-plus-g' />
                       <span className='pl-2'>Registrate con Google</span>
                     </button>
-                  </div>
+                  </div>*/}
                 </div>
               </div>
             </form>
@@ -97,6 +107,7 @@ const Registro = () => {
         </div>
       </div>
     </div>
+
   );
 };
 
