@@ -51,7 +51,7 @@ const createPublication = async ( publicacion ) => {
     //fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}`), imagenRoute, 'base64')
 
     let nuevaPublicacion = new Publicacion({
-        anunciante_id,
+        id,
         titulo,
         categoria,
         descripcion,
