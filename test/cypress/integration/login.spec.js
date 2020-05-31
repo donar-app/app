@@ -6,13 +6,32 @@ describe('Login de donar', () => {
     });
  
 
-    it('Login Incorrecto - con Funcion', () => {
+    it('Login Incorrecto', () => {
     cy.get('.links > [href="#/iniciarSesion"]').click()
       logeando('incorrecto@hotmail.com', 'asdadasd');
-     
+      cy.get('.py-4 > .btn').click()
+    });
+    
+    it('Login Correcto', () => {
+        cy.get('.links > [href="#/iniciarSesion"]').click()
+          logeando('santiago4', 'santiago4');
+          cy.get('.py-4 > .btn').click()
+        });
+
+      it('Login google', () => {
+        cy.get('.links > [href="#/iniciarSesion"]').click()
+        cy.get('.btn-google').click()
+        //logeando ('');
     });
 
-    
+    it('Olvido de contraseña', () => {
+        cy.get('.links > [href="#/iniciarSesion"]').click()
+        cy.get('.card-footer > .tw-text-sm > a').click()
+        //logeando ('');
+    });
+
+     
+
   /*
 
     it('Login Correcto - SIN Funcion', () => {
