@@ -6,35 +6,36 @@ describe('Login de donar', () => {
     });
  
 
-    it('Login Correcto - con Funcion', () => {
-      logeandoFB('correcto@hotmail.com', 'asdadasd');
-      cy.get('.byvelhso > :nth-child(5) > :nth-child(1) > .oajrlxb2');
+    it('Login Incorrecto', () => {
+    cy.get('.links > [href="#/iniciarSesion"]').click()
+      logeando('incorrecto@hotmail.com', 'asdadasd');
+      cy.get('.py-4 > .btn').click()
     });
-  
+    
+    it('Login Correcto', () => {
+        cy.get('.links > [href="#/iniciarSesion"]').click()
+          logeando('asd', 'asd');
+          cy.get('.py-4 > .btn').click()
+        });
 
-    it('Login Correcto - SIN Funcion', () => {
-      cy.get('#email').type('email@asd.com');
-      cy.get('#pass').type('asdasd');
-      cy.get('#loginbutton').click();
-      cy.get('.byvelhso > :nth-child(5) > :nth-child(1) > .oajrlxb2');
+      /* it('Login google', () => {
+        cy.get('.links > [href="#/iniciarSesion"]').click()
+        cy.get('.btn-google').click()
+        //logeando ('');
     });
-  
-  it('Login incorrecto - con Funcion', () => {
-    logeandoFB('asdasdasdasdasdasasdasdasdsadasdasdsadasdasdasdasdadsaaasdasdasdasasdasa@hotmail.com', 'xxqsaxa.6F');
-    cy.get('._4rbf').contains(mensajeError);
+*/
+    it('Olvido de contraseña', () => {
+        cy.get('.links > [href="#/iniciarSesion"]').click()
+        cy.get('.card-footer > .tw-text-sm > a').click()
+ 
+    });
+
+     
   });
   
-    it('Usuario incorrecto - SIN Funcion', () => {
-      cy.get('#email').type('sdasdas');
-      cy.get('#pass').type('asdasdas');
-      cy.get('#loginbutton').click();
-      cy.get('._4rbf').contains(mensajeError);
-    });
-  });
-  
-  function logeandoFB(email, password) {
-    cy.get('#email').type(email);
-    cy.get('#pass').type(password);
-    cy.get('#loginbutton').click();
+  function logeando(usuario, password) {
+    cy.get('#userLogin').type(usuario);
+    cy.get('#passLogin').type(password);
+    cy.get('.py-4 > .btn').click();
   }
   
