@@ -2,11 +2,11 @@
 
 const fs = require('fs');
 const path = require('path');
-const Publicacion = require('../models/publicacion')
+const Publicacion = require('../models/publicacionModel')
 const isImage = require('../utils/is-image');
 const createImage = require('../utils/create-image');
 
-const { ResourceNotFound, ResourceNotImage } = require('./../errors');
+const { ResourceNotFound, ResourceNotImage } = require('../errors');
 
 
 const getAllPublications = async () => {

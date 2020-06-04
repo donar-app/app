@@ -5,7 +5,7 @@ const router = express.Router();
 const asyncHandler = require('../middlewares/async-handler');
 const { getComentarioPublication, getComentariosPublicationes, createComentarioPublication, updateComentarioPublication } = require('../controllers/comentarioPublicacion');
 const { getPublication } = require('../controllers/publicacion');
-const { NotHavePermissions } = require('./../errors');
+const { NotHavePermissions } = require('../errors');
 const {verificaToken} = require('../middlewares/seguridad');
 
 /**

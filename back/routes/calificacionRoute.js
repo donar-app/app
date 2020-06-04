@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const asyncHandler = require('../middlewares/async-handler');
 const { getPeticion, createPeticion, updatePeticion } = require('../controllers/peticion');
-const { NotHavePermissions } = require('./../errors');
+const { NotHavePermissions } = require('../errors');
 const { getPublication } = require('../controllers/publicacion');
 const { obtenerUsuario } = require('../controllers/usuarioController');
 /**

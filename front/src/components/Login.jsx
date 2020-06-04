@@ -67,7 +67,7 @@ const Login = ({ setAuthorization }) => {
                     <LabelInput name='userLogin'>Usuario</LabelInput>
                   </div>
                   <div className='form-group'>
-                    <LabelInput name='passLogin' type='password'>Contraseña</LabelInput>
+                    <LabelInput name='passLogin' className="alert" type='password'>Contraseña(Es el mismo Usuario)</LabelInput>
                   </div>
                   <div className='row pb-3'>
                     {/*<div className='col-6 d-flex align-items-center'>

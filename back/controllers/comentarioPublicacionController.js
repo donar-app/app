@@ -1,6 +1,6 @@
 'use strict';
 
-let ComentarioPublicacion = require('../models/comentarioPublicacion')
+let ComentarioPublicacion = require('../models/comentarioPublicacionModel')
 
 const getComentariosPublicationes = async (id) => {
 

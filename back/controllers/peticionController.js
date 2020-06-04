@@ -1,6 +1,6 @@
 'use strict';
 
-let Peticion = require('../models/peticion')
+let Peticion = require('../models/peticionModel')
 
 
 const getPeticiones = async (id) => {
