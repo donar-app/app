@@ -1,72 +1,61 @@
 'use strit'
 
-const express = require('express');
-const router = express.Router();
-const asyncHandler = require('../middlewares/async-handler');
-const { getComentarioPublication, getComentariosPublicationes, createComentarioPublication, updateComentarioPublication } = require('../controllers/comentarioPublicacion');
-const { getPublication } = require('../controllers/publicacion');
-const { NotHavePermissions } = require('../errors');
-const {verificaToken} = require('../middlewares/seguridad');
+const express = require('express')
+const router = express.Router()
+const asyncHandler = require('../middlewares/async-handler')
+const { getComentarioPublication, getComentariosPublicationes, createComentarioPublication, updateComentarioPublication } = require('../controllers/comentarioPublicacion')
+const { getPublication } = require('../controllers/publicacion')
+const { NotHavePermissions } = require('../errors')
+const { verificaToken } = require('../middlewares/seguridad')
+const { responseJSON } = require('../utils/responseJSON')
 
 /**
- * Crear comentario
+ * Se creara un documento "Comentario" dentro de la publicacion espeficida.
+ * @param {Number} publicacion_id Es el id de la publicacion
+ * @param {String} pregunta Es la pregunta de la publicacion
  */
 router.post('/', verificaToken, asyncHandler(async (req, res, next) => {
-    const publicacion_id = req.body.publicacion_id;
-    const usuario_id = req.body.jwt_usuario_id;
-    
-    const publicacion = await getPublication(publicacion_id);
-    if(String(publicacion.anunciante_id) !== String(usuario_id)){
+  const { jwt_usuario_id: usuarioID, publicacion_id: publicacionID, pregunta } = req.body
 
-        res.json( await createComentarioPublication({
-            pregunta: req.body.pregunta,
-            publicacion_id: publicacion_id,
-            usuario_id: usuario_id,
-        }));
-
-    } else {
-
-        throw new NotHavePermissions();
-
-    }
-
-}));
+  const publicacion = await getPublication(publicacionID)
+  if (String(publicacion.anunciante_id) !== String(usuarioID)) {
+    throw new NotHavePermissions()
+  }
+  const comentario = await createComentarioPublication({
+    pregunta: pregunta,
+    publicacion_id: publicacionID,
+    usuario_id: usuarioID
+  })
+  return responseJSON(true, 'comentario_creado', 'Gracias por su comentario.', comentario)
+}))
 
 /**
  * Modificar comentario
  */
 router.put('/:id', verificaToken, asyncHandler(async (req, res, next) => {
-    const { id } = req.params;
-    // verificar si el usuario es el dueño de la publicación
-    const usuario_id = req.body.jwt_usuario_id;
+  const { id } = req.params
+  // verificar si el usuario es el dueño de la publicación
+  const { jwt_usuario_id: usuarioID } = req.body
 
-    const comentario = await getComentarioPublication(id);
-    const publicacion = await getPublication(comentario.publicacion_id);
+  const comentario = await getComentarioPublication(id)
+  const publicacion = await getPublication(comentario.publicacion_id)
 
-    if(String(publicacion.anunciante_id) === String(usuario_id)){
-        res.json( await updateComentarioPublication(id, {
-            respuesta: req.body.respuesta
-        }));
-    } else {
-
-        throw new NotHavePermissions();
-
-    }
-
-}));
-
+  if (String(publicacion.anunciante_id) === String(usuarioID)) {
+    res.json(await updateComentarioPublication(id, {
+      respuesta: req.body.respuesta
+    }))
+  } else {
+    throw new NotHavePermissions()
+  }
+}))
 
 /**
  * Get comentarios
  */
 router.get('/:id', asyncHandler(async (req, res, next) => {
-    const publicacion_id = req.params.id;
-    const usuario_id = req.body.jwt_usuario_id;
-    
-    res.json( await getComentariosPublicationes(publicacion_id) );
+  const { id: publicacionID } = req.params
+  const comentarios = await getComentariosPublicationes(publicacionID)
+  return responseJSON(true, 'comentario_creado', 'Gracias por su comentario.', comentarios)
+}))
 
-
-}));
-
-
-module.exports = router;
+module.exports = router

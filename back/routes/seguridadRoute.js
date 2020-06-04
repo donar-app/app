@@ -1,15 +1,14 @@
-const express = require('express');
+const express = require('express')
 
-const router = express.Router();
-const asyncHandler = require('../middlewares/async-handler');
-const {crearToken,setTokenEnCabecera,verificaCredenciales} = require('../middlewares/seguridad');
-const {generaStringRandom} = require("../utils/myUtils")
-const { crearUsuario,obtenerUsuario,obtenerUsuarioPorAlias } = require('../controllers/usuarioController');
-const {responseJSON} = require('../utils/responseJSON');
-const bcrypt = require('bcryptjs');
-const SALT = bcrypt.genSaltSync(10);
-const passport = require('passport');
-require("../middlewares/oauth")
+const router = express.Router()
+const asyncHandler = require('../middlewares/async-handler')
+const { crearToken, setTokenEnCabecera, verificaCredenciales } = require('../middlewares/seguridad')
+const { crearUsuario, obtenerUsuarioPorAlias } = require('../controllers/usuarioController')
+const { responseJSON } = require('../utils/responseJSON')
+const bcrypt = require('bcryptjs')
+const SALT = bcrypt.genSaltSync(10)
+const passport = require('passport')
+require('../middlewares/oauth')
 
 /**
  * Login de Usuario
@@ -19,47 +18,44 @@ require("../middlewares/oauth")
  * @returns {String} Se retorna el token en la cabecera
  */
 router.post('/ingreso', verificaCredenciales, asyncHandler(async (req, res) => {
-  
-  const { credencial_alias : alias,credencial_clave : clave } = req.body;
+  const { credencial_alias: alias, credencial_clave: clave } = req.body
 
   const usuario = await obtenerUsuarioPorAlias(alias)
 
   if (!usuario || !usuario.clave) {
-    return res.json(responseJSON(false,"usuario_no_encontrado","Usuario no encontrado",[]));
+    return res.json(responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', []))
   }
-  const validaClave = await bcrypt.compareSync(clave, usuario.clave);
+  const validaClave = await bcrypt.compareSync(clave, usuario.clave)
 
   if (!validaClave) {
-    return res.json(responseJSON(false,"usuario_no_encontrado","Usuario no encontrado",[]));
+    return res.json(responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', []))
   }
 
-  const token = await crearToken({ id: usuario.id, alias: usuario.alias });
-  await setTokenEnCabecera(res, token);
-  
+  const token = await crearToken({ id: usuario.id, alias: usuario.alias })
+  await setTokenEnCabecera(res, token)
+
   usuario.clave = undefined
 
-  return res.json(responseJSON(true,"usuario_logeado","Usuario logeado con exito!",usuario));
-}));
-
+  return res.json(responseJSON(true, 'usuario_logeado', 'Usuario logeado con exito!', usuario))
+}))
 
 /**
  * Registro de Usuario
  * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
  */
 router.post('/registro', asyncHandler(async (req, res) => {
-
-  //const clave = generaStringRandom(8);
+  // const clave = generaStringRandom(8);
 
   if (!req.body.alias) {
-    return res.json(responseJSON(true,"falta_alias","Falta el parametro alias",[]));
+    return res.json(responseJSON(true, 'falta_alias', 'Falta el parametro alias', []))
   }
-  const clave = await bcrypt.hashSync(req.body.alias, SALT);
+  const clave = await bcrypt.hashSync(req.body.alias, SALT)
   const bufferUsuario = {
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     alias: req.body.alias,
     email: req.body.email,
-    clave : clave,
+    clave: clave,
     pais: req.body.pais,
     ciudad: req.body.ciudad,
     es_activo: true,
@@ -68,19 +64,18 @@ router.post('/registro', asyncHandler(async (req, res) => {
         timeZone: 'America/Argentina/Buenos_Aires'
       })
     )
-  };  
+  }
 
   try {
     const resultUsuario = await crearUsuario(bufferUsuario)
     resultUsuario.clave = undefined
-    return res.status(201).json(responseJSON(true,"usuario_registrado","Usuario registrado con exito!",resultUsuario));
+    return res.status(201).json(responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', resultUsuario))
   } catch (error) {
-    return res.json(responseJSON(false,"valor_duplicado","Uno de los valores ya existe en nuestra db.",error.keyValue));
+    return res.json(responseJSON(false, 'valor_duplicado', 'Uno de los valores ya existe en nuestra db.', error.keyValue))
   }
+}))
 
-}));
-
- /*
+/*
 
 router.get('/loginGoogle', passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
 
@@ -89,8 +84,6 @@ router.get('/loginGoogle/callback', passport.authenticate('google', { failureRed
     console.log(req);
     return responseJSON(true,"login_correcto","Logeado con Google",[])
 });
-
- 
 
 router.get('/loginGoogle', asyncHandler(async (req, res) => {
 
@@ -110,7 +103,7 @@ router.get('/loginGoogle', asyncHandler(async (req, res) => {
 }));
 
 router.get('/google-oauth/callback', verificaCredenciales, asyncHandler(async (req, res) => {
-  
+
   console.log("adsa");
   passport.use(new GoogleStrategy({
     consumerKey: "226196706149-ftdlhd36nlatgn0kc9abupdjcbiu0o0f.apps.googleusercontent.com",
@@ -133,9 +126,9 @@ router.get('/google-oauth/callback', verificaCredenciales, asyncHandler(async (r
 //   request.  The first step in Google authentication will involve
 //   redirecting the user to google.com.  After authorization, Google
 //   will redirect the user back to this application at /auth/google/callback
-router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }),(req,res)=>{
-  console.log("asdadsasd");
-});
+router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }), (req, res) => {
+  console.log('asdadsasd')
+})
 
 // GET /auth/google/callback
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -143,8 +136,8 @@ router.get('/auth/google', passport.authenticate('google', { scope: ['https://ww
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'https://donar-front.herokuapp.com/#/iniciarSesion' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+  function (req, res) {
+    res.redirect('/')
+  })
 
-module.exports = router;
+module.exports = router
