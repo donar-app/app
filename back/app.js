@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 const errorHandlers = require('./middlewares/error');
 const { verificaToken } = require('./middlewares/seguridad');
 
-
 require('./config/config');
 
 const indexRouter = require('./routes/indexRoute');
@@ -37,7 +36,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json({}));
 app.use(helmet());
 app.use(cors({ origin: true, credentials: true }));
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
