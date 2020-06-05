@@ -25,14 +25,14 @@ const Usuario = new Schema({
     index: true,
     required: [true, 'El alias es necesario']
   },
-  email: {
+  correo: {
     type: String,
-    ref: 'Alias',
+    ref: 'Correo',
     minlength: 5,
     maxlength: 50,
     unique: true,
     index: true,
-    required: [true, 'El email es necesario']
+    required: [true, 'El correo es necesario']
   },
   clave: {
     type: String,
@@ -67,10 +67,10 @@ const Usuario = new Schema({
     maxlength: 20,
     required: [false, 'El telefono es necesario']
   },
-  es_fundacion: {
+  es_institucion: {
     type: Boolean,
-    ref: 'Fundacion',
-    required: [false, 'El Campo Fundacion es necesario']
+    ref: 'Institucion',
+    required: [false, 'El Campo Institucion es necesario']
   },
   es_acopio: {
     type: Boolean,
@@ -92,6 +92,6 @@ const Usuario = new Schema({
     ref: 'Actualizo',
     required: [false, 'El alias es necesario']
   }
-}, { strict: true })
+}, { collection: 'usuario' })
 
 module.exports = mongoose.model('Usuario', Usuario)

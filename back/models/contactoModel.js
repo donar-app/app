@@ -9,14 +9,14 @@ const Contacto = new Schema({
     maxlength: 50,
     required: [true, 'El nombre es necesario']
   },
-  email: {
+  correo: {
     type: String,
-    ref: 'Email',
+    ref: 'Correo',
     minlength: 5,
     maxlength: 50,
     unique: true,
     index: true,
-    required: [true, 'El email es necesario']
+    required: [true, 'El correo es necesario']
   },
   titulo: {
     type: String,
@@ -37,6 +37,6 @@ const Contacto = new Schema({
     ref: 'Creado',
     required: [true, 'El Creado es necesario']
   }
-})
+}, { collection: 'contacto' })
 
 module.exports = mongoose.model('Contacto', Contacto)

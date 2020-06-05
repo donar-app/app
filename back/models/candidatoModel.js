@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const peticion = new Schema({
+const Candidato = new Schema({
   publicacion_id: {
     type: Schema.Types.ObjectId,
     ref: 'Publicacion',
@@ -27,14 +27,23 @@ const peticion = new Schema({
     required: false,
     default: false
   },
-  calificacion_emisor: {
+  calificacion_anunciante: {
     type: Number,
     required: false
   },
-  calificacion_receptor: {
+  calificacion_candidato: {
     type: Number,
     required: false
+  },
+  creado_en: {
+    type: Date,
+    ref: 'Creado',
+    required: [true, 'El Creado es necesario']
+  },
+  actualizado_en: {
+    type: Date,
+    ref: 'Actualizo'
   }
-}, { collection: 'peticiones' })
+}, { collection: 'candidato' })
 
-module.exports = mongoose.model('Peticion', peticion)
+module.exports = mongoose.model('Candidato', Candidato)

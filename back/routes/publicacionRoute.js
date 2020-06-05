@@ -5,7 +5,7 @@ const router = express.Router()
 const asyncHandler = require('../middlewares/async-handler')
 const { verificaToken } = require('../middlewares/seguridad')
 
-const { getPublication, getAllPublications, createPublication, updatePublication, deletePublication } = require('../controllers/publicacion')
+const { getPublication, getAllPublications, createPublication, updatePublication, deletePublication } = require('../controllers/publicacionController')
 
 router.get('/', asyncHandler(async (req, res, next) => {
   const data = await getAllPublications()

@@ -3,33 +3,32 @@
 const express = require('express')
 const router = express.Router()
 const asyncHandler = require('../middlewares/async-handler')
-const { getPeticion, createPeticion, updatePeticion, getPeticiones } = require('../controllers/peticion')
+const { getCandidato, createCandidato, updateCandidato, getCandidatos } = require('../controllers/candidatoController')
 const { NotHavePermissions } = require('../errors')
-const { getPublication } = require('../controllers/publicacion')
+const { getPublication } = require('../controllers/publicacionController')
 const { obtenerUsuario } = require('../controllers/usuarioController')
 
 /**
- * Obtener peticiones de una Publicacion
+ * Obtener candidatoes de una Publicacion
  */
 router.get('/:id', asyncHandler(async (req, res, next) => {
-  const data = await getPeticiones(req.params.id)
+  const data = await getCandidatos(req.params.id)
   res.json({ data })
 }))
 
 /**
- * Crear peticion
+ * Crear candidato
  */
 router.post('/', asyncHandler(async (req, res, next) => {
   // obtener usuario del token
-  const usuario_id = req.body.jwt_usuario_id
-  const publicacion_id = req.body.publicacion_id
+  const { usuario_id: usuarioID, publicacion_id: publicacionID } = req.body
   // Verificar permisos
-  const publicacion = await getPublication(publicacion_id)
+  const publicacion = await getPublication(publicacionID)
 
-  if (String(publicacion.anunciante_id) !== String(usuario_id)) {
-    res.json(await createPeticion({
-      usuario_id,
-      publicacion_id
+  if (String(publicacion.anunciante_id) !== String(usuarioID)) {
+    res.json(await createCandidato({
+      usuarioID,
+      publicacionID
     }))
   } else {
     throw new NotHavePermissions()
@@ -37,20 +36,17 @@ router.post('/', asyncHandler(async (req, res, next) => {
 }))
 
 /**
- * Aceptar peticion
+ * Aceptar candidato
  */
 router.put('/:id', asyncHandler(async (req, res, next) => {
   const { id } = req.params
-  // verificar si el usuario es el dueño de la publicación
-  // obtener usuario del token
-  const usuario_id = req.body.jwt_usuario_id
-  const publicacion_id = req.body.publicacion_id
+  const { usuario_id: usuarioID, publicacion_id: publicacionID } = req.body
   // Verificar permisos
-  let peticion = await getPeticion(id)
-  const publicacion = await getPublication(peticion.publicacion_id)
+  let candidato = await getCandidato(id)
+  const publicacion = await getPublication(candidato.publicacion_id)
 
   let emisorObj = await obtenerUsuario(publicacion.anunciante_id)
-  let receptorObj = await obtenerUsuario(peticion.usuario_id)
+  let receptorObj = await obtenerUsuario(candidato.usuario_id)
 
   emisorObj = {
     nombre: emisorObj.nombre,
@@ -70,13 +66,13 @@ router.put('/:id', asyncHandler(async (req, res, next) => {
     ciudad: receptorObj.ciudad
   }
 
-  if (String(publicacion.anunciante_id) === String(usuario_id)) {
-    peticion = await updatePeticion(id, {
+  if (String(publicacion.anunciante_id) === String(usuarioID)) {
+    candidato = await updateCandidato(id, {
       es_aceptada: req.body.es_aceptada
     })
 
     res.json({
-      peticion,
+      candidato,
       emisorObj,
       receptorObj
     })

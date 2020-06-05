@@ -4,14 +4,49 @@ const Schema = mongoose.Schema
 const publicacionSchema = new Schema({
 
   anunciante_id: { type: Schema.Types.ObjectId, ref: 'Usuario' },
-  tipo: String,
-  titulo: String,
-  descripcion: String,
-  categoria: String,
-  creada_en: Date,
-  actualizada_en: Date,
-  imagenRoute: String,
-  estado: Number
-}, { strict: true })
+  tipo: {
+    type: Boolean,
+    ref: 'Tipo',
+    required: [true, 'El Tipo es necesario']
+  },
+  titulo: {
+    type: String,
+    minlength: 3,
+    maxlength: 50,
+    ref: 'Titulo',
+    required: [true, 'El Titulo es necesario']
+  },
+  descripcion: {
+    type: String,
+    minlength: 10,
+    maxlength: 500,
+    ref: 'Descripcion',
+    required: [true, 'El Descripcion es necesario']
+  },
+  categoria: {
+    type: String,
+    minlength: 3,
+    maxlength: 50,
+    ref: 'Categoria',
+    required: [true, 'El Categoria es necesario']
+  },
+  imagenes: [
+    {
+      posicion: String,
+      ruta: String,
+      creado_en: Date
+    }
+  ],
+  estado: Number,
+  creado_en: {
+    type: Date,
+    ref: 'Creado',
+    required: [true, 'El Creado es necesario']
+  },
+  actualizado_en: {
+    type: Date,
+    ref: 'Actualizo'
+  }
+}, { collection: 'publicacion' })
 
 module.exports = mongoose.model('Publicacion', publicacionSchema)

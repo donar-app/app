@@ -1,53 +1,52 @@
-const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const mongoose = require('mongoose');
-const errorHandlers = require('./middlewares/error');
-const { verificaToken } = require('./middlewares/seguridad');
+const express = require('express')
+const helmet = require('helmet')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const mongoose = require('mongoose')
+const errorHandlers = require('./middlewares/error')
+const { verificaToken } = require('./middlewares/seguridad')
 
-require('./config/config');
+require('./config/config')
 
-const indexRouter = require('./routes/indexRoute');
-const seguridadRouter = require('./routes/seguridadRoute');
-const usuarioRouter = require('./routes/usuarioRoute');
-const publicacionRouter = require('./routes/publicacionRoute');
-const comentarioPublicacionRouter = require('./routes/comentarioPublicacionRoute');
-const peticionRouter = require('./routes/peticionRoute');
-const calificacionRouter = require('./routes/calificacionRoute');
-const contactoRouter = require('./routes/contactoRoute');
+const indexRouter = require('./routes/indexRoute')
+const seguridadRouter = require('./routes/seguridadRoute')
+const usuarioRouter = require('./routes/usuarioRoute')
+const publicacionRouter = require('./routes/publicacionRoute')
+const preguntaPublicacionRouter = require('./routes/preguntaPublicacionRoute')
+const candidatoRouter = require('./routes/candidatoRoute')
+const calificacionRouter = require('./routes/calificacionRoute')
+const contactoRouter = require('./routes/contactoRoute')
 
-const app = express();
+const app = express()
 
 // Conexión a la DB
 mongoose.connect(process.env.URLDB, {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 }, (error, respuesta) => {
-  if (error) throw error;
+  if (error) throw error
 
-  console.log('Base de datos Online');
-});
+  console.log('Base de datos Online')
+})
 
-app.use(logger('dev'));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json({}));
-app.use(helmet());
-app.use(cors({ origin: true, credentials: true }));
-app.use(cookieParser());
+app.use(logger('dev'))
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json({}))
+app.use(helmet())
+app.use(cors({ origin: true, credentials: true }))
+app.use(cookieParser())
 
-app.use('/', indexRouter);
-app.use('/', seguridadRouter);
-app.use('/contacto', contactoRouter);
-app.use('/usuarios', verificaToken, usuarioRouter);
-app.use('/publicaciones', publicacionRouter);
-app.use('/comentarios-publicaciones', comentarioPublicacionRouter);
-app.use('/peticiones', verificaToken, peticionRouter);
-app.use('/calificacion', verificaToken, calificacionRouter);
+app.use('/', indexRouter)
+app.use('/', seguridadRouter)
+app.use('/contacto', contactoRouter)
+app.use('/usuarios', verificaToken, usuarioRouter)
+app.use('/publicaciones', publicacionRouter)
+app.use('/preguntas-publicaciones', preguntaPublicacionRouter)
+app.use('/candidatos', verificaToken, candidatoRouter)
+app.use('/calificacion', verificaToken, calificacionRouter)
 
-app.use(errorHandlers);
+app.use(errorHandlers)
 
-
-module.exports = app;
+module.exports = app
