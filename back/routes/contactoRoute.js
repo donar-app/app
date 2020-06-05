@@ -13,27 +13,11 @@ const { crearContacto } = require('../controllers/contactoController')
  * @returns {JSON} Retorna todo el documento "contacto".
  */
 router.post('/', asyncHandler(async (req, res, next) => {
-  const { nombre, correo, titulo, mensaje } = req.body
+  const { obj_contacto: objContacto } = req.body
 
-  if (!nombre || !correo || !titulo || !mensaje) {
-    return res.json(responseJSON(false, 'contacto_error', 'Faltan parametros', ['nombre', 'correo', 'titulo', 'mensaje']))
-  }
+  const resultado = await crearContacto(objContacto)
 
-  const bufferContacto = {
-    nombre,
-    correo,
-    titulo,
-    mensaje,
-    creado_en: new Date(
-      new Date().toLocaleString('es-AR', {
-        timeZone: 'America/Argentina/Buenos_Aires'
-      })
-    )
-  }
-
-  const contacto = await crearContacto(bufferContacto)
-
-  return res.json(responseJSON(true, 'contacto_registrado', 'Gracias por Contactarnos', contacto))
+  return res.json(resultado)
 }))
 
 module.exports = router
