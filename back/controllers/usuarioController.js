@@ -7,8 +7,8 @@ const bcrypt = require('bcryptjs')
 const SALT = bcrypt.genSaltSync(10)
 
 const crearUsuario = async (objUsuario) => {
-  if (!objUsuario.alias) {
-    return responseJSON(true, 'falta_alias', 'Falta el parametro alias', [])
+  if (!Object.prototype.hasOwnProperty.call(objUsuario, 'alias')) {
+    return responseJSON(false, 'falta_alias', 'Falta el parametro alias', [])
   }
 
   const clave = process.env.NODE_ENV === 'PROD' ? generaStringRandom(8) : objUsuario.alias
@@ -19,8 +19,17 @@ const crearUsuario = async (objUsuario) => {
       timeZone: 'America/Argentina/Buenos_Aires'
     }))
 
-  const usuario = new Usuario(objUsuario)
-  return await usuario.save()
+  try {
+    const usuario = new Usuario(objUsuario)
+    const resultUsuario = await usuario.save()
+    resultUsuario.clave = undefined
+    return responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', resultUsuario)
+  } catch (error) {
+    if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
+      return responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue)
+    }
+    return responseJSON(false, 'error_interno', 'Error Interno.', [])
+  }
 }
 
 const obtenerUsuario = async (id) => {
