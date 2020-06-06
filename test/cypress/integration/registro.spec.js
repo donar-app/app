@@ -27,7 +27,7 @@ describe('Registro de donar', () => {
 function registro(nombre, apellido, email, alias, pais, ciudad) {
     cy.get('#nameRegister').type(nombre);
     cy.get('#lastNameRegister').type(apellido);
-    cy.get('#emailRegister').type(email);
+    cy.get('#correoRegister').type(email);
     cy.get('#userRegister').type(alias);
     cy.get('#countryRegister').type(pais);
     cy.get('#cityRegister').type(ciudad);

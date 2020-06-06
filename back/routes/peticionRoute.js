@@ -3,21 +3,21 @@
 const express = require('express')
 const router = express.Router()
 const asyncHandler = require('../middlewares/async-handler')
-const { getCandidato, createCandidato, updateCandidato, getCandidatos } = require('../controllers/candidatoController')
+const { getPeticion, createPeticion, updatePeticion, getPeticiones } = require('../controllers/peticionController')
 const { NotHavePermissions } = require('../errors')
 const { getPublication } = require('../controllers/publicacionController')
 const { obtenerUsuario } = require('../controllers/usuarioController')
 
 /**
- * Obtener candidatoes de una Publicacion
+ * Obtener peticiones de una Publicacion
  */
 router.get('/:id', asyncHandler(async (req, res, next) => {
-  const data = await getCandidatos(req.params.id)
+  const data = await getPeticiones(req.params.id)
   res.json({ data })
 }))
 
 /**
- * Crear candidato
+ * Crear peticion
  */
 router.post('/', asyncHandler(async (req, res, next) => {
   // obtener usuario del token
@@ -26,7 +26,7 @@ router.post('/', asyncHandler(async (req, res, next) => {
   const publicacion = await getPublication(publicacionID)
 
   if (String(publicacion.anunciante_id) !== String(usuarioID)) {
-    res.json(await createCandidato({
+    res.json(await createPeticion({
       usuarioID,
       publicacionID
     }))
@@ -36,17 +36,17 @@ router.post('/', asyncHandler(async (req, res, next) => {
 }))
 
 /**
- * Aceptar candidato
+ * Aceptar peticion
  */
 router.put('/:id', asyncHandler(async (req, res, next) => {
   const { id } = req.params
   const { usuario_id: usuarioID, publicacion_id: publicacionID } = req.body
   // Verificar permisos
-  let candidato = await getCandidato(id)
-  const publicacion = await getPublication(candidato.publicacion_id)
+  let peticion = await getPeticion(id)
+  const publicacion = await getPublication(peticion.publicacion_id)
 
   let emisorObj = await obtenerUsuario(publicacion.anunciante_id)
-  let receptorObj = await obtenerUsuario(candidato.usuario_id)
+  let receptorObj = await obtenerUsuario(peticion.usuario_id)
 
   emisorObj = {
     nombre: emisorObj.nombre,
@@ -67,12 +67,12 @@ router.put('/:id', asyncHandler(async (req, res, next) => {
   }
 
   if (String(publicacion.anunciante_id) === String(usuarioID)) {
-    candidato = await updateCandidato(id, {
+    peticion = await updatePeticion(id, {
       es_aceptada: req.body.es_aceptada
     })
 
     res.json({
-      candidato,
+      peticion,
       emisorObj,
       receptorObj
     })

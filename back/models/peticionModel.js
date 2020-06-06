@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const Candidato = new Schema({
+const Peticion = new Schema({
   publicacion_id: {
     type: Schema.Types.ObjectId,
     ref: 'Publicacion',
@@ -31,7 +31,7 @@ const Candidato = new Schema({
     type: Number,
     required: false
   },
-  calificacion_candidato: {
+  calificacion_peticion: {
     type: Number,
     required: false
   },
@@ -44,6 +44,6 @@ const Candidato = new Schema({
     type: Date,
     ref: 'Actualizo'
   }
-}, { collection: 'candidato' })
+}, { collection: 'peticion' })
 
-module.exports = mongoose.model('Candidato', Candidato)
+module.exports = mongoose.model('Peticion', Peticion)

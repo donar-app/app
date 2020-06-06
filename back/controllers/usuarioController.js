@@ -2,12 +2,25 @@
 
 const Usuario = require('../models/usuarioModel')
 const { responseJSON } = require('../utils/responseJSON')
+const { generaStringRandom } = require('../utils/myUtils')
 const bcrypt = require('bcryptjs')
 const SALT = bcrypt.genSaltSync(10)
 
-const crearUsuario = async (usuarioObject) => {
-  const newUsuario = new Usuario(usuarioObject)
-  return await newUsuario.save()
+const crearUsuario = async (objUsuario) => {
+  if (!objUsuario.alias) {
+    return responseJSON(true, 'falta_alias', 'Falta el parametro alias', [])
+  }
+
+  const clave = process.env.NODE_ENV === 'PROD' ? generaStringRandom(8) : objUsuario.alias
+  objUsuario.clave = await bcrypt.hashSync(clave, SALT)
+  objUsuario.es_activo = true
+  objUsuario.creado_en = new Date(
+    new Date().toLocaleString('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires'
+    }))
+
+  const usuario = new Usuario(objUsuario)
+  return await usuario.save()
 }
 
 const obtenerUsuario = async (id) => {
@@ -18,8 +31,21 @@ const obtenerUsuario = async (id) => {
   return responseJSON(true, 'usuario_encontrado', 'Usuario encontrado!', usuario)
 }
 
-const obtenerUsuarioPorAlias = async (alias) => {
-  return await Usuario.findOne({ alias: alias, es_activo: true })
+const loginMedianteAlias = async (alias, clave) => {
+  const usuario = await Usuario.findOne({ alias: alias, es_activo: true })
+
+  if (!usuario || !usuario.clave) {
+    return responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', [])
+  }
+  const validaClave = await bcrypt.compareSync(clave, usuario.clave)
+
+  if (!validaClave) {
+    return responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', [])
+  }
+
+  usuario.clave = undefined
+
+  return responseJSON(true, 'usuario_logeado', 'Usuario logeado con exito!', usuario)
 }
 
 const actualizarUsuario = async (usuarioID, objUsuario) => {
@@ -77,7 +103,7 @@ const loginGoogle = async (objUsuario) => {
 module.exports = {
   crearUsuario,
   obtenerUsuario,
-  obtenerUsuarioPorAlias,
+  loginMedianteAlias,
   actualizarUsuario,
   eliminarUsuario,
   loginGoogle
