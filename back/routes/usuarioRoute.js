@@ -10,9 +10,7 @@ const { actualizarUsuario, eliminarUsuario, obtenerUsuario } = require('../contr
  */
 router.put('/', asyncHandler(async (req, res) => {
   const { obj_usuario: objUsuario, jwt_usuario_id: usuarioID } = req.body
-
   const resultadoActualizacion = await actualizarUsuario(usuarioID, objUsuario)
-
   return res.json(resultadoActualizacion)
 }))
 

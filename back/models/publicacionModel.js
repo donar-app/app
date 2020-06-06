@@ -30,6 +30,11 @@ const publicacionSchema = new Schema({
     ref: 'Categoria',
     required: [true, 'El Categoria es necesario']
   },
+  estado: {
+    type: Number,
+    min: 1,
+    max: 5
+  },
   imagenes: [
     {
       posicion: String,
@@ -37,7 +42,6 @@ const publicacionSchema = new Schema({
       creado_en: Date
     }
   ],
-  estado: Number,
   creado_en: {
     type: Date,
     ref: 'Creado',
