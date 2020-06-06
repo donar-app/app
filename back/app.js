@@ -31,8 +31,9 @@ mongoose.connect(process.env.URLDB, {
 })
 
 app.use(logger('dev'))
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json({}))
+app.use(express.urlencoded({ limit: '10mb', extended: false }))
+app.use(express.json({limit: '10mb'}))
+
 app.use(helmet())
 app.use(cors({ origin: true, credentials: true }))
 app.use(cookieParser())
