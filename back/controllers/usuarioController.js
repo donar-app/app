@@ -25,10 +25,10 @@ const crearUsuario = async (objUsuario) => {
     resultUsuario.clave = undefined
     return responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', resultUsuario)
   } catch (error) {
-    if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
-      return responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue)
-    }
-    return responseJSON(false, 'error_interno', 'Error Interno.', [])
+    // if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
+    //   return responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue)
+    // }
+    return responseJSON(false, 'error_interno', {m:'Error Interno.', error}, [])
   }
 }
 
