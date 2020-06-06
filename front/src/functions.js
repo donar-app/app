@@ -20,7 +20,7 @@ export const petition = (path, method, authorization = '', objectBody = {}) => {
       // credentials: 'include',
     };
   }
-  return fetch(`https://donar-back.herokuapp.com/${path}`, headers)
+  return fetch(`https://api.donar-app.com/${path}`, headers)
     .then((response) => {
       authorizationChange = `Bearer ${response.headers.get('Authorization')}`;
       return response.json();
