@@ -30,7 +30,7 @@ const Registro = () => {
       alias: document.querySelector('#userRegister').value,
       nombre: document.querySelector('#nameRegister').value,
       apellido: document.querySelector('#lastNameRegister').value,
-      email: document.querySelector('#emailRegister').value,
+      correo: document.querySelector('#correoRegister').value,
       pais: document.querySelector('#countryRegister').value,
       ciudad: document.querySelector('#cityRegister').value,
     })
@@ -79,7 +79,7 @@ const Registro = () => {
                   <LabelInput name='lastNameRegister' placeholder='Apellido'>Apellido</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput name='emailRegister' type='email' placeholder='example@example.com'>Email</LabelInput>
+                  <LabelInput name='correoRegister' type='email' placeholder='example@example.com'>Email</LabelInput>
                 </div>
                 <div className='form-group'>
                   <LabelInput name='userRegister' placeholder='Alias'>Alias</LabelInput>
