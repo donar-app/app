@@ -10,7 +10,7 @@ require('../middlewares/oauth')
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.json({ mensaje: 'bienvenidos', estado: 'ok' })
+  return res.json(responseJSON(true, 'bienvenido', 'Bienvenido a la api de donar-app.', []))
 })
 
 /**
@@ -40,16 +40,12 @@ router.post('/ingreso', verificaCredenciales, asyncHandler(async (req, res) => {
 router.post('/registro', asyncHandler(async (req, res) => {
   const { obj_usuario: objUsuario } = req.body
 
-  /*
   if (!objUsuario) {
     return res.json(responseJSON(true, 'registro_error', 'Falta el objeto usuario', ['obj_usuario']))
   }
 
   const resultado = await crearUsuario(objUsuario)
   return res.json(resultado)
-  */
-
-  return res.json(responseJSON(true, '"PROBANDO"', 'PROBANDO', objUsuario))
 }))
 
 /*
