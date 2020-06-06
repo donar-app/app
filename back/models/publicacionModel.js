@@ -5,7 +5,7 @@ const publicacionSchema = new Schema({
 
   anunciante_id: { type: Schema.Types.ObjectId, ref: 'Usuario' },
   tipo: {
-    type: Boolean,
+    type: String,
     ref: 'Tipo',
     required: [true, 'El Tipo es necesario']
   },
@@ -31,17 +31,12 @@ const publicacionSchema = new Schema({
     required: [true, 'El Categoria es necesario']
   },
   estado: {
-    type: Number,
-    min: 1,
-    max: 5
+    type: String,
+    default: 'Publicado'
   },
-  imagenes: [
-    {
-      posicion: String,
-      ruta: String,
-      creado_en: Date
-    }
-  ],
+  imagen: {
+    type: String
+  },
   creado_en: {
     type: Date,
     ref: 'Creado',

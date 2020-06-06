@@ -49,10 +49,10 @@ const createPublication = async (publicacion) => {
     categoria,
     descripcion,
     tipo,
-    creada_en: new Date(),
+    creado_en: new Date(),
     actualizada_en: new Date(),
-    imagenRoute: nameFile,
-    estado: 0
+    imagen: nameFile,
+    estado: 'Publicado'
   })
 
   const publicacionSaved = await nuevaPublicacion.save()
@@ -60,21 +60,23 @@ const createPublication = async (publicacion) => {
 }
 
 const updatePublication = async (id, publicacion) => {
-  const { titulo, categoria, descripcion, tipo, imagenRoute } = publicacion
-  const imagen = Buffer.from(imagenRoute, 'base64')
+  const { titulo, categoria, descripcion, tipo, imagen } = publicacion
 
-  if (!isImage(imagen)) throw new ResourceNotImage()
+  if(imagen) {
+    const imagenBuff = Buffer.from(imagen, 'base64')
+    if (!isImage(imagenBuff)) throw new ResourceNotImage()
+  }
 
   const publi = await Publicacion.findById(id)
 
-  fs.writeFileSync(path.resolve(__dirname, `../uploads/${publi.imagenRoute}`), imagenRoute, 'base64')
+  fs.writeFileSync(path.resolve(__dirname, `../uploads/${publi.imagen}`), imagen, 'base64')
 
   const publicacionUpdated = await Publicacion.findOneAndUpdate(id, {
     titulo,
     categoria,
     descripcion,
     tipo,
-    imagenRoute: publi.imagenRoute,
+    imagen: publi.imagen,
     actualizada_en: new Date()
   }, { new: true })
 
