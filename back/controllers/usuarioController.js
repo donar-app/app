@@ -28,7 +28,7 @@ const crearUsuario = async (objUsuario) => {
     // if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
     //   return responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue)
     // }
-    return responseJSON(false, 'error_interno', 'Error Interno.', [])
+    return responseJSON(false, 'error_interno', {m:'Error Interno.', error}, [])
   }
 }
 
