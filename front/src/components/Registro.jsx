@@ -27,12 +27,15 @@ const Registro = () => {
       allowOutsideClick: false,
     });
     petition('registro', 'POST', null, {
-      alias: document.querySelector('#userRegister').value,
-      nombre: document.querySelector('#nameRegister').value,
-      apellido: document.querySelector('#lastNameRegister').value,
-      email: document.querySelector('#emailRegister').value,
-      pais: document.querySelector('#countryRegister').value,
-      ciudad: document.querySelector('#cityRegister').value,
+      obj_usuario: {
+        alias: document.querySelector('#userRegister').value,
+        nombre: document.querySelector('#nameRegister').value,
+        apellido: document.querySelector('#lastNameRegister').value,
+        correo: document.querySelector('#correoRegister').value,
+        pais: document.querySelector('#countryRegister').value,
+        ciudad: document.querySelector('#cityRegister').value,
+        clave: document.querySelector('#passwordRegister').value,
+      },
     })
       .then((response) => {
         if (response.tipo === 'error') {
@@ -73,22 +76,25 @@ const Registro = () => {
               </div>
               <div className='pt-2'>
                 <div className='form-group'>
-                  <LabelInput name='nameRegister' placeholder='Nombre'>Nombre</LabelInput>
+                  <LabelInput name='nameRegister' placeholder='Nombre' required>Nombre</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput name='lastNameRegister' placeholder='Apellido'>Apellido</LabelInput>
+                  <LabelInput name='lastNameRegister' placeholder='Apellido' required>Apellido</LabelInput>
                 </div>
                 <div className='form-group'>
                   <LabelInput name='emailRegister' type='email' placeholder='example@example.com'>Email</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput name='userRegister' placeholder='Alias'>Alias</LabelInput>
+                  <LabelInput name='userRegister' placeholder='Alias' required>Alias</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput name='countryRegister' placeholder='País'>País</LabelInput>
+                  <LabelInput name='countryRegister' placeholder='País' required>País</LabelInput>
                 </div>
                 <div className='form-group pb-1'>
-                  <LabelInput name='cityRegister' placeholder='Ciudad'>Ciudad</LabelInput>
+                  <LabelInput name='cityRegister' placeholder='Ciudad' required>Ciudad</LabelInput>
+                </div>
+                <div className='form-group pb-1'>
+                  <LabelInput name='passwordRegister' placeholder='Clave' type='password' required>Clave</LabelInput>
                 </div>
                 <div className='row'>
                   <div className='col-lg-6 py-4'>
