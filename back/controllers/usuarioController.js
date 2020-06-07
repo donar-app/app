@@ -67,7 +67,7 @@ const loginConAlias = asyncHandler(async (req, res, next) => {
   }
 
   usuario.clave = undefined
-  const token = await crearToken({ id: usuario.id, alias: usuario.alias })
+  const token = await crearToken({ id: usuario.id, alias: usuario.alias, ciudad: usuario.ciudad, pais: usuario.pais })
   await setTokenEnCabecera(res, token)
 
   return res.json(responseJSON(true, 'usuario_logeado', 'Usuario logeado con exito!', usuario))
