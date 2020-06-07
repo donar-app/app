@@ -27,15 +27,15 @@ const getPublication = async (id) => {
 
 const createPublication = async (publicacion) => {
   const { jwt_usuario_id: id, titulo, categoria, descripcion, tipo, imagen } = publicacion
-  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '');
+  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '')
   const nameFile = `${id}-${new Date().getTime()}`
-  let buff = new Buffer(imagen64, 'base64');
-  
+  const buff = new Buffer(imagen64, 'base64')
+
   // await fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), imagen)
 
-  if ( !isImage( buff ) ) throw new ResourceNotImage();
+  if (!isImage(buff)) throw new ResourceNotImage()
 
-  fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}.png`), buff, 'base64')
+  fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), buff, 'base64')
 
   const nuevaPublicacion = new Publicacion({
     id,
@@ -55,12 +55,12 @@ const createPublication = async (publicacion) => {
 
 const updatePublication = async (id, publicacion) => {
   const { titulo, categoria, descripcion, tipo, imagen } = publicacion
-  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '');
-  let buff = new Buffer(imagen64, 'base64');
+  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '')
+  const buff = new Buffer(imagen64, 'base64')
 
   const publi = await Publicacion.findById(id)
 
-  if ( !isImage( buff ) ) throw new ResourceNotImage();
+  if (!isImage(buff)) throw new ResourceNotImage()
 
   fs.writeFileSync(path.resolve(__dirname, `../uploads/${publi.imagen}`), imagen64, 'base64')
 

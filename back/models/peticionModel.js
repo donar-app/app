@@ -27,6 +27,14 @@ const Peticion = new Schema({
     required: false,
     default: false
   },
+  horario: {
+    type: String,
+    required: false
+  },
+  dia: {
+    type: String,
+    required: false
+  },
   calificacion_anunciante: {
     type: Number,
     required: false
