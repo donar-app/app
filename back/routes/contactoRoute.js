@@ -1,35 +1,23 @@
-var express = require('express');
-var router = express.Router();
-const asyncHandler = require('../middlewares/async-handler');
-const {responseJSON} = require('../utils/responseJSON');
-const { crearContacto } = require('../controllers/contactoController');
+var express = require('express')
+var router = express.Router()
+const asyncHandler = require('../middlewares/async-handler')
+const { responseJSON } = require('../utils/responseJSON')
+const { crearContacto } = require('../controllers/contactoController')
 
 /**
  * Contacto con la plataforma
+ * @param {string} nombre nombre de la personas que nos contacta
  * @param {string} correo correo electronico del usuario
- * @param {string} clave clave del usuario
- * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
- * @returns {String} Se retorna el token
+ * @param {string} titulo titulo del contacto. Max 50 caracteres
+ * @param {string} mensaje Mensaje del contacto. Max 500 caracteres
+ * @returns {JSON} Retorna todo el documento "contacto".
  */
-router.post('/', asyncHandler(async(req, res, next) =>{
-  const {nombre,email,titulo,mensaje} = req.body;
+router.post('/', asyncHandler(async (req, res, next) => {
+  const { obj_contacto: objContacto } = req.body
 
-  if (!nombre || !email || !titulo || !mensaje) {
-    return res.json(responseJSON(false,"contacto_error","Faltan parametros",["nombre","email","titulo","mensaje"]))  
-  }
+  const resultado = await crearContacto(objContacto)
 
-  const bufferContacto = {
-    nombre,email,titulo,mensaje,
-    creado_en: new Date(
-      new Date().toLocaleString('es-AR', {
-        timeZone: 'America/Argentina/Buenos_Aires'
-      })
-    )
-  }
+  return res.json(resultado)
+}))
 
-  const contacto = await crearContacto(bufferContacto)
-
-  return res.json(responseJSON(true,"contacto_registrado","Gracias por Contactarnos",contacto))
-}));
-
-module.exports = router;
+module.exports = router

@@ -9,16 +9,20 @@ import imagen1 from '../assets/static/remeraGris.jpg';
 
 const SliderProduct = ({ smallText, children, productos }) => {
   const settings = useRef({
-    slidesToShow: 9,
+    slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 1,
           slidesToScroll: 1,
           swipeToSlide: true,
+          autoplay: true,
+          autoplaySpeed: 2000,
         },
       },
     ],
@@ -31,44 +35,16 @@ const SliderProduct = ({ smallText, children, productos }) => {
       </div>
       <div className='tw-overflow-x-hidden'>
         <Slider {...settings.current}>
-          {/* { productos && productos.map((producto) => {
-            const { _id, imagenRoute, titulo } = producto;
+          { productos && productos.map((producto) => {
+            const { _id, imagen, titulo } = producto;
             return (
               <div key={_id}>
-                <Link to={`/producto/${_id}`}>
-                  <Producto image={imagenRoute} name={titulo} />
+                <Link to={`/publicacion/${_id}`}>
+                  <Producto image={imagen} name={titulo} />
                 </Link>
               </div>
             );
-          })} */}
-
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
-          <div>
-            <Producto image={imagen1} name='titulo' />
-          </div>
+          })}
         </Slider>
       </div>
       {/*<div className='tw-text-right pr-2 pt-2'>

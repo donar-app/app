@@ -54,7 +54,7 @@ const Registro = () => {
             allowOutsideClick: false,
           })
             .then(() => {
-              history.push('/');
+              history.push('/iniciarSesion');
             });
         }
       });
@@ -82,7 +82,7 @@ const Registro = () => {
                   <LabelInput name='lastNameRegister' placeholder='Apellido' required>Apellido</LabelInput>
                 </div>
                 <div className='form-group'>
-                  <LabelInput name='emailRegister' type='email' placeholder='example@example.com'>Email</LabelInput>
+                  <LabelInput name='correoRegister' type='email' placeholder='example@example.com'>Email</LabelInput>
                 </div>
                 <div className='form-group'>
                   <LabelInput name='userRegister' placeholder='Alias' required>Alias</LabelInput>

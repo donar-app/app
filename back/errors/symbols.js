@@ -1,5 +1,5 @@
 'use strict'
 
 module.exports = {
-    code: Symbol('code')
+  code: Symbol('code')
 }

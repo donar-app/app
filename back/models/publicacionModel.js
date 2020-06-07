@@ -1,18 +1,71 @@
 const mongoose = require('mongoose')
-let Schema = mongoose.Schema
+const Schema = mongoose.Schema
+const PreguntaPublicacion = require('./preguntaPublicacionModel')
 
-let publicacionSchema = new Schema({
+const publicacionSchema = new Schema({
 
-    anunciante_id: {type: Schema.Types.ObjectId, ref: 'Usuario'},
-    tipo: String,
-    titulo: String,
-    descripcion: String,
-    categoria: String,
-    creada_en: Date,
-    actualizada_en: Date,
-    imagenRoute: String,
-    estado: Number
-},{strict: true})
+  anunciante: { type: Schema.Types.ObjectId, ref: 'Usuario' },
+  tipo: {
+    type: String,
+    ref: 'Tipo',
+    required: [true, 'El Tipo es necesario']
+  },
+  titulo: {
+    type: String,
+    minlength: 3,
+    maxlength: 50,
+    ref: 'Titulo',
+    required: [true, 'El Titulo es necesario']
+  },
+  descripcion: {
+    type: String,
+    minlength: 10,
+    maxlength: 500,
+    ref: 'Descripcion',
+    required: [true, 'El Descripcion es necesario']
+  },
+  categoria: {
+    type: String,
+    minlength: 3,
+    maxlength: 50,
+    ref: 'Categoria',
+    required: [true, 'El Categoria es necesario']
+  },
+  estado: {
+    type: String,
+    default: 'Publicado'
+  },
+  imagen: {
+    type: String
+  },
+  creado_en: {
+    type: Date,
+    ref: 'Creado',
+    required: [true, 'El Creado es necesario']
+  },
+  actualizado_en: {
+    type: Date,
+    ref: 'Actualizo'
+  }
+}, {
+  collection: 'publicacion',
+  toJSON: {
+    virtuals: true,
+  }
+})
 
+publicacionSchema.virtual('preguntas', {
+  ref: 'PreguntaPublicacion',
+  localField: '_id',
+  foreignField: 'publicacion',
+  justOne: false
+});
+
+publicacionSchema.virtual('peticiones', {
+  ref: 'Peticion',
+  localField: '_id',
+  foreignField: 'publicacion',
+  justOne: false
+});
 
 module.exports = mongoose.model('Publicacion', publicacionSchema)
