@@ -11,10 +11,10 @@ const { ResourceNotFound, ResourceNotImage } = require('../errors')
 const getAllPublications = async () => {
   const resp = await Publicacion.find({ estado: 'Publicado' })
 
-  for await (const publi of resp) {
-    publi.imagenRoute = await fs.readFileSync(path.resolve(__dirname, `../uploads/${publi.imagenRoute}.png`), 'base64')
-    // publi.imagenRoute = await createImage(publi.imagenRoute);
-  }
+  // for await (const publi of resp) {
+  //   publi.imagen = await fs.readFileSync(path.resolve(__dirname, `../uploads/${publi.imagen}.png`), 'base64')
+  //   // publi.imagenRoute = await createImage(publi.imagenRoute);
+  // }
 
   return resp
 }
