@@ -32,11 +32,48 @@ const NavBar = ({ authorization }) => {
         <button type='button' className='d-block d-sm-block d-md-none button-desplegable' aria-label='Menu' onClick={handleMenuOpen}><i className='fas fa-bars fa-sm' /></button>
         <div className='d-none d-sm-none d-md-block'>
           <div className='links tw-flex tw-flex-row-reverse tw-space-x-4 tw-space-x-reverse'>
-            <Link to='/iniciarSesion'>Ingresa</Link>
-            <Link to='/registrarse'>Registro</Link>
-            <Link to='/publicar'>Publicar</Link>
-            {/*<Link to='/donaciones'>Donaciones</Link>*/}
-            <Link to='/sobreNosotros'>Sobre Nosotros</Link>
+
+          {
+              authorization && (
+                <Link to='/salir'>
+                  <i className='text-secondary fas fa-times-circle' />
+                  <span className='pl-3'>Salir</span>
+                </Link>
+              )
+          }
+            <Link to='/sobreNosotros'>
+              <i className='text-secondary fas fa-users' />
+              <span className='pl-3'>Sobre Nosotros</span>
+            </Link>
+            <Link to='/perfil'>
+              <i className='text-secondary fas fa-user-edit' />
+              <span className='pl-3'>Editar Perfil</span>
+            </Link>
+            <Link to='/mis-publicaciones'>
+              <i className='text-secondary fas fa-bullhorn' />
+              <span className='pl-3'>Mis Publicaciones</span>
+            </Link>
+            <Link to='/publicar'>
+              <i className='text-secondary fas fa-upload' />
+              <span className='pl-3'>Publicar</span>
+            </Link>
+            {
+              !authorization && (
+              <>
+                <Link to='/registrarse'>
+                  <i className='text-secondary fas fa-users' />
+                  <span className='pl-3'>Registro</span>
+                </Link>
+                <Link to='/iniciarSesion'>
+                  <i className='text-secondary fas fa-users' />
+                  <span className='pl-3'>Ingreso</span>
+                </Link>
+              </>)
+            }
+            <Link to='/sobreNosotros'>
+              <i className='text-secondary fas fa-home' />
+              <span className='pl-3'>Inicio</span>
+            </Link>
           </div>
         </div>
         <Link className='navbar-brand d-flex align-items-center' to='/'>
@@ -65,10 +102,10 @@ const NavBar = ({ authorization }) => {
                 !authorization && (
                   <div className='row'>
                     <div className='col-6'>
-                      <Link onClick={closeMenu} to='/iniciarSesion' className='btn bg-button btn-block'>Ingresá</Link>
+                      <Link onClick={closeMenu} to='/iniciarSesion' className='btn bg-button btn-block'>Ingresar</Link>
                     </div>
                     <div className='col-6'>
-                      <Link onClick={closeMenu} to='/registrarse' className='btn bg-button btn-block'>Registrate</Link>
+                      <Link onClick={closeMenu} to='/registrarse' className='btn bg-button btn-block'>Registrarse</Link>
                     </div>
                   </div>
                 )
@@ -76,24 +113,40 @@ const NavBar = ({ authorization }) => {
             </div>
             <hr />
             <div className='row'>
+              <div className='col-12 py-12'>
+                <Link onClick={closeMenu} to='/'>
+                  <i className='text-secondary fas fa-home' />
+                  <span className='pl-3'>Inicio</span>
+                  {' '}
+                </Link>
+              </div>
               <div className='col-12 py-4'>
                 <Link onClick={closeMenu} to='/publicar'>
-                  <i className='text-secondary fas fa-file-import' />
+                  <i className='text-secondary fas fa-upload' />
                   <span className='pl-3'>Publicar</span>
                   {' '}
                 </Link>
               </div>
-              {/*<div className='col-12 mb-4'>
-                <Link onClick={closeMenu} to='/donaciones'>
-                  <i className='text-secondary fas fa-shopping-basket' />
+              <div className='col-12 mb-4'>
+                <Link onClick={closeMenu} to='/mis-publicaciones'>
+                  <i className='text-secondary fas fa-bullhorn' />
+                  <span className='pl-3'>Mis Publicaciones</span>
+                </Link>
+            </div>
+              <div className='col-12 mb-4'>
+                <Link onClick={closeMenu} to='/perfil'>
+                  <i className='text-secondary fas fa-user-edit' />
                   <span className='pl-3'>Editar Perfil</span>
                 </Link>
-            </div>*/}
+            </div>
               <div className='col-12'>
-                <Link onClick={closeMenu} to='/'>
-                  <i className='text-secondary fas fa-users' />
+                {
+                  authorization && (
+                <Link onClick={closeMenu} to='/salir'>
+                  <i className='text-secondary fas fa-times-circle' />
                   <span className='pl-3'>Salir</span>
-                </Link>
+                </Link>)
+                }
               </div>
             </div>
           </div>
