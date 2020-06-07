@@ -39,7 +39,7 @@ const SliderProduct = ({ smallText, children, productos }) => {
             const { _id, imagen, titulo } = producto;
             return (
               <div key={_id}>
-                <Link to={`/producto/${_id}`}>
+                <Link to={`/publicacion/${_id}`}>
                   <Producto image={imagen} name={titulo} />
                 </Link>
               </div>
