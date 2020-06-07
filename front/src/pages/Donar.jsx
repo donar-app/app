@@ -33,7 +33,7 @@ const Donar = ({ authorization, setAuthorization }) => {
       categoria: document.querySelector('#categoryRegister').value,
       imagenRoute: result,
       descripcion: document.querySelector('#descriptionRegister').value,
-      tipo: 'donar',
+      tipo: 'Donación',
     })
       .then((response) => {
         if (response.tipo === 'error') {
