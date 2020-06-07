@@ -11,20 +11,21 @@ const { responseJSON } = require('../utils/responseJSON')
 
 /**
  * Se creara un documento "Pregunta" dentro de la publicacion espeficida.
- * @param {Number} publicacion_id Es el id de la publicacion
+ * @param {Number} publicacion Es el id de la publicacion
  * @param {String} pregunta Es la pregunta de la publicacion
  */
 router.post('/', verificaToken, asyncHandler(async (req, res, next) => {
-  const { jwt_usuario_id: usuarioID, publicacion_id: publicacionID, interrogante } = req.body
+  const { jwt_usuario_id: usuarioID, publicacion: publicacionID, pregunta: preguntaValue } = req.body
 
   const publicacion = await getPublication(publicacionID)
-  if (String(publicacion.anunciante_id) !== String(usuarioID)) {
+  
+  if (String(publicacion.anunciante) === String(usuarioID)) {
     throw new NotHavePermissions()
   }
   const pregunta = await createPreguntaPublication({
-    interrogante: interrogante,
-    publicacion_id: publicacionID,
-    usuario_id: usuarioID
+    pregunta: preguntaValue,
+    publicacion: publicacionID,
+    usuario: usuarioID
   })
   return responseJSON(true, 'pregunta_creado', 'Gracias por su pregunta.', pregunta)
 }))
@@ -40,7 +41,7 @@ router.put('/:id', verificaToken, asyncHandler(async (req, res, next) => {
   const pregunta = await getPreguntaPublication(id)
   const publicacion = await getPublication(pregunta.publicacion_id)
 
-  if (String(publicacion.anunciante_id) === String(usuarioID)) {
+  if (String(publicacion.anunciante) === String(usuarioID)) {
     res.json(await updatePreguntaPublication(id, {
       respuesta: req.body.respuesta
     }))
