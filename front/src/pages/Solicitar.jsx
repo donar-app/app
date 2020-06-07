@@ -31,7 +31,7 @@ const Solicitar = ({ authorization, setAuthorization }) => {
       categoria: document.querySelector('#categoryRegister').value,
       imagenRoute: result,
       descripcion: document.querySelector('#descriptionRegister').value,
-      tipo: 'solicitar',
+      tipo: 'Solicitud',
     })
       .then((response) => {
         if (response.tipo === 'error') {
