@@ -54,7 +54,7 @@ const Registro = () => {
             allowOutsideClick: false,
           })
             .then(() => {
-              history.push('/');
+              history.push('/iniciarSesion');
             });
         }
       });
