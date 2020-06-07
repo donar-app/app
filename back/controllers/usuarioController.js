@@ -1,14 +1,25 @@
 'use strict'
 
 const Usuario = require('../models/usuarioModel')
-const { responseJSON } = require('../utils/responseJSON')
 const { generaStringRandom } = require('../utils/myUtils')
+const UsuarioRepository = require('../repository/usuarioRepository')
+const { responseJSON } = require('../utils/responseJSON')
+const asyncHandler = require('../middlewares/async-handler')
+const { crearToken, setTokenEnCabecera } = require('../middlewares/seguridad')
 const bcrypt = require('bcryptjs')
 const SALT = bcrypt.genSaltSync(10)
+const passport = require('passport')
+require('../middlewares/oauth')
 
-const crearUsuario = async (objUsuario) => {
+const crearUsuario = asyncHandler(async (req, res, next) => {
+  const { obj_usuario: objUsuario } = req.body
+
+  if (!objUsuario) {
+    return res.json(responseJSON(true, 'registro_error', 'Falta el objeto usuario', ['obj_usuario']))
+  }
+
   if (!Object.prototype.hasOwnProperty.call(objUsuario, 'alias')) {
-    return responseJSON(false, 'falta_alias', 'Falta el parametro alias', [])
+    return res.json(responseJSON(false, 'falta_alias', 'Falta el parametro alias', []))
   }
 
   const clave = process.env.NODE_ENV === 'PROD' ? generaStringRandom(8) : objUsuario.alias
@@ -23,14 +34,17 @@ const crearUsuario = async (objUsuario) => {
     const usuario = new Usuario(objUsuario)
     const resultUsuario = await usuario.save()
     resultUsuario.clave = undefined
-    return responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', resultUsuario)
+    return res.json(responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', resultUsuario))
   } catch (error) {
     if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
-      return responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue)
+      return res.json(responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue))
     }
-    return responseJSON(false, 'error_interno', 'Error Interno.', [])
+    if (Object.prototype.hasOwnProperty.call(error.keyValue, 'correo')) {
+      // Aca le enviaremos un mail al usuario.
+    }
+    return res.json(responseJSON(false, 'error_interno', 'No pudimos registrarlo.', []))
   }
-}
+})
 
 const obtenerUsuario = async (id) => {
   const usuario = await Usuario.findById(id)
@@ -40,22 +54,26 @@ const obtenerUsuario = async (id) => {
   return responseJSON(true, 'usuario_encontrado', 'Usuario encontrado!', usuario)
 }
 
-const loginMedianteAlias = async (alias, clave) => {
-  const usuario = await Usuario.findOne({ alias: alias, es_activo: true })
+const loginConAlias = asyncHandler(async (req, res, next) => {
+  const { credencial_alias: alias, credencial_clave: clave } = req.body
+
+  const usuario = await UsuarioRepository.obtenerPorAlias(alias)
 
   if (!usuario || !usuario.clave) {
-    return responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', [])
+    return res.json(responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', []))
   }
   const validaClave = await bcrypt.compareSync(clave, usuario.clave)
 
   if (!validaClave) {
-    return responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', [])
+    return res.json(responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', []))
   }
 
   usuario.clave = undefined
+  const token = await crearToken({ id: usuario.id, alias: usuario.alias })
+  await setTokenEnCabecera(res, token)
 
-  return responseJSON(true, 'usuario_logeado', 'Usuario logeado con exito!', usuario)
-}
+  return res.json(responseJSON(true, 'usuario_logeado', 'Usuario logeado con exito!', usuario))
+})
 
 const actualizarUsuario = async (usuarioID, objUsuario) => {
   if (!objUsuario) {
@@ -112,7 +130,7 @@ const loginGoogle = async (objUsuario) => {
 module.exports = {
   crearUsuario,
   obtenerUsuario,
-  loginMedianteAlias,
+  loginConAlias,
   actualizarUsuario,
   eliminarUsuario,
   loginGoogle
