@@ -33,7 +33,7 @@ const createPublication = async (publicacion) => {
   
   // await fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), imagen)
 
-  // if ( !isImage( buff ) ) throw new ResourceNotImage();
+  if ( !isImage( buff ) ) throw new ResourceNotImage();
 
   fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}.png`), buff, 'base64')
 
@@ -56,8 +56,11 @@ const createPublication = async (publicacion) => {
 const updatePublication = async (id, publicacion) => {
   const { titulo, categoria, descripcion, tipo, imagen } = publicacion
   const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '');
+  let buff = new Buffer(imagen64, 'base64');
 
   const publi = await Publicacion.findById(id)
+
+  if ( !isImage( buff ) ) throw new ResourceNotImage();
 
   fs.writeFileSync(path.resolve(__dirname, `../uploads/${publi.imagen}`), imagen64, 'base64')
 
