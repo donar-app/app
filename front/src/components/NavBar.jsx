@@ -37,40 +37,50 @@ const NavBar = ({ authorization }) => {
               authorization && (
                 <Link to='/salir'>
                   <i className='text-secondary fas fa-times-circle' />
-                  <span className='pl-3'>Salir</span>
+                  <span className='pl-2'>Salir</span>
                 </Link>
               )
+          } 
+          {
+              !authorization && (
+                <>
+                  <Link to='/sobreNosotros'>
+                    <i className='text-secondary fas fa-users' />
+                    <span className='pl-3'>Nosotros</span>
+                  </Link>
+                </>)
           }
-            <Link to='/sobreNosotros'>
-              <i className='text-secondary fas fa-users' />
-              <span className='pl-3'>Sobre Nosotros</span>
-            </Link>
+          {
+              authorization && (
+                <>
             <Link to='/perfil'>
               <i className='text-secondary fas fa-user-edit' />
-              <span className='pl-3'>Editar Perfil</span>
+              <span className='pl-2'>Perfil</span>
             </Link>
-            <Link to='/mis-publicaciones'>
+            <Link to='/dashboard'>
               <i className='text-secondary fas fa-bullhorn' />
-              <span className='pl-3'>Mis Publicaciones</span>
+              <span className='pl-3'>Dashboard</span>
             </Link>
+            </>)
+}
             <Link to='/publicar'>
               <i className='text-secondary fas fa-upload' />
               <span className='pl-3'>Publicar</span>
             </Link>
-            {
+            { 
               !authorization && (
               <>
                 <Link to='/registrarse'>
-                  <i className='text-secondary fas fa-users' />
+                  <i className='text-secondary fas fa-cash-register' />
                   <span className='pl-3'>Registro</span>
                 </Link>
                 <Link to='/iniciarSesion'>
-                  <i className='text-secondary fas fa-users' />
+                  <i className='text-secondary fas fa-sign-in-alt' />
                   <span className='pl-3'>Ingreso</span>
                 </Link>
               </>)
             }
-            <Link to='/sobreNosotros'>
+            <Link to='/'>
               <i className='text-secondary fas fa-home' />
               <span className='pl-3'>Inicio</span>
             </Link>
@@ -136,7 +146,7 @@ const NavBar = ({ authorization }) => {
               <div className='col-12 mb-4'>
                 <Link onClick={closeMenu} to='/perfil'>
                   <i className='text-secondary fas fa-user-edit' />
-                  <span className='pl-3'>Editar Perfil</span>
+                  <span className='pl-3'>Perfil</span>
                 </Link>
             </div>
               <div className='col-12'>
@@ -147,6 +157,12 @@ const NavBar = ({ authorization }) => {
                   <span className='pl-3'>Salir</span>
                 </Link>)
                 }
+              </div>
+              <div className='col-12'>
+                <Link onClick={closeMenu} to='/salir'>
+                  <i className='text-secondary fas fa-users' />
+                  <span className='pl-3'>Nosotros</span>
+                </Link>
               </div>
             </div>
           </div>
