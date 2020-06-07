@@ -1,6 +1,7 @@
 const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
+const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const mongoose = require('mongoose')
@@ -18,6 +19,8 @@ const calificacionRouter = require('./routes/calificacionRoute')
 const contactoRouter = require('./routes/contactoRoute')
 
 const app = express()
+
+app.use("/uploads", express.static(__dirname + '/uploads'));
 
 // Conexión a la DB
 mongoose.connect(process.env.URLDB, {
