@@ -10,10 +10,10 @@
 - Antes de subir a master, se debe hacer un merget con la rama "develop", luego ejecutar los test e2e.
 
 ### Donar FrontEnd
-https://donar-front.herokuapp.com/
+https://donar-app.com/
 
 ## Donar API
-https://donar-back.herokuapp.com/
+https://api.donar-app.com/
 
 ## Donar API Doc
-https://documenter.getpostman.com/view/10883479/SztEZ751?version=latest
+https://documenter.getpostman.com/view/8452376/SztK2Qh1
