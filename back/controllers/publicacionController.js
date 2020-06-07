@@ -32,7 +32,7 @@ const createPublication = async (publicacion) => {
   let buff = new Buffer(imagen, 'base64');
   // await fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), imagen)
 
-  if ( !isImage( buff ) ) throw new ResourceNotImage();
+  // if ( !isImage( buff ) ) throw new ResourceNotImage();
 
   fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}.png`), buff, 'base64')
 
