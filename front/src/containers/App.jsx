@@ -41,7 +41,7 @@ const App = () => {
                 </Route>
               </Switch>
             </Route>
-            <Route path='/producto/:id'>
+            <Route path='/publicacion/:id'>
               <ScrollToTop />
               <ViewProducto authorization={authorization} setAuthorization={setAuthorization} />
             </Route>
