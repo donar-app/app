@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Confetti from 'react-dom-confetti';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -62,7 +62,9 @@ const Solicitar = ({ authorization, setAuthorization }) => {
   };
 
   return (
-    <main className='tw-flex tw-flex-col tw-items-center tw-max-w-xs tw-mx-auto animate__animated animate__fadeIn'>
+    <main className='tw-flex tw-flex-col tw-items-center tw-text-center tw-max-w-xs tw-mx-auto animate__animated animate__fadeIn'>
+      {authorization && authorization.authorization ? (
+         <>
       <h2 className='tw-pb-2 tw-border-b-2 tw-pt-6 tw-text-2xl tw-font-bold text-orange-donar'>Crear Solicitud</h2>
       <form onSubmit={(e) => handleSubmit(e)} className='tw-space-y-4 tw-pt-4'>
         <Input name='solicitarRegister' placeholder='Titulo' />
@@ -79,6 +81,20 @@ const Solicitar = ({ authorization, setAuthorization }) => {
           <button className='bg-orange-donar tw-rounded tw-px-4 tw-py-1 tw-text-white tw-font-bold tw-text-lg tw-transform hover:tw-scale-110 tw-duration-200' type='submit'>¡Enviar!</button>
         </div>
       </form>
+      </>
+      ) : (
+      <div className='pt-4'>
+      <h2 className='tw-font-bold tw-text-lg tw-px-6'>¡Para poder publicar debe estar logueado!</h2>
+      <div className='tw-space-y-5 tw-pt-6'>
+        <div>
+          <Link to='/iniciarSesion' className='bg-blue-donar hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Iniciar Sesion</Link>
+        </div>
+        <div>
+          <Link to='/registrarse' className='bg-orange-donar hover:bg-orange-700 text-white font-bold py-2 px-4 rounded'>Registrarse</Link>
+        </div>
+      </div>
+    </div>
+)}
     </main>
   );
 };

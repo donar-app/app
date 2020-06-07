@@ -3,20 +3,63 @@
 const fs = require('fs')
 const path = require('path')
 const Publicacion = require('../models/publicacionModel')
+const { getPreguntasPublicationes } = require('../controllers/preguntaPublicacionController')
 const isImage = require('../utils/is-image')
 const createImage = require('../utils/create-image')
+const mongoose = require('mongoose')
 
 const { ResourceNotFound, ResourceNotImage } = require('../errors')
 
 const getAllPublications = async () => {
-  const resp = await Publicacion.find({ estado: 'Publicado' })
+  try {
+    const resp = await Publicacion.find({ estado: 'Publicado' })
+    .populate({
+      path: 'preguntas',
+      populate: { 
+        path: 'usuario',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      }
+    })
+    .populate({
+      path: 'peticiones',
+      populate: { 
+        path: 'usuario',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      }
+    })
+    .populate({
+      path:'anunciante', 
+      select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+    })
 
-  return resp
+    return resp
+  } catch (e) {
+    if (e.code === 'ENOENT') throw new ResourceNotFound()
+    throw e
+  }
 }
 
 const getPublication = async (id) => {
   try {
     const resp = await Publicacion.findById(id)
+    .populate({
+      path: 'preguntas',
+      populate: { 
+        path: 'usuario',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      }
+    })
+    .populate({
+      path: 'peticiones',
+      populate: { 
+        path: 'usuario',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      }
+    })
+    .populate({
+      path:'anunciante', 
+      select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+    })
 
     return resp
   } catch (e) {
@@ -38,7 +81,7 @@ const createPublication = async (publicacion) => {
   fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), buff, 'base64')
 
   const nuevaPublicacion = new Publicacion({
-    id,
+    anunciante_id: id,
     titulo,
     categoria,
     descripcion,

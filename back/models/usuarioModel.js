@@ -92,6 +92,11 @@ const Usuario = new Schema({
     ref: 'Actualizo',
     required: [false, 'El alias es necesario']
   }
-}, { collection: 'usuario' })
+}, { 
+  collection: 'usuario',
+  toJSON: {
+    virtuals: true,
+  }
+})
 
 module.exports = mongoose.model('Usuario', Usuario)

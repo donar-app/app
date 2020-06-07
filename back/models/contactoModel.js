@@ -37,6 +37,11 @@ const Contacto = new Schema({
     ref: 'Creado',
     required: [true, 'El Creado es necesario']
   }
-}, { collection: 'contacto' })
+}, {
+  collection: 'contacto',
+  toJSON: {
+    virtuals: true,
+  }
+})
 
 module.exports = mongoose.model('Contacto', Contacto)
