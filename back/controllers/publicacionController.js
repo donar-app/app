@@ -26,15 +26,15 @@ const getPublication = async (id) => {
 }
 
 const createPublication = async (publicacion) => {
-  const { jwt_usuario_id: id, titulo, categoria, descripcion, tipo, imagenRoute } = publicacion
-  // let imagen =  Buffer.from(imagenRoute, 'base64');
+  const { jwt_usuario_id: id, titulo, categoria, descripcion, tipo, imagen } = publicacion
+  let imagenBuff =  Buffer.from(imagen, 'base64');
   const nameFile = `${id}-${new Date().getTime()}`
-  // let buff = new Buffer(imagenRoute, 'base64');
-  await fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), imagenRoute)
+  let buff = new Buffer(imagen, 'base64');
+  // await fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), imagen)
 
-  // if ( !isImage( imagen ) ) throw new ResourceNotImage();
+  if ( !isImage( buff ) ) throw new ResourceNotImage();
 
-  // fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}`), imagenRoute, 'base64')
+  fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}.png`), buff, 'base64')
 
   const nuevaPublicacion = new Publicacion({
     id,
