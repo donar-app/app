@@ -31,7 +31,7 @@ const Donar = ({ authorization, setAuthorization }) => {
     petition('publicaciones', 'POST', authorization.authorization, {
       titulo: document.querySelector('#donarRegister').value,
       categoria: document.querySelector('#categoryRegister').value,
-      imagenRoute: result,
+      imagen: result,
       descripcion: document.querySelector('#descriptionRegister').value,
       tipo: 'Donación',
     })

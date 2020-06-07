@@ -5,19 +5,24 @@ import Producto from './Producto';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/slickStyle.css';
+import imagen1 from '../assets/static/remeraGris.jpg';
 
 const SliderProduct = ({ smallText, children, productos }) => {
   const settings = useRef({
-    slidesToShow: 9,
+    slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 1,
           slidesToScroll: 1,
           swipeToSlide: true,
+          autoplay: true,
+          autoplaySpeed: 2000,
         },
       },
     ],
