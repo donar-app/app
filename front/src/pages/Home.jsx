@@ -14,7 +14,7 @@ const Home = ({ authorization }) => {
     history.push(`${path}`);
   };
 
-  /*useEffect(() => {
+  useEffect(() => {
     petition('publicaciones', 'GET')
       .then((response) => {
         if (response.tipo === 'error' || response.message === 'Internal Server Error') {
@@ -26,15 +26,14 @@ const Home = ({ authorization }) => {
           );
         } else {
           response.data.forEach((element, i) => {
-            const { imagenRoute } = element;
-            const image = imagenRoute.split('image/pngbase64')[1];
-            response.data[i].imagenRoute = `data:image/png;base64,${image}`;
+            const { imagen } = element;
+            response.data[i].imagen = `https://api.donar-app.com/uploads/${response.data[i].imagen}`;
           });
-          console.log(response);
+          // console.log(response);
           setproductos(response.data);
         }
       });
-  }, []);*/
+  }, []);
 
   return (
     <main className='animate__animated animate__fadeIn'>
@@ -49,8 +48,8 @@ const Home = ({ authorization }) => {
           </div>
         </div>
       </div>
-      <SliderProduct smallText='Recibé una donación' productos={productos}>Donaciones</SliderProduct>
-      <SliderProduct smallText='Solicita una donación' productos={productos}>Solicitudes de donaciones</SliderProduct>
+      <SliderProduct smallText='Recibé una donación' productos={!Array.isArray(productos) ? null : productos.filter((producto) => { return producto.tipo === "Donación"; })}>Donaciones</SliderProduct>
+      <SliderProduct smallText='Solicita una donación' productos={!Array.isArray(productos) ? null : productos.filter((producto) => { return producto.tipo === "Solicitud"; })}>Solicitudes de donaciones</SliderProduct>
     </main>
   );
 };

@@ -11,11 +11,6 @@ const { ResourceNotFound, ResourceNotImage } = require('../errors')
 const getAllPublications = async () => {
   const resp = await Publicacion.find({ estado: 'Publicado' })
 
-  // for await (const publi of resp) {
-  //   publi.imagen = await fs.readFileSync(path.resolve(__dirname, `../uploads/${publi.imagen}.png`), 'base64')
-  //   // publi.imagenRoute = await createImage(publi.imagenRoute);
-  // }
-
   return resp
 }
 
@@ -23,8 +18,6 @@ const getPublication = async (id) => {
   try {
     const resp = await Publicacion.findById(id)
 
-    // resp.imagenRoute = await createImage(resp.imagenRoute);
-    resp.imagenRoute = await fs.readFileSync(path.resolve(__dirname, `../uploads/${publi.imagenRoute}.png`), 'base64')
     return resp
   } catch (e) {
     if (e.code === 'ENOENT') throw new ResourceNotFound()
@@ -51,7 +44,7 @@ const createPublication = async (publicacion) => {
     tipo,
     creado_en: new Date(),
     actualizada_en: new Date(),
-    imagen: nameFile,
+    imagen: `${nameFile}.png`,
     estado: 'Publicado'
   })
 
@@ -61,11 +54,6 @@ const createPublication = async (publicacion) => {
 
 const updatePublication = async (id, publicacion) => {
   const { titulo, categoria, descripcion, tipo, imagen } = publicacion
-
-  if(imagen) {
-    const imagenBuff = Buffer.from(imagen, 'base64')
-    if (!isImage(imagenBuff)) throw new ResourceNotImage()
-  }
 
   const publi = await Publicacion.findById(id)
 
