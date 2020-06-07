@@ -1,16 +1,12 @@
 const express = require('express')
 
 const router = express.Router()
-const asyncHandler = require('../middlewares/async-handler')
-const { crearToken, setTokenEnCabecera, verificaCredenciales } = require('../middlewares/seguridad')
-const { crearUsuario, loginMedianteAlias } = require('../controllers/usuarioController')
-const { responseJSON } = require('../utils/responseJSON')
-const passport = require('passport')
-require('../middlewares/oauth')
+const { verificaCredenciales } = require('../middlewares/seguridad')
+const { crearUsuario, loginConAlias } = require('../controllers/usuarioController')
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.json({ mensaje: 'bienvenidos', estado: 'ok' })
+  return res.json(true, 'bienvenido', 'Bienvenido a la api de donar-app.', [])
 })
 
 /**
@@ -20,33 +16,13 @@ router.get('/', (req, res) => {
  * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
  * @returns {String} Se retorna el token en la cabecera
  */
-router.post('/ingreso', verificaCredenciales, asyncHandler(async (req, res) => {
-  const { credencial_alias: alias, credencial_clave: clave } = req.body
-
-  const resultado = await loginMedianteAlias(alias, clave)
-
-  if (resultado.tipo !== 'correcto') {
-    return res.json(resultado)
-  }
-  const token = await crearToken({ id: resultado.cuerpo.id, alias: resultado.cuerpo.alias })
-  await setTokenEnCabecera(res, token)
-  return res.json(resultado)
-}))
+router.post('/ingreso', verificaCredenciales, loginConAlias)
 
 /**
  * Registro de Usuario
  * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
  */
-router.post('/registro', asyncHandler(async (req, res) => {
-  const { obj_usuario: objUsuario } = req.body
-  if (!objUsuario) {
-    return res.status(200).json(responseJSON(true, 'registro_error', 'Falta el objeto usuario', ['obj_usuario']))
-  }
-
-  const resultado = await crearUsuario(objUsuario)
-  return res.json(resultado)
-}))
-
+router.post('/registro', crearUsuario)
 /*
 
 router.get('/loginGoogle', passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
@@ -91,8 +67,6 @@ router.get('/google-oauth/callback', verificaCredenciales, asyncHandler(async (r
 
 }));
 
-*/
-
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Google authentication will involve
@@ -111,5 +85,7 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
   function (req, res) {
     res.redirect('/')
   })
+
+  */
 
 module.exports = router

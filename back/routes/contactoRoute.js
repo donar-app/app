@@ -1,7 +1,5 @@
 var express = require('express')
 var router = express.Router()
-const asyncHandler = require('../middlewares/async-handler')
-const { responseJSON } = require('../utils/responseJSON')
 const { crearContacto } = require('../controllers/contactoController')
 
 /**
@@ -12,12 +10,6 @@ const { crearContacto } = require('../controllers/contactoController')
  * @param {string} mensaje Mensaje del contacto. Max 500 caracteres
  * @returns {JSON} Retorna todo el documento "contacto".
  */
-router.post('/', asyncHandler(async (req, res, next) => {
-  const { obj_contacto: objContacto } = req.body
-
-  const resultado = await crearContacto(objContacto)
-
-  return res.json(resultado)
-}))
+router.post('/', crearContacto)
 
 module.exports = router
