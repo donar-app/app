@@ -65,9 +65,55 @@ const modificaPeticion = asyncHandler(async (req, res) => {
   return res.json(responseJSON(true, 'peticion_modificada', 'Peticiones Modificada', [usuario, peticion]))
 })
 
+const calificacionEmisor = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { jwt_usuario_id: usuarioID, obj_peticion: objPeticion } = req.body
+
+  /*
+  // Verificar permisos
+  let peticion = await getPeticion(id)
+  const publicacion = await getPublication(peticion.publicacion_id)
+  const usuario = await obtenerUsuario(publicacion.anunciante_id)
+
+  if (String(usuarioID) === String(publicacion.anunciante_id)) {
+    throw new NotHavePermissions()
+  }
+
+  peticion = await updatePeticion(id, {
+    es_entregada: req.body.es_entregada,
+    calificacion_emisor: req.body.calificacion_emisor
+  })
+  */
+  return responseJSON(true, 'calificacion_emisor', 'La calificacion fue realizada.', [])
+})
+
+const calificacionReceptor = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { jwt_usuario_id: usuarioId } = req.body
+
+  /*
+  // Verificar permisos
+  let peticion = await getPeticion(id)
+  const publicacion = await getPublication(peticion.publicacion_id)
+  const usuario = await obtenerUsuario(publicacion.anunciante_id)
+
+  if (String(usuarioId) !== String(peticion.usuario_id)) {
+    throw new NotHavePermissions()
+  }
+
+  peticion = await updatePeticion(id, {
+    es_recibida: req.body.es_recibida,
+    calificacion_receptor: req.body.calificacion_receptor
+  })
+  */
+  return responseJSON(true, 'califcacion_receptor', 'La calificacion fue realizada.', [])
+})
+
 module.exports = {
   crearPeticion,
   modificaPeticion,
   obtenerUnaPeticion,
-  peticionesPorPublicacion
+  peticionesPorPublicacion,
+  calificacionEmisor,
+  calificacionReceptor
 }

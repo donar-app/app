@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const PreguntaPublicacionSchema = new Schema({
-  publicacion: {
+const PreguntaSchema = new Schema({
+  publicacion_id: {
     type: Schema.Types.ObjectId,
     ref: 'Publicacion',
     required: [true, 'El ID de publicación es necesario']
   },
-  usuario: {
+  usuario_id: {
     type: Schema.Types.ObjectId,
     ref: 'Usuario',
     required: [true, 'El ID de usuario es necesario']
@@ -20,13 +20,21 @@ const PreguntaPublicacionSchema = new Schema({
     type: String,
     required: false
   },
-  creado_en: Date,
-  respondido_en: Date
-}, { 
-  collection: 'preguntaPublicacion',
+  creado_en: {
+    type: Date,
+    ref: 'Creado',
+    required: [true, 'El Creado es necesario']
+  },
+  respondida_en: {
+    type: Date,
+    ref: 'Respondida',
+    required: false
+  }
+}, {
+  collection: 'pregunta',
   toJSON: {
-    virtuals: true,
+    virtuals: true
   }
 })
 
-module.exports = mongoose.model('PreguntaPublicacion', PreguntaPublicacionSchema)
+module.exports = mongoose.model('Pregunta', PreguntaSchema)

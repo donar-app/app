@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const PreguntaPublicacion = require('./preguntaPublicacionModel')
+const Pregunta = require('./preguntaModel')
 
 const publicacionSchema = new Schema({
 
-  anunciante: { type: Schema.Types.ObjectId, ref: 'Usuario' },
+  anunciante_id: { type: Schema.Types.ObjectId, ref: 'Usuario' },
   tipo: {
     type: String,
     ref: 'Tipo',
@@ -50,22 +50,22 @@ const publicacionSchema = new Schema({
 }, {
   collection: 'publicacion',
   toJSON: {
-    virtuals: true,
+    virtuals: true
   }
 })
 
 publicacionSchema.virtual('preguntas', {
-  ref: 'PreguntaPublicacion',
+  ref: 'Pregunta',
   localField: '_id',
   foreignField: 'publicacion',
   justOne: false
-});
+})
 
 publicacionSchema.virtual('peticiones', {
   ref: 'Peticion',
   localField: '_id',
   foreignField: 'publicacion',
   justOne: false
-});
+})
 
 module.exports = mongoose.model('Publicacion', publicacionSchema)
