@@ -14,14 +14,22 @@ const getAllPublications = async () => {
   try {
     const resp = await Publicacion.find({ estado: 'Publicado' })
     .populate({
+      path: 'preguntas',
+      populate: { 
+        path: 'usuario',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      }
+    })
+    .populate({
+      path: 'peticiones',
+      populate: { 
+        path: 'usuario',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      }
+    })
+    .populate({
       path:'anunciante', 
       select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
-    })
-    .map(async publicacion => {
-      const preguntas = await getPreguntasPublicationes(publicacion._id);
-      publicacion.preguntas = preguntas ? preguntas.map( preg => preg._id ) : [];
-
-      return publicacion;
     })
 
     return resp
@@ -34,6 +42,24 @@ const getAllPublications = async () => {
 const getPublication = async (id) => {
   try {
     const resp = await Publicacion.findById(id)
+    .populate({
+      path: 'preguntas',
+      populate: { 
+        path: 'usuario',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      }
+    })
+    .populate({
+      path: 'peticiones',
+      populate: { 
+        path: 'usuario',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      }
+    })
+    .populate({
+      path:'anunciante', 
+      select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+    })
 
     return resp
   } catch (e) {

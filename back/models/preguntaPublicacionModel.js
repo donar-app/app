@@ -21,7 +21,12 @@ const PreguntaPublicacionSchema = new Schema({
     required: false
   },
   creado_en: Date,
-  respondido_en: Date,
-}, { collection: 'preguntaPublicacion' })
+  respondido_en: Date
+}, { 
+  collection: 'preguntaPublicacion',
+  toJSON: {
+    virtuals: true,
+  }
+})
 
 module.exports = mongoose.model('PreguntaPublicacion', PreguntaPublicacionSchema)

@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Peticion = new Schema({
-  publicacion_id: {
+  publicacion: {
     type: Schema.Types.ObjectId,
     ref: 'Publicacion',
     required: [true, 'El ID de publicación es necesario']
   },
-  usuario_id: {
+  usuario: {
     type: Schema.Types.ObjectId,
     ref: 'Usuario',
     required: [true, 'El ID de usuario es necesario']
@@ -44,6 +44,11 @@ const Peticion = new Schema({
     type: Date,
     ref: 'Actualizo'
   }
-}, { collection: 'peticion' })
+}, {
+  collection: 'peticion',
+  toJSON: {
+    virtuals: true,
+  }
+})
 
 module.exports = mongoose.model('Peticion', Peticion)

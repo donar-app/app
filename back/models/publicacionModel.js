@@ -46,10 +46,26 @@ const publicacionSchema = new Schema({
   actualizado_en: {
     type: Date,
     ref: 'Actualizo'
-  },
-  preguntas: [
-    { type: mongoose.Schema.ObjectId, ref: 'PreguntaPublicacion' }
-  ]
-}, { collection: 'publicacion' })
+  }
+}, {
+  collection: 'publicacion',
+  toJSON: {
+    virtuals: true,
+  }
+})
+
+publicacionSchema.virtual('preguntas', {
+  ref: 'PreguntaPublicacion',
+  localField: '_id',
+  foreignField: 'publicacion',
+  justOne: false
+});
+
+publicacionSchema.virtual('peticiones', {
+  ref: 'Peticion',
+  localField: '_id',
+  foreignField: 'publicacion',
+  justOne: false
+});
 
 module.exports = mongoose.model('Publicacion', publicacionSchema)
