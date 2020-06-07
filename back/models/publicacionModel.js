@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const PreguntaPublicacion = require('./preguntaPublicacionModel')
 
 const publicacionSchema = new Schema({
 
-  anunciante_id: { type: Schema.Types.ObjectId, ref: 'Usuario' },
+  anunciante: { type: Schema.Types.ObjectId, ref: 'Usuario' },
   tipo: {
     type: String,
     ref: 'Tipo',
@@ -45,7 +46,10 @@ const publicacionSchema = new Schema({
   actualizado_en: {
     type: Date,
     ref: 'Actualizo'
-  }
+  },
+  preguntas: [
+    { type: mongoose.Schema.ObjectId, ref: 'PreguntaPublicacion' }
+  ]
 }, { collection: 'publicacion' })
 
 module.exports = mongoose.model('Publicacion', publicacionSchema)

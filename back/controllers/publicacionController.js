@@ -3,15 +3,32 @@
 const fs = require('fs')
 const path = require('path')
 const Publicacion = require('../models/publicacionModel')
+const { getPreguntasPublicationes } = require('../controllers/preguntaPublicacionController')
 const isImage = require('../utils/is-image')
 const createImage = require('../utils/create-image')
+const mongoose = require('mongoose')
 
 const { ResourceNotFound, ResourceNotImage } = require('../errors')
 
 const getAllPublications = async () => {
-  const resp = await Publicacion.find({ estado: 'Publicado' })
+  try {
+    const resp = await Publicacion.find({ estado: 'Publicado' })
+    .populate({
+      path:'anunciante', 
+      select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+    })
+    .map(async publicacion => {
+      const preguntas = await getPreguntasPublicationes(publicacion._id);
+      publicacion.preguntas = preguntas ? preguntas.map( preg => preg._id ) : [];
 
-  return resp
+      return publicacion;
+    })
+
+    return resp
+  } catch (e) {
+    if (e.code === 'ENOENT') throw new ResourceNotFound()
+    throw e
+  }
 }
 
 const getPublication = async (id) => {
@@ -38,7 +55,7 @@ const createPublication = async (publicacion) => {
   fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}.png`), buff, 'base64')
 
   const nuevaPublicacion = new Publicacion({
-    id,
+    anunciante_id: id,
     titulo,
     categoria,
     descripcion,
