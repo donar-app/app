@@ -10,17 +10,17 @@ const setTokenEnCabecera = (res, token) => {
 }
 
 const crearToken = async (objToken) => {
-  const token = await jwt.sign(
+  return await jwt.sign(
     {
       iss: 'donar',
       id: objToken.id,
-      alias: objToken.alias
+      alias: objToken.alias,
+      pais: objToken.pais,
+      ciudad: objToken.ciudad
     },
     process.env.SECRETKEY,
     { expiresIn: '15min' }
   )
-
-  return token
 }
 
 const verificaToken = async (req, res, next) => {
@@ -44,17 +44,19 @@ const verificaToken = async (req, res, next) => {
 
     const id = Object.prototype.hasOwnProperty.call(decoded, 'id')
     const alias = Object.prototype.hasOwnProperty.call(decoded, 'alias')
+    const ciudad = Object.prototype.hasOwnProperty.call(decoded, 'ciudad')
+    const pais = Object.prototype.hasOwnProperty.call(decoded, 'pais')
 
-    if (!id || !alias) {
+    if (!id || !alias || !ciudad || !pais) {
       return res.status(401).json(responseJSON(false, 'token_mal_generado', 'No Autorizado', []))
     }
 
     req.body.jwt_usuario_id = decoded.id
     req.body.jwt_usuario_alias = decoded.alias
+    req.body.jwt_usuario_ciudad = decoded.ciudad
+    req.body.jwt_usuario_pais = decoded.pais
 
-    const newToken = await crearToken({
-      sub: 'update', aud: 'web', id: decoded.id, alias: decoded.alias
-    })
+    const newToken = await crearToken({ sub: 'update', aud: 'web', id: decoded.id, alias: decoded.alias, ciudad: decoded.ciudad, pais: decoded.pais })
 
     await setTokenEnCabecera(res, newToken)
     next()

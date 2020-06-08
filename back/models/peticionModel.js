@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Peticion = new Schema({
-  publicacion: {
+  publicacion_id: {
     type: Schema.Types.ObjectId,
     ref: 'Publicacion',
     required: [true, 'El ID de publicación es necesario']
   },
-  usuario: {
+  usuario_id: {
     type: Schema.Types.ObjectId,
     ref: 'Usuario',
     required: [true, 'El ID de usuario es necesario']
@@ -55,7 +55,7 @@ const Peticion = new Schema({
 }, {
   collection: 'peticion',
   toJSON: {
-    virtuals: true,
+    virtuals: true
   }
 })
 

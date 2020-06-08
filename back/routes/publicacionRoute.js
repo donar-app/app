@@ -2,34 +2,32 @@
 
 const express = require('express')
 const router = express.Router()
-const asyncHandler = require('../middlewares/async-handler')
 const { verificaToken } = require('../middlewares/seguridad')
+const { obtenerPublicacion, obtenerPublicaciones, crearPublicacion, editarPublicacion, eliminarPublicacion } = require('../controllers/publicacionController')
 
-const { getPublication, getAllPublications, createPublication, updatePublication, deletePublication } = require('../controllers/publicacionController')
+/**
+ * Obtienes todas las publicaciones activas
+ */
+router.get('/', obtenerPublicaciones)
 
-router.get('/', asyncHandler(async (req, res, next) => {
-  const data = await getAllPublications()
-  res.json({ data })
-}))
+/**
+ * Obtiene una publicacion por su ID
+ */
+router.get('/:id', obtenerPublicacion)
 
-router.get('/:id', asyncHandler(async (req, res, next) => {
-  const data = await getPublication(req.params.id)
-  res.json({ data })
-}))
+/**
+ * Crea una nueva publicacion
+ */
+router.post('/', verificaToken, crearPublicacion)
 
-router.post('/', verificaToken, asyncHandler(async (req, res, next) => {
-  const data = await createPublication(req.body)
-  res.json({ data })
-}))
+/**
+ * Edita una publicacion por su ID
+ */
+router.put('/:id', verificaToken, editarPublicacion)
 
-router.put('/:id', verificaToken, asyncHandler(async (req, res, next) => {
-  const data = await updatePublication(req.params.id, req.body)
-  res.json({ data })
-}))
-
-router.delete('/:id', verificaToken, asyncHandler(async (req, res, next) => {
-  const data = await deletePublication(req.params.id)
-  res.json({ data })
-}))
+/**
+ * Elimina una publicacion por su ID
+ */
+router.delete('/:id', verificaToken, eliminarPublicacion)
 
 module.exports = router

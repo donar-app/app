@@ -1,19 +1,48 @@
 const PublicacionModel = require('../models/publicacionModel')
-class PublicacionRepository {
-  constructor (model) {
-    this.model = model
-  }
-
-  async guardar (object) {
-    return await this.model.create(object)
+const DefaultRepository = require('../repository/defaultRepositoy')
+class PublicacionRepository extends DefaultRepository {
+  async obtenerPublicacionesActivas (id) {
+    return await this.model.find({ estado: 'Publicado' })
+      .populate({
+        path: 'preguntas',
+        populate: {
+          path: 'usuario',
+          select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+        }
+      })
+      .populate({
+        path: 'peticiones',
+        populate: {
+          path: 'usuario',
+          select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+        }
+      })
+      .populate({
+        path: 'anunciante',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      })
   }
 
   async obtenerPorID (id) {
     return await this.model.findById(id)
-  }
-
-  async obtenerVariasPorPublicacion (id) {
-    return await this.model.find({ publicacion_id: id })
+      .populate({
+        path: 'preguntas',
+        populate: {
+          path: 'usuario',
+          select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+        }
+      })
+      .populate({
+        path: 'peticiones',
+        populate: {
+          path: 'usuario',
+          select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+        }
+      })
+      .populate({
+        path: 'anunciante',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      })
   }
 
   async actualizar (id, object) {

@@ -40,7 +40,7 @@ const Contacto = new Schema({
 }, {
   collection: 'contacto',
   toJSON: {
-    virtuals: true,
+    virtuals: true
   }
 })
 

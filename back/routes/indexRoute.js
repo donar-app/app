@@ -4,88 +4,19 @@ const router = express.Router()
 const { verificaCredenciales } = require('../middlewares/seguridad')
 const { crearUsuario, loginConAlias } = require('../controllers/usuarioController')
 
-/* GET home page. */
-router.get('/', (req, res) => {
-  return res.json(true, 'bienvenido', 'Bienvenido a la api de donar-app.', [])
-})
+/**
+ * Bienvenida a la API
+ */
+router.get('/', (req, res) => res.json(true, 'bienvenido', 'Bienvenido a la api de donar-app.', ['hola']))
 
 /**
  * Login de Usuario
- * @param {string} alias alias del usuario
- * @param {string} clave clave del usuario
- * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
- * @returns {String} Se retorna el token en la cabecera
  */
 router.post('/ingreso', verificaCredenciales, loginConAlias)
 
 /**
  * Registro de Usuario
- * @returns {JSON} Se retorna todo el objeto usuario, pero sin contraseña
  */
 router.post('/registro', crearUsuario)
-/*
-
-router.get('/loginGoogle', passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
-
-router.get('/loginGoogle/callback', passport.authenticate('google', { failureRedirect: 'https://donar-front.herokuapp.com/#/iniciarSesion' }),
-  (req, res)=> {
-    console.log(req);
-    return responseJSON(true,"login_correcto","Logeado con Google",[])
-});
-
-router.get('/loginGoogle', asyncHandler(async (req, res) => {
-
-  passport.use(new GoogleStrategy({
-    consumerKey: "226196706149-ftdlhd36nlatgn0kc9abupdjcbiu0o0f.apps.googleusercontent.com",
-    consumerSecret: "t2U9F8SDeGlyXN0WNphN0ddn",
-    callbackURL: "http://localhost:3000/google/callback"
-  },
-  function(token, tokenSecret, profile, done) {
-    console.log(token);
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return done(err, user);
-      });
-  }
-));
-
-}));
-
-router.get('/google-oauth/callback', verificaCredenciales, asyncHandler(async (req, res) => {
-
-  console.log("adsa");
-  passport.use(new GoogleStrategy({
-    consumerKey: "226196706149-ftdlhd36nlatgn0kc9abupdjcbiu0o0f.apps.googleusercontent.com",
-    consumerSecret: "t2U9F8SDeGlyXN0WNphN0ddn",
-    callbackURL: "http://www.example.com/auth/google/callback"
-  },
-  function(token, tokenSecret, profile, done) {
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return done(err, user);
-      });
-  }
-  ));
-
-}));
-
-// GET /auth/google
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  The first step in Google authentication will involve
-//   redirecting the user to google.com.  After authorization, Google
-//   will redirect the user back to this application at /auth/google/callback
-router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }), (req, res) => {
-  console.log('asdadsasd')
-})
-
-// GET /auth/google/callback
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function function will be called,
-//   which, in this example, will redirect the user to the home page.
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: 'https://donar-front.herokuapp.com/#/iniciarSesion' }),
-  function (req, res) {
-    res.redirect('/')
-  })
-
-  */
 
 module.exports = router
