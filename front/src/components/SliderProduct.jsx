@@ -9,7 +9,7 @@ import imagen1 from '../assets/static/remeraGris.jpg';
 
 const SliderProduct = ({ smallText, children, productos }) => {
   const settings = useRef({
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: true,
     autoplay: true,
@@ -20,7 +20,7 @@ const SliderProduct = ({ smallText, children, productos }) => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 3,
           slidesToScroll: 1,
         },
       },

@@ -2,85 +2,41 @@
 
 const fs = require('fs')
 const path = require('path')
-const Publicacion = require('../models/publicacionModel')
-const { getPreguntasPublicationes } = require('../controllers/preguntaPublicacionController')
+const PublicacionRepository = require('../repository/publicacionRepository')
 const isImage = require('../utils/is-image')
-const createImage = require('../utils/create-image')
-const mongoose = require('mongoose')
+const asyncHandler = require('../middlewares/async-handler')
+const { responseJSON } = require('../utils/responseJSON')
+const { ResourceNotImage } = require('../errors')
 
-const { ResourceNotFound, ResourceNotImage } = require('../errors')
+const obtenerPublicaciones = asyncHandler(async (req, res) => {
+  const publicaciones = await PublicacionRepository.obtenerPublicacionesActivas()
+  return res.json(responseJSON(true, 'publicaciones_activas', 'Todas las publicaciones', publicaciones))
+})
 
-const getAllPublications = async () => {
-  try {
-    const resp = await Publicacion.find({ estado: 'Publicado' })
-    .populate({
-      path: 'preguntas',
-      populate: { 
-        path: 'usuario',
-        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
-      }
-    })
-    .populate({
-      path: 'peticiones',
-      populate: { 
-        path: 'usuario',
-        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
-      }
-    })
-    .populate({
-      path:'anunciante', 
-      select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
-    })
+const obtenerPublicacion = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const publicacion = await PublicacionRepository.obtenerPorID(id)
 
-    return resp
-  } catch (e) {
-    if (e.code === 'ENOENT') throw new ResourceNotFound()
-    throw e
+  if (!publicacion) {
+    return res.json(responseJSON(false, 'publicacion_no_encontradad', 'Publicacion no encontrada', []))
   }
-}
 
-const getPublication = async (id) => {
-  try {
-    const resp = await Publicacion.findById(id)
-    .populate({
-      path: 'preguntas',
-      populate: { 
-        path: 'usuario',
-        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
-      }
-    })
-    .populate({
-      path: 'peticiones',
-      populate: { 
-        path: 'usuario',
-        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
-      }
-    })
-    .populate({
-      path:'anunciante', 
-      select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
-    })
+  return res.json(responseJSON(true, 'publicacion_enviada', 'Publicacion Enviada', publicacion))
+})
 
-    return resp
-  } catch (e) {
-    if (e.code === 'ENOENT') throw new ResourceNotFound()
-    throw e
-  }
-}
-
-const createPublication = async (publicacion) => {
-  const { jwt_usuario_id: id, titulo, categoria, descripcion, tipo, imagen } = publicacion
-  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '');
+const crearPublicacion = asyncHandler(async (req, res) => {
+  const { jwt_usuario_id: id, titulo, categoria, descripcion, tipo, imagen } = req.body
+  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '')
   const nameFile = `${id}-${new Date().getTime()}`
-  let buff = new Buffer(imagen64, 'base64');
-  
+  const buff = new Buffer(imagen64, 'base64')
+
   // await fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), imagen)
 
-  if ( !isImage( buff ) ) throw new ResourceNotImage();
+  if (!isImage(buff)) throw new ResourceNotImage()
 
-  fs.writeFileSync(path.resolve( __dirname, `../uploads/${nameFile}.png`), buff, 'base64')
+  fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), buff, 'base64')
 
-  const nuevaPublicacion = new Publicacion({
+  const publicacion = await PublicacionRepository.guardar({
     anunciante_id: id,
     titulo,
     categoria,
@@ -92,42 +48,56 @@ const createPublication = async (publicacion) => {
     estado: 'Publicado'
   })
 
-  const publicacionSaved = await nuevaPublicacion.save()
-  return publicacionSaved
-}
+  if (!publicacion) {
+    return res.json(responseJSON(false, 'publicacion-error_creacion', 'Error al crear la publicacion', []))
+  }
+  return res.json(responseJSON(true, 'publicacion-creada', 'Publicacion creada', publicacion))
+})
 
-const updatePublication = async (id, publicacion) => {
-  const { titulo, categoria, descripcion, tipo, imagen } = publicacion
-  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '');
-  let buff = new Buffer(imagen64, 'base64');
+const editarPublicacion = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { titulo, categoria, descripcion, tipo, imagen } = req.body
+  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '')
+  const buff = new Buffer(imagen64, 'base64')
 
-  const publi = await Publicacion.findById(id)
+  const publicacion = await PublicacionRepository.obtenerPorID(id)
 
-  if ( !isImage( buff ) ) throw new ResourceNotImage();
+  if (!publicacion) {
+    return res.json(responseJSON(false, 'publicacion-no_encontrada', 'Publicacion no existe', []))
+  }
 
-  fs.writeFileSync(path.resolve(__dirname, `../uploads/${publi.imagen}`), imagen64, 'base64')
+  if (!isImage(buff)) throw new ResourceNotImage()
 
-  const publicacionUpdated = await Publicacion.findOneAndUpdate(id, {
+  fs.writeFileSync(path.resolve(__dirname, `../uploads/${publicacion.imagen}`), imagen64, 'base64')
+
+  const publicacionActualizada = await PublicacionRepository.actualizarPorID(id, {
     titulo,
     categoria,
     descripcion,
     tipo,
-    imagen: publi.imagen,
+    imagen: publicacion.imagen,
     actualizada_en: new Date()
   }, { new: true })
 
-  return publicacionUpdated
-}
+  if (!publicacionActualizada) {
+    return res.json(responseJSON(false, 'publicacion-error_modificacion', 'Error al modificar la publicacion', []))
+  }
+  return res.json(responseJSON(true, 'publicacion-creada', 'Publicacion Modificada', publicacionActualizada))
+})
 
-const deletePublication = async (id) => {
-  const publicacionDelete = await Publicacion.findOneAndUpdate(id, { estado: 1 })
-  return publicacionDelete
-}
+const eliminarPublicacion = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const publicacionDelete = await PublicacionRepository.eliminarPorID(id)
+  if (!publicacionDelete) {
+    return res.json(responseJSON(false, 'publicacion-error_eliminacion', 'Error al eliminar la publicacion', []))
+  }
+  return res.json(responseJSON(true, 'publicacion-eliminada', 'Publicacion Eliminada', publicacionDelete))
+})
 
 module.exports = {
-  getAllPublications,
-  getPublication,
-  createPublication,
-  updatePublication,
-  deletePublication
+  obtenerPublicaciones,
+  obtenerPublicacion,
+  crearPublicacion,
+  editarPublicacion,
+  eliminarPublicacion
 }
