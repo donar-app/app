@@ -38,7 +38,7 @@ const Home = ({ authorization }) => {
   return (
     <main className='animate__animated animate__fadeIn'>
       <div className='tw-relative'>
-        <img className='tw-object-cover tw-h-16 md:tw-h-40 tw-w-full opacity-80' src={donando} alt='' />
+        <img className='tw-object-cover tw-h-12 md:tw-h-40 tw-w-full opacity-80' src={donando} alt='' />
         <div className='tw-absolute tw-px-5 tw-inset-0 tw-flex tw-flex-col tw-justify-center tw-items-center'>
           <p className='tw-pb-3 tw-font-bold tw-text-lg tw-text-white md:tw-text-4xl text-shadow'>
             Dona o solicita lo que (no) necesites!
