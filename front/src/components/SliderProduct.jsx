@@ -9,26 +9,39 @@ import imagen1 from '../assets/static/remeraGris.jpg';
 
 const SliderProduct = ({ smallText, children, productos }) => {
   const settings = useRef({
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    dots: true,
+    infinite: true,
     swipeToSlide: true,
     autoplay: true,
     speed: 10000,
     autoplaySpeed: 2000,
     cssEase: 'linear',
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 1,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
         },
       },
       {
-        breakpoint: 768,
+        breakpoint: 600,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
         },
       },
     ],
