@@ -2,6 +2,7 @@
 
 const UsuarioRepository = require('../repository/usuarioRepository')
 const { responseJSON } = require('../utils/responseJSON')
+const { SeguridadDeClave } = require('../utils/myUtils')
 const asyncHandler = require('../middlewares/async-handler')
 const { crearToken, setTokenEnCabecera } = require('../middlewares/seguridad')
 const bcrypt = require('bcryptjs')
@@ -18,7 +19,11 @@ const crearUsuario = asyncHandler(async (req, res, next) => {
   if (!Object.prototype.hasOwnProperty.call(objUsuario, 'alias') || !Object.prototype.hasOwnProperty.call(objUsuario, 'clave')) {
     return res.json(responseJSON(false, 'faltan_parametros', 'Faltan algunos parametros', ['alias', 'clave']))
   }
+  const resultadoSeguridad = SeguridadDeClave(objUsuario.clave)
 
+  if (!resultadoSeguridad) {
+    return res.json(responseJSON(false, 'error_interno', 'Su clave es insegura', []))
+  }
   objUsuario.clave = await bcrypt.hashSync(objUsuario.clave, SALT)
   objUsuario.es_activo = true
   objUsuario.creado_en = new Date(
