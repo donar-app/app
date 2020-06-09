@@ -9,7 +9,8 @@ const { responseJSON } = require('../utils/responseJSON')
 const { ResourceNotImage } = require('../errors')
 
 const obtenerPublicaciones = asyncHandler(async (req, res) => {
-  const publicaciones = await PublicacionRepository.obtenerPublicacionesActivas()
+  const { jwt_usuario_pais: pais, jwt_usuario_ciudad: ciudad } = req.body
+  const publicaciones = await PublicacionRepository.obtenerPublicacionesActivas(pais, ciudad)
   return res.json(responseJSON(true, 'publicaciones_activas', 'Todas las publicaciones', publicaciones))
 })
 
@@ -25,10 +26,10 @@ const obtenerPublicacion = asyncHandler(async (req, res) => {
 })
 
 const crearPublicacion = asyncHandler(async (req, res) => {
-  const { jwt_usuario_id: id, titulo, categoria, descripcion, tipo, imagen } = req.body
+  const { jwt_usuario_id: id, jwt_usuario_pais: pais, jwt_usuario_ciudad: ciudad, titulo, categoria, descripcion, tipo, imagen } = req.body
   const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '')
   const nameFile = `${id}-${new Date().getTime()}`
-  const buff = new Buffer(imagen64, 'base64')
+  const buff = Buffer.from(imagen64, 'base64')
 
   // await fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), imagen)
 
@@ -42,6 +43,8 @@ const crearPublicacion = asyncHandler(async (req, res) => {
     categoria,
     descripcion,
     tipo,
+    pais,
+    ciudad,
     creado_en: new Date(),
     actualizada_en: new Date(),
     imagen: `${nameFile}.png`,
@@ -58,7 +61,7 @@ const editarPublicacion = asyncHandler(async (req, res) => {
   const { id } = req.params
   const { titulo, categoria, descripcion, tipo, imagen } = req.body
   const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '')
-  const buff = new Buffer(imagen64, 'base64')
+  const buff = Buffer.from(imagen64, 'base64')
 
   const publicacion = await PublicacionRepository.obtenerPorID(id)
 

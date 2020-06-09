@@ -18,7 +18,7 @@ const crearToken = async (objToken) => {
       pais: objToken.pais,
       ciudad: objToken.ciudad
     },
-    process.env.SECRETKEY,
+    process.env.SECRET_KEY,
     { expiresIn: '15min' }
   )
 }
@@ -36,7 +36,7 @@ const verificaToken = async (req, res, next) => {
     return res.status(401).json(responseJSON(false, 'token_erroneo', 'No Autorizado', []))
   }
   try {
-    const decoded = await jwt.verify(token, process.env.SECRETKEY)
+    const decoded = await jwt.verify(token, process.env.SECRET_KEY)
 
     if (!decoded) {
       return res.status(401).json(responseJSON(false, 'token_no_valido', 'No Autorizado', []))

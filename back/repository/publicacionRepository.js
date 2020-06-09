@@ -1,8 +1,8 @@
 const PublicacionModel = require('../models/publicacionModel')
 const DefaultRepository = require('../repository/defaultRepositoy')
 class PublicacionRepository extends DefaultRepository {
-  async obtenerPublicacionesActivas (id) {
-    return await this.model.find({ estado: 'Publicado' })
+  async obtenerPublicacionesActivas (pais, ciudad) {
+    return await this.model.find({ estado: 'Publicado', pais: pais, ciudad: ciudad })
       .populate({
         path: 'preguntas',
         populate: {
