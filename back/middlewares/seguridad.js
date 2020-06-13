@@ -42,10 +42,8 @@ const verificaToken = async (req, res, next) => {
 
     const id = Object.prototype.hasOwnProperty.call(decoded, 'id')
     const alias = Object.prototype.hasOwnProperty.call(decoded, 'alias')
-    const ciudad = Object.prototype.hasOwnProperty.call(decoded, 'ciudad')
-    const pais = Object.prototype.hasOwnProperty.call(decoded, 'pais')
 
-    if (!id || !alias || !ciudad || !pais) {
+    if (!id || !alias) {
       return res.status(401).json(responseJSON(false, 'token_mal_generado', 'No Autorizado', []))
     }
 

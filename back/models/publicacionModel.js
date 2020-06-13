@@ -4,7 +4,10 @@ const Pregunta = require('./preguntaModel')
 
 const publicacionSchema = new Schema({
 
-  anunciante_id: { type: Schema.Types.ObjectId, ref: 'Usuario' },
+  anunciante_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Usuario'
+  },
   tipo: {
     type: String,
     ref: 'Tipo',

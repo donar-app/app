@@ -2,7 +2,8 @@
 
 const UsuarioRepository = require('../repository/usuarioRepository')
 const { responseJSON } = require('../utils/responseJSON')
-const { SeguridadDeClave } = require('../utils/myUtils')
+const { SeguridadDeClave, generaStringRandom } = require('../utils/myUtils')
+const { enviaNuevaClave, confirmacionDeRegistro } = require('../utils/mail')
 const asyncHandler = require('../middlewares/async-handler')
 const { crearToken, setTokenEnCabecera } = require('../middlewares/seguridad')
 const bcrypt = require('bcryptjs')
@@ -34,6 +35,7 @@ const crearUsuario = asyncHandler(async (req, res, next) => {
   try {
     const usuario = await UsuarioRepository.guardar(objUsuario)
     usuario.clave = undefined
+    await confirmacionDeRegistro(usuario.correo)
     return res.json(responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', usuario))
   } catch (error) {
     if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
@@ -83,23 +85,64 @@ const actualizarUsuario = asyncHandler(async (req, res) => {
   }
 
   if (objUsuario.clave) {
+    const resultadoSeguridad = SeguridadDeClave(objUsuario.clave)
+
+    if (!resultadoSeguridad) {
+      return res.json(responseJSON(false, 'error_interno', 'Su clave es insegura', []))
+    }
     objUsuario.clave = await bcrypt.hashSync(objUsuario.clave, SALT)
   }
-  const usuario = UsuarioRepository.actualizar(usuarioID, {
-    ...objUsuario,
-    actualizado_en: new Date(
-      new Date().toLocaleString('es-AR', {
-        timeZone: 'America/Argentina/Buenos_Aires'
-      })
-    )
-  })
+
+  try {
+    const usuario = await UsuarioRepository.actualizar(usuarioID, {
+      ...objUsuario,
+      actualizado_en: new Date(
+        new Date().toLocaleString('es-AR', {
+          timeZone: 'America/Argentina/Buenos_Aires'
+        })
+      )
+    })
+
+    if (!usuario) {
+      return res.json(responseJSON(false, 'usuario-error_editar', 'No se pudo modificar.', []))
+    }
+    usuario.clave = undefined
+
+    return res.json(responseJSON(true, 'usuario_editado', 'Usuario fue modificado con exito!', usuario))
+  } catch (error) {
+    console.log('error.message :>> ', error.message)
+    return res.json(responseJSON(true, 'usuario-error_interno', 'No se puedo modificar', []))
+  }
+})
+
+const recuperarClave = asyncHandler(async (req, res) => {
+  const { correo } = req.body
+
+  if (!correo) {
+    return res.json(responseJSON(false, 'usuario-correo_faltante', 'Falta el correo', ['correo']))
+  }
+  const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo, es_activo: true })
 
   if (!usuario) {
-    return res.json(responseJSON(false, 'usuario-error_editar', 'Usuario no puedo ser modificado.', []))
+    return res.json(responseJSON(false, 'usuario-recuperarClave', 'Si esta registrado, le llegara un mail.', []))
   }
-  usuario.clave = undefined
 
-  return res.json(responseJSON(true, 'usuario_editado', 'Usuario fue modificado con exito!', usuario))
+  const nuevaClave = generaStringRandom(8)
+  usuario.clave = await bcrypt.hashSync(nuevaClave, SALT)
+
+  const resultado = await UsuarioRepository.actualizar(usuario.id, usuario)
+
+  if (!resultado) {
+    return res.json(responseJSON(false, 'usuario-recuperarClave', 'Si esta registrado, le llegara un mail.', []))
+  }
+
+  const resultadoEnvioCorreo = await enviaNuevaClave(correo)
+
+  if (!resultadoEnvioCorreo) {
+    return res.json(responseJSON(false, 'usuario-recuperarClave', 'Si esta registrado, le llegara un mail.', []))
+  }
+
+  return res.json(responseJSON(false, 'usuario-recuperarClave', 'Si esta registrado, le llegara un mail.', []))
 })
 
 const eliminarUsuario = asyncHandler(async (req, res) => {
@@ -184,6 +227,7 @@ module.exports = {
   obtenerUsuario,
   loginConAlias,
   actualizarUsuario,
+  recuperarClave,
   eliminarUsuario,
   loginGoogle
 }
