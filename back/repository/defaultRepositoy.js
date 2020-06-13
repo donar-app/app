@@ -11,6 +11,10 @@ class DefaultRepository {
     return await this.model.findById(id)
   }
 
+  async obtenerTodos () {
+    return await this.model.find()
+  }
+
   async actualizarPorID (id, object) {
     return await this.model.findOneAndUpdate(
       { _id: id },

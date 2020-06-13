@@ -14,11 +14,9 @@ const crearToken = async (objToken) => {
     {
       iss: 'donar',
       id: objToken.id,
-      alias: objToken.alias,
-      pais: objToken.pais,
-      ciudad: objToken.ciudad
+      alias: objToken.alias
     },
-    process.env.SECRETKEY,
+    process.env.SECRET_KEY,
     { expiresIn: '15min' }
   )
 }
@@ -36,7 +34,7 @@ const verificaToken = async (req, res, next) => {
     return res.status(401).json(responseJSON(false, 'token_erroneo', 'No Autorizado', []))
   }
   try {
-    const decoded = await jwt.verify(token, process.env.SECRETKEY)
+    const decoded = await jwt.verify(token, process.env.SECRET_KEY)
 
     if (!decoded) {
       return res.status(401).json(responseJSON(false, 'token_no_valido', 'No Autorizado', []))
@@ -53,10 +51,8 @@ const verificaToken = async (req, res, next) => {
 
     req.body.jwt_usuario_id = decoded.id
     req.body.jwt_usuario_alias = decoded.alias
-    req.body.jwt_usuario_ciudad = decoded.ciudad
-    req.body.jwt_usuario_pais = decoded.pais
 
-    const newToken = await crearToken({ sub: 'update', aud: 'web', id: decoded.id, alias: decoded.alias, ciudad: decoded.ciudad, pais: decoded.pais })
+    const newToken = await crearToken({ sub: 'update', aud: 'web', id: decoded.id, alias: decoded.alias })
 
     await setTokenEnCabecera(res, newToken)
     next()

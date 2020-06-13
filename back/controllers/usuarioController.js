@@ -1,8 +1,8 @@
 'use strict'
 
-const { generaStringRandom } = require('../utils/myUtils')
 const UsuarioRepository = require('../repository/usuarioRepository')
 const { responseJSON } = require('../utils/responseJSON')
+const { SeguridadDeClave } = require('../utils/myUtils')
 const asyncHandler = require('../middlewares/async-handler')
 const { crearToken, setTokenEnCabecera } = require('../middlewares/seguridad')
 const bcrypt = require('bcryptjs')
@@ -16,12 +16,15 @@ const crearUsuario = asyncHandler(async (req, res, next) => {
     return res.json(responseJSON(true, 'registro_error', 'Falta el objeto usuario', ['obj_usuario']))
   }
 
-  if (!Object.prototype.hasOwnProperty.call(objUsuario, 'alias')) {
-    return res.json(responseJSON(false, 'falta_alias', 'Falta el parametro alias', []))
+  if (!Object.prototype.hasOwnProperty.call(objUsuario, 'alias') || !Object.prototype.hasOwnProperty.call(objUsuario, 'clave')) {
+    return res.json(responseJSON(false, 'faltan_parametros', 'Faltan algunos parametros', ['alias', 'clave']))
   }
+  const resultadoSeguridad = SeguridadDeClave(objUsuario.clave)
 
-  const clave = process.env.NODE_ENV === 'PROD' ? generaStringRandom(8) : objUsuario.alias
-  objUsuario.clave = await bcrypt.hashSync(clave, SALT)
+  if (!resultadoSeguridad) {
+    return res.json(responseJSON(false, 'error_interno', 'Su clave es insegura', []))
+  }
+  objUsuario.clave = await bcrypt.hashSync(objUsuario.clave, SALT)
   objUsuario.es_activo = true
   objUsuario.creado_en = new Date(
     new Date().toLocaleString('es-AR', {

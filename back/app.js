@@ -1,12 +1,12 @@
 const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
-const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const mongoose = require('mongoose')
 const errorHandlers = require('./middlewares/error')
 const { verificaToken } = require('./middlewares/seguridad')
+const { verificaIP } = require('./middlewares/ip')
 
 require('./config/config')
 
@@ -20,7 +20,7 @@ const contactoRouter = require('./routes/contactoRoute')
 
 const app = express()
 
-app.use('/uploads', express.static(__dirname + '/uploads'))
+app.use('/uploads', express.static(`${__dirname}\\uploads`))
 
 // Conexión a la DB
 mongoose.connect(process.env.URLDB, {
@@ -40,6 +40,7 @@ app.use(express.json({ limit: '10mb' }))
 app.use(helmet())
 app.use(cors({ origin: true, credentials: true }))
 app.use(cookieParser())
+app.use(verificaIP)
 
 app.use('/', indexRouter)
 app.use('/contacto', contactoRouter)
