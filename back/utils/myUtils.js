@@ -17,7 +17,7 @@ const generaStringRandom = (cantidad) => {
 }
 
 const SeguridadDeClave = (clave) => {
-  const regex = new RegExp(/^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/, 'g')
+  const regex = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})')
 
   if (clave.length < 6 || regex.test(clave) === false) {
     return false

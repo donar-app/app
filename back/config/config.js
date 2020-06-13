@@ -14,6 +14,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev'
 process.env.SECRET_KEY = process.env.SECRET_KEY || '.xeg7-POitAw7IEHlp6fU8bIq0D6bhoFCqKVL33TU3Xo'
 
 // ================
+// SECRET CRYPTO REGISTER
+// ================
+process.env.SECRET_CRYPTO_REGISTER = '.xeg7-POitAw7IEHlp6fU8bIq0D6bhoFC'
+
+// ================
 // CREDENCIALES EMAIL
 // ================
 // ....

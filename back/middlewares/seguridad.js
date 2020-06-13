@@ -72,13 +72,13 @@ const verificaCredenciales = async (req, res, next) => {
     return res.status(200).json(responseJSON(false, 'autentificacion_erronea', 'Autentificacion erronea', []))
   }
 
-  const [alias, clave] = Buffer.from(credencialesEnbase64, 'base64').toString('utf8').split(':')
+  const [correo, clave] = Buffer.from(credencialesEnbase64, 'base64').toString('utf8').split(':')
 
-  if (!alias || !clave) {
+  if (!correo || !clave) {
     return res.status(200).json(responseJSON(false, 'credenciales_erroneas', 'Credenciales no encontradas', []))
   }
 
-  req.body.credencial_alias = alias
+  req.body.credencial_correo = correo
   req.body.credencial_clave = clave
   next()
 }

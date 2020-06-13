@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 const { verificaCredenciales } = require('../middlewares/seguridad')
-const { crearUsuario, loginConAlias, recuperarClave } = require('../controllers/usuarioController')
+const { crearUsuario, login, recuperarClave } = require('../controllers/usuarioController')
 
 /**
  * Bienvenida a la API
@@ -12,7 +12,7 @@ router.get('/', (req, res) => res.json(true, 'bienvenido', 'Bienvenido a la api 
 /**
  * Login de Usuario
  */
-router.post('/ingreso', verificaCredenciales, loginConAlias)
+router.post('/ingreso', verificaCredenciales, login)
 
 /**
  * Registro de Usuario

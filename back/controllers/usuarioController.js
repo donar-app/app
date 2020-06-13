@@ -7,6 +7,7 @@ const { enviaNuevaClave, confirmacionDeRegistro } = require('../utils/mail')
 const asyncHandler = require('../middlewares/async-handler')
 const { crearToken, setTokenEnCabecera } = require('../middlewares/seguridad')
 const bcrypt = require('bcryptjs')
+const crypto = require('crypto')
 const SALT = bcrypt.genSaltSync(10)
 require('../middlewares/oauth')
 
@@ -26,7 +27,7 @@ const crearUsuario = asyncHandler(async (req, res, next) => {
     return res.json(responseJSON(false, 'error_interno', 'Su clave es insegura', []))
   }
   objUsuario.clave = await bcrypt.hashSync(objUsuario.clave, SALT)
-  objUsuario.es_activo = true
+  objUsuario.es_activo = false
   objUsuario.creado_en = new Date(
     new Date().toLocaleString('es-AR', {
       timeZone: 'America/Argentina/Buenos_Aires'
@@ -34,18 +35,38 @@ const crearUsuario = asyncHandler(async (req, res, next) => {
 
   try {
     const usuario = await UsuarioRepository.guardar(objUsuario)
-    usuario.clave = undefined
-    await confirmacionDeRegistro(usuario.correo)
-    return res.json(responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', usuario))
+    const encrypted = crypto.createHmac('sha256', process.env.SECRET_CRYPTO_REGISTER).update(`${usuario.id}${usuario.correo}`).digest('hex')
+    await confirmacionDeRegistro(usuario.correo, encrypted)
+    return res.json(responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', []))
   } catch (error) {
     if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
       return res.json(responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue))
     }
     if (Object.prototype.hasOwnProperty.call(error.keyValue, 'correo')) {
-      // Aca le enviaremos un mail al usuario.
+      return res.json(responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', []))
     }
     return res.json(responseJSON(false, 'error_interno', 'No pudimos registrarlo.', []))
   }
+})
+
+const confirmarRegistro = asyncHandler(async (req, res) => {
+  const { encrypted, correo } = req.parms
+  if (!encrypted || !correo) {
+    return responseJSON(false, 'usuario-faltan_parametros', 'Faltan parametros', ['encrypted', 'correo'])
+  }
+
+  const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo })
+
+  if (!usuario) {
+    return responseJSON(false, 'usuario-invalido', 'invalido', [])
+  }
+  const encryptedServidor = crypto.createHmac('sha256', process.env.SECRET_CRYPTO_REGISTER).update(`${usuario.id}${usuario.correo}`).digest('hex')
+
+  if (encryptedServidor !== encrypted) {
+    return responseJSON(false, 'usuario-invalido', 'invalido', [])
+  }
+
+  await UsuarioRepository.actualizar(usuario.id, { es_activo: true })
 })
 
 const obtenerUsuario = asyncHandler(async (req, res) => {
@@ -57,10 +78,10 @@ const obtenerUsuario = asyncHandler(async (req, res) => {
   return responseJSON(true, 'usuario_encontrado', 'Usuario encontrado!', usuario)
 })
 
-const loginConAlias = asyncHandler(async (req, res, next) => {
-  const { credencial_alias: alias, credencial_clave: clave } = req.body
+const login = asyncHandler(async (req, res, next) => {
+  const { credencial_correo: correo, credencial_clave: clave } = req.body
 
-  const usuario = await UsuarioRepository.obtenerPorAlias(alias)
+  const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo, es_activo: true })
 
   if (!usuario || !usuario.clave) {
     return res.json(responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', []))
@@ -93,15 +114,13 @@ const actualizarUsuario = asyncHandler(async (req, res) => {
     objUsuario.clave = await bcrypt.hashSync(objUsuario.clave, SALT)
   }
 
+  objUsuario.actualizado_en = new Date(
+    new Date().toLocaleString('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires'
+    }))
+
   try {
-    const usuario = await UsuarioRepository.actualizar(usuarioID, {
-      ...objUsuario,
-      actualizado_en: new Date(
-        new Date().toLocaleString('es-AR', {
-          timeZone: 'America/Argentina/Buenos_Aires'
-        })
-      )
-    })
+    const usuario = await UsuarioRepository.actualizar(usuarioID, objUsuario)
 
     if (!usuario) {
       return res.json(responseJSON(false, 'usuario-error_editar', 'No se pudo modificar.', []))
@@ -129,6 +148,10 @@ const recuperarClave = asyncHandler(async (req, res) => {
 
   const nuevaClave = generaStringRandom(8)
   usuario.clave = await bcrypt.hashSync(nuevaClave, SALT)
+  usuario.creado_en = new Date(
+    new Date().toLocaleString('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires'
+    }))
 
   const resultado = await UsuarioRepository.actualizar(usuario.id, usuario)
 
@@ -224,8 +247,9 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 
 module.exports = {
   crearUsuario,
+  confirmarRegistro,
   obtenerUsuario,
-  loginConAlias,
+  login,
   actualizarUsuario,
   recuperarClave,
   eliminarUsuario,
