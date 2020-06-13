@@ -1,25 +1,42 @@
 'use strict'
 const nodemailer = require('nodemailer')
 
-const confirmacionDeCuenta = async (remitente, destinatario) => {
+const confirmacionDeRegistro = async (destinatario) => {
   const html = 'Hola'
   const asunto = 'asd'
-  await enviarCorreo(remitente, destinatario, asunto, html)
+  const resultadoEnvio = await enviarCorreo('registro@donar-app.com', destinatario, asunto, html)
+  if (!resultadoEnvio) {
+    return false
+  }
+
+  return true
 }
 
-const olvidoDeClave = async (remitente, destinatario) => {
+const enviaNuevaClave = async (destinatario) => {
   const html = 'Hola'
   const asunto = 'asd'
-  await enviarCorreo(remitente, destinatario, asunto, html)
+  const resultadoEnvio = await enviarCorreo('seguridad@donar-app.com', destinatario, asunto, html)
+  if (!resultadoEnvio) {
+    return false
+  }
+
+  return true
 }
 
-const confirmacionDePeticion = async (remitente, destinatario) => {
+const confirmacionDePeticion = async (destinatario) => {
   const html = 'Hola'
   const asunto = 'asd'
-  await enviarCorreo(remitente, destinatario, asunto, html)
+  const resultadoEnvio = await enviarCorreo('confirmacion@donar-app.com', destinatario, asunto, html)
+
+  if (!resultadoEnvio) {
+    return false
+  }
+
+  return true
 }
 
 const enviarCorreo = async (remitente, destinatario, asunto, html) => {
+  /*
   const transporter = nodemailer.createTransport({
     host: '192.168.0.15',
     port: 25,
@@ -32,10 +49,14 @@ const enviarCorreo = async (remitente, destinatario, asunto, html) => {
     subject: asunto,
     html: html
   })
+  */
+  return new Promise((resolve, reject) => {
+    resolve('asd')
+  })
 }
 
 module.exports = {
-  confirmacionDeCuenta,
-  olvidoDeClave,
+  confirmacionDeRegistro,
+  enviaNuevaClave,
   confirmacionDePeticion
 }

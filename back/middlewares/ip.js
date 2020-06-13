@@ -5,7 +5,7 @@ const ipRepository = require('../repository/ipRepository')
 const verificaIP = async (req, res, next) => {
   const ip = req.ip
   if (ips.length === 0) {
-    ips = await ipRepository.obtenerTodos()
+    ips = await ipRepository.obtenerTodas()
   }
   if (req.cookies.pais) {
     req.body.cookie_pais = req.cookies.pais

@@ -1,7 +1,6 @@
-const DefaultRepository = require('../repository/defaultRepositoy')
 const PreguntaModel = require('../models/preguntaModel')
 
-class PreguntaRepository extends DefaultRepository {
+class PreguntaRepository {
   async obtenerPreguntasPorPublicacion (id) {
     return await this.model.find({ publicacion_id: id })
   }

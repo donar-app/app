@@ -1,5 +1,12 @@
 const IpModel = require('../models/ipModel')
-const DefaultRepository = require('../repository/defaultRepositoy')
-class IpRepository extends DefaultRepository {}
+class IpRepository {
+  constructor (model) {
+    this.model = model
+  }
+
+  async obtenerTodas () {
+    return await this.model.find()
+  }
+}
 
 module.exports = new IpRepository(IpModel)
