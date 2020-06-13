@@ -58,11 +58,12 @@ const crearPublicacion = asyncHandler(async (req, res) => {
 
 const editarPublicacion = asyncHandler(async (req, res) => {
   const { id } = req.params
-  const { titulo, categoria, descripcion, tipo, imagen } = req.body
+  const { jwt_usuario_id: usuarioID, titulo, categoria, descripcion, tipo, imagen } = req.body
   const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '')
+  const nameFile = `${id}-${new Date().getTime()}`
   const buff = Buffer.from(imagen64, 'base64')
 
-  const publicacion = await PublicacionRepository.obtenerPorID(id)
+  const publicacion = await PublicacionRepository.obtenerPorAnuncianteAndID(id, usuarioID)
 
   if (!publicacion) {
     return res.json(responseJSON(false, 'publicacion-no_encontrada', 'Publicacion no existe', []))
@@ -70,14 +71,14 @@ const editarPublicacion = asyncHandler(async (req, res) => {
 
   if (!isImage(buff)) throw new ResourceNotImage()
 
-  fs.writeFileSync(path.resolve(__dirname, `../uploads/${publicacion.imagen}`), imagen64, 'base64')
+  fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}`), buff, 'base64')
 
   const publicacionActualizada = await PublicacionRepository.actualizarPorID(id, {
     titulo,
     categoria,
     descripcion,
     tipo,
-    imagen: publicacion.imagen,
+    imagen: `${nameFile}.png`,
     actualizada_en: new Date()
   }, { new: true })
 
@@ -89,7 +90,8 @@ const editarPublicacion = asyncHandler(async (req, res) => {
 
 const eliminarPublicacion = asyncHandler(async (req, res) => {
   const { id } = req.params
-  const publicacionDelete = await PublicacionRepository.eliminarPorID(id)
+  const { jwt_usuario_id: usuarioID } = req.body
+  const publicacionDelete = await PublicacionRepository.eliminarPorAnuncianteAndID(id, usuarioID)
   if (!publicacionDelete) {
     return res.json(responseJSON(false, 'publicacion-error_eliminacion', 'Error al eliminar la publicacion', []))
   }

@@ -83,6 +83,11 @@ const actualizarUsuario = asyncHandler(async (req, res) => {
   }
 
   if (objUsuario.clave) {
+    const resultadoSeguridad = SeguridadDeClave(objUsuario.clave)
+
+    if (!resultadoSeguridad) {
+      return res.json(responseJSON(false, 'error_interno', 'Su clave es insegura', []))
+    }
     objUsuario.clave = await bcrypt.hashSync(objUsuario.clave, SALT)
   }
   const usuario = UsuarioRepository.actualizar(usuarioID, {
