@@ -6,6 +6,7 @@ const logger = require('morgan')
 const mongoose = require('mongoose')
 const errorHandlers = require('./middlewares/error')
 const { verificaToken } = require('./middlewares/seguridad')
+const { verificaIP } = require('./middlewares/ip')
 
 require('./config/config')
 
@@ -39,6 +40,7 @@ app.use(express.json({ limit: '10mb' }))
 app.use(helmet())
 app.use(cors({ origin: true, credentials: true }))
 app.use(cookieParser())
+app.use(verificaIP)
 
 app.use('/', indexRouter)
 app.use('/contacto', contactoRouter)

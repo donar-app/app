@@ -21,6 +21,11 @@ process.env.SECRET_KEY = process.env.SECRET_KEY || '.xeg7-POitAw7IEHlp6fU8bIq0D6
 // ....
 
 // ================
+// API IP
+// ================
+process.env.ACCESS_KEY_IP = '9a64fefe238aec947cbb13c310d81057'
+
+// ================
 // Base de datos
 // ================
 let urlDB

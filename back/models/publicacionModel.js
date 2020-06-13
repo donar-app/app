@@ -50,7 +50,7 @@ const publicacionSchema = new Schema({
     ref: 'Ciudad',
     minlength: 3,
     maxlength: 50,
-    required: [true, 'El ciudad es necesario']
+    required: [false, 'El ciudad es necesario']
   },
   creado_en: {
     type: Date,
