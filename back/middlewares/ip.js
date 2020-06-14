@@ -3,7 +3,7 @@ const axios = require('axios')
 const ipRepository = require('../repository/ipRepository')
 
 const verificaIP = async (req, res, next) => {
-  const ip = req.ip
+  const ip = '181.44.119.178' // req.ip
   if (ips.length === 0) {
     ips = await ipRepository.obtenerTodas()
   }

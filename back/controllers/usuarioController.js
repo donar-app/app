@@ -37,36 +37,41 @@ const crearUsuario = asyncHandler(async (req, res, next) => {
     const usuario = await UsuarioRepository.guardar(objUsuario)
     const encrypted = crypto.createHmac('sha256', process.env.SECRET_CRYPTO_REGISTER).update(`${usuario.id}${usuario.correo}`).digest('hex')
     await confirmacionDeRegistro(usuario.correo, encrypted)
-    return res.json(responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', []))
+    return res.json(responseJSON(true, 'usuario-registrado', 'Usuario registrado con exito!', []))
   } catch (error) {
     if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
       return res.json(responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue))
     }
     if (Object.prototype.hasOwnProperty.call(error.keyValue, 'correo')) {
-      return res.json(responseJSON(true, 'usuario_registrado', 'Usuario registrado con exito!', []))
+      return res.json(responseJSON(true, 'usuario-registrado', 'Usuario registrado con exito!', []))
     }
     return res.json(responseJSON(false, 'error_interno', 'No pudimos registrarlo.', []))
   }
 })
 
 const confirmarRegistro = asyncHandler(async (req, res) => {
-  const { encrypted, correo } = req.parms
+  const { encrypted, correo } = req.body
   if (!encrypted || !correo) {
-    return responseJSON(false, 'usuario-faltan_parametros', 'Faltan parametros', ['encrypted', 'correo'])
+    return res.json(responseJSON(false, 'usuario-faltan_parametros', 'Faltan parametros', ['encrypted', 'correo']))
   }
 
-  const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo })
+  const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo, es_activo: false })
 
   if (!usuario) {
-    return responseJSON(false, 'usuario-invalido', 'invalido', [])
+    return res.json(responseJSON(false, 'usuario-invalido', 'invalido', []))
   }
   const encryptedServidor = crypto.createHmac('sha256', process.env.SECRET_CRYPTO_REGISTER).update(`${usuario.id}${usuario.correo}`).digest('hex')
 
   if (encryptedServidor !== encrypted) {
-    return responseJSON(false, 'usuario-invalido', 'invalido', [])
+    return res.json(responseJSON(false, 'usuario-invalido', 'invalido', []))
   }
 
-  await UsuarioRepository.actualizar(usuario.id, { es_activo: true })
+  const resultado = await UsuarioRepository.actualizar(usuario.id, { es_activo: true })
+
+  if (!resultado) {
+    return res.json(responseJSON(false, 'usuario-error_interno', 'Error Interno', []))
+  }
+  return res.json(responseJSON(false, 'usuario-registro_confirmado', 'Cuenta Confirmada', []))
 })
 
 const obtenerUsuario = asyncHandler(async (req, res) => {
@@ -96,7 +101,7 @@ const login = asyncHandler(async (req, res, next) => {
   const token = await crearToken({ id: usuario.id, alias: usuario.alias, ciudad: usuario.ciudad, pais: usuario.pais })
   await setTokenEnCabecera(res, token)
 
-  return res.json(responseJSON(true, 'usuario_logeado', 'Usuario logeado con exito!', usuario))
+  return res.json(responseJSON(true, 'usuario-logeado', 'Usuario logeado con exito!', usuario))
 })
 
 const actualizarUsuario = asyncHandler(async (req, res) => {

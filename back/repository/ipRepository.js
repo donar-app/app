@@ -7,6 +7,10 @@ class IpRepository {
   async obtenerTodas () {
     return await this.model.find()
   }
+
+  async guardar (ip) {
+    return await this.model.create(ip)
+  }
 }
 
 module.exports = new IpRepository(IpModel)

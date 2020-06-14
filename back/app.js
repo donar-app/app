@@ -7,8 +7,7 @@ const mongoose = require('mongoose')
 const errorHandlers = require('./middlewares/error')
 const { verificaToken } = require('./middlewares/seguridad')
 const { verificaIP } = require('./middlewares/ip')
-
-require('./config/config')
+require('dotenv').config({ path: '.env' })
 
 const indexRouter = require('./routes/indexRoute')
 const usuarioRouter = require('./routes/usuarioRoute')
