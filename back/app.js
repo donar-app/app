@@ -14,7 +14,6 @@ const usuarioRouter = require('./routes/usuarioRoute')
 const publicacionRouter = require('./routes/publicacionRoute')
 const preguntaRouter = require('./routes/preguntaRoute')
 const peticionRouter = require('./routes/peticionRoute')
-const calificacionRouter = require('./routes/calificacionRoute')
 const contactoRouter = require('./routes/contactoRoute')
 
 const app = express()
@@ -47,7 +46,6 @@ app.use('/usuarios', verificaToken, usuarioRouter)
 app.use('/publicaciones', publicacionRouter)
 app.use('/preguntas', preguntaRouter)
 app.use('/peticiones', verificaToken, peticionRouter)
-app.use('/calificacion', verificaToken, calificacionRouter)
 
 app.use(errorHandlers)
 

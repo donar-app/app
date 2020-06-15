@@ -2,14 +2,13 @@
 
 const UsuarioRepository = require('../repository/usuarioRepository')
 const { responseJSON } = require('../utils/responseJSON')
-const { SeguridadDeClave, generaStringRandom } = require('../utils/myUtils')
+const { seguridadDeClave, generaStringRandom } = require('../utils/myUtils')
 const { enviaNuevaClave, confirmacionDeRegistro } = require('../utils/mail')
 const asyncHandler = require('../middlewares/async-handler')
 const { crearToken, setTokenEnCabecera } = require('../middlewares/seguridad')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const SALT = bcrypt.genSaltSync(10)
-require('../middlewares/oauth')
 
 const crearUsuario = asyncHandler(async (req, res, next) => {
   const { obj_usuario: objUsuario } = req.body
@@ -21,7 +20,7 @@ const crearUsuario = asyncHandler(async (req, res, next) => {
   if (!Object.prototype.hasOwnProperty.call(objUsuario, 'alias') || !Object.prototype.hasOwnProperty.call(objUsuario, 'clave')) {
     return res.json(responseJSON(false, 'faltan_parametros', 'Faltan algunos parametros', ['alias', 'clave']))
   }
-  const resultadoSeguridad = SeguridadDeClave(objUsuario.clave)
+  const resultadoSeguridad = seguridadDeClave(objUsuario.clave)
 
   if (!resultadoSeguridad) {
     return res.json(responseJSON(false, 'error_interno', 'Su clave es insegura', []))
@@ -58,12 +57,12 @@ const confirmarRegistro = asyncHandler(async (req, res) => {
   const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo, es_activo: false })
 
   if (!usuario) {
-    return res.json(responseJSON(false, 'usuario-invalido', 'invalido', []))
+    return res.json(responseJSON(false, 'usuario-encrypted_erroneo', 'Datos Erroneos', []))
   }
   const encryptedServidor = crypto.createHmac('sha256', process.env.SECRET_CRYPTO_REGISTER).update(`${usuario.id}${usuario.correo}`).digest('hex')
 
   if (encryptedServidor !== encrypted) {
-    return res.json(responseJSON(false, 'usuario-invalido', 'invalido', []))
+    return res.json(responseJSON(false, 'usuario-encrypted_erroneo', 'Datos Erroneos', []))
   }
 
   const resultado = await UsuarioRepository.actualizar(usuario.id, { es_activo: true })
@@ -86,7 +85,7 @@ const obtenerUsuario = asyncHandler(async (req, res) => {
 const login = asyncHandler(async (req, res, next) => {
   const { credencial_correo: correo, credencial_clave: clave } = req.body
 
-  const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo, es_activo: true })
+  const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo })
 
   if (!usuario || !usuario.clave) {
     return res.json(responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', []))
@@ -95,6 +94,11 @@ const login = asyncHandler(async (req, res, next) => {
 
   if (!validaClave) {
     return res.json(responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado', []))
+  }
+
+  if (usuario.es_activo === false) {
+    /// /////////// ACA DEBEOS ENVIAR EL MAIL NUEVAMENTE
+    return res.json(responseJSON(false, 'usuario-cuenta_no_confirmada', 'Cuenta sin confirmar, revise un correo electronico', []))
   }
 
   usuario.clave = undefined
@@ -111,7 +115,7 @@ const actualizarUsuario = asyncHandler(async (req, res) => {
   }
 
   if (objUsuario.clave) {
-    const resultadoSeguridad = SeguridadDeClave(objUsuario.clave)
+    const resultadoSeguridad = seguridadDeClave(objUsuario.clave)
 
     if (!resultadoSeguridad) {
       return res.json(responseJSON(false, 'error_interno', 'Su clave es insegura', []))

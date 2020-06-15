@@ -91,7 +91,7 @@ const editarPublicacion = asyncHandler(async (req, res) => {
 const eliminarPublicacion = asyncHandler(async (req, res) => {
   const { id } = req.params
   const { jwt_usuario_id: usuarioID } = req.body
-  const publicacionDelete = await PublicacionRepository.eliminarPorAnuncianteAndID(id, usuarioID)
+  const publicacionDelete = await PublicacionRepository.eliminar(id, usuarioID)
   if (!publicacionDelete) {
     return res.json(responseJSON(false, 'publicacion-error_eliminacion', 'Error al eliminar la publicacion', []))
   }

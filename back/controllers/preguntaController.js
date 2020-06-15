@@ -2,19 +2,8 @@
 
 const PreguntaRepository = require('../repository/preguntaRepository')
 const PublicacionRepository = require('../repository/publicacionRepository')
-const { ResourceNotFound } = require('../errors/not-found')
 const { responseJSON } = require('../utils/responseJSON')
 const asyncHandler = require('../middlewares/async-handler')
-
-const obtenerPreguntas = asyncHandler(async (req, res) => {
-  const { id: publicacionID } = req.params
-
-  if (!publicacionID) {
-    return res.json(responseJSON(false, 'pregunta-sin_id', 'Publicacion no encontrada.', []))
-  }
-  const preguntas = await PreguntaRepository.obtenerPreguntasPorPublicacion(publicacionID)
-  return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas envias.', preguntas))
-})
 
 const crearPregunta = asyncHandler(async (req, res, next) => {
   const { jwt_usuario_id: usuarioID, publicacion: publicacionID, pregunta: preguntaValue } = req.body
@@ -44,22 +33,34 @@ const crearPregunta = asyncHandler(async (req, res, next) => {
   return res.status(201).json(responseJSON(true, 'pregunta_creado', 'Gracias por su pregunta.', pregunta))
 })
 
-const getPregunta = async (id) => {
-  try {
-    const resp = await Pregunta.findById(id)
+const obtenerPregunta = asyncHandler(async (req, res, next) => {
+  const { id } = req.params
 
-    return resp
-  } catch (e) {
-    if (e.code === 'ENOENT') throw new ResourceNotFound()
-    throw e
+  if (!id) {
+    return res.json(responseJSON(false, 'pregunta-sin_id', 'Pregunta no encontrada.', []))
   }
-}
+  const pregunta = await PreguntaRepository.obtenerPorID(id)
+  return res.json(responseJSON(true, 'pregunta-enviada', 'Pregunta enviada.', pregunta))
+})
+
+const obtenerPreguntas = asyncHandler(async (req, res) => {
+  const { id: publicacionID } = req.params
+
+  if (!publicacionID) {
+    return res.json(responseJSON(false, 'pregunta-sin_id', 'Publicacion no encontrada.', []))
+  }
+  const preguntas = await PreguntaRepository.obtenerPreguntasPorPublicacion(publicacionID)
+  return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas envias.', preguntas))
+})
 
 const responderPregunta = asyncHandler(async (req, res, next) => {
-  const { id } = req.params
-  const { jwt_usuario_id: usuarioID, respuesta } = req.body
+  const { id: preguntaID, jwt_usuario_id: usuarioID, respuesta } = req.body
 
-  const pregunta = await PreguntaRepository.responderPregunta(id, usuarioID, respuesta)
+  if (!preguntaID || !respuesta) {
+    return res.json(responseJSON(false, 'pregunta-faltan_parametros', 'Faltan algunos parametros', ['id', 'respuesta']))
+  }
+
+  const pregunta = await PreguntaRepository.buscarParaResponder(preguntaID, usuarioID, respuesta)
 
   if (!pregunta) {
     return res.json(responseJSON(false, 'pregunta-error_no_encontada', 'No se pudo responder la pregunta.', []))
@@ -70,6 +71,6 @@ const responderPregunta = asyncHandler(async (req, res, next) => {
 module.exports = {
   crearPregunta,
   responderPregunta,
-  getPregunta,
+  obtenerPregunta,
   obtenerPreguntas
 }
