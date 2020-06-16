@@ -1,5 +1,13 @@
 const PublicacionModel = require('../models/publicacionModel')
 class PublicacionRepository {
+  constructor (model) {
+    this.model = model
+  }
+
+  async guardar (object) {
+    return await this.model.create(object)
+  }
+
   async obtenerPublicacionesActivas (pais) {
     return await this.model.find({ estado: 'Publicado', pais: pais })
       .populate({
@@ -20,6 +28,13 @@ class PublicacionRepository {
         path: 'anunciante',
         select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
       })
+  }
+
+  async obtenerParaPeticion (id, usuarioID) {
+    return await this.model.findOne({
+      _id: id,
+      anunciante_id: { $ne: usuarioID }
+    })
   }
 
   async obtenerPorID (id) {
@@ -66,7 +81,7 @@ class PublicacionRepository {
       })
   }
 
-  async actualizar (id, object) {
+  async actualizarPorID (id, object) {
     return await this.model.findOneAndUpdate(
       { _id: id },
       object,
@@ -78,10 +93,10 @@ class PublicacionRepository {
     )
   }
 
-  async eliminarPorAnuncianteAndID (id, usuarioID) {
+  async eliminar (id, usuarioID) {
     return await this.model.findOneAndUpdate(
       { _id: id, anunciante_id: usuarioID },
-      { elimnado: true }
+      { estado: 'eliminada' }
     )
   }
 }

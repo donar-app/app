@@ -2,7 +2,7 @@
 
 const express = require('express')
 const router = express.Router()
-const { obtenerUnaPeticion, peticionesPorPublicacion, crearPeticion, modificaPeticion } = require('../controllers/peticionController')
+const { obtenerUnaPeticion, peticionesPorPublicacion, crearPeticion, modificaPeticion, calificacionEmisor, calificacionReceptor } = require('../controllers/peticionController')
 
 /**
  * Crear peticion
@@ -18,6 +18,16 @@ router.get('/:id', obtenerUnaPeticion)
  * Obtener peticiones de una Publicacion
  */
 router.get('/por-publicacion/:publicacion_id', peticionesPorPublicacion)
+
+/**
+ * Calificar petición emisor
+ */
+router.post('/calificacion-emisor', calificacionEmisor)
+
+/**
+ * Calificar petición receptor
+ */
+router.post('/calificacion-receptor', calificacionReceptor)
 
 /**
  * Aceptar peticion

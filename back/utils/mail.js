@@ -1,8 +1,8 @@
 'use strict'
 const nodemailer = require('nodemailer')
 
-const confirmacionDeRegistro = async (destinatario) => {
-  const html = 'Hola'
+const confirmacionDeRegistro = async (destinatario, codigoVerificacion) => {
+  const html = 'Hola' + codigoVerificacion
   const asunto = 'asd'
   const resultadoEnvio = await enviarCorreo('registro@donar-app.com', destinatario, asunto, html)
   if (!resultadoEnvio) {

@@ -4,12 +4,12 @@ class UsuarioRepository {
     this.model = model
   }
 
-  async obtenerPorAlias (alias) {
-    return await this.model.findOne({ alias: alias, es_activo: true })
-  }
-
   async obtenerUnoPorParametros (parametros) {
     return await this.model.findOne(parametros)
+  }
+
+  async guardar (objecto) {
+    return await this.model.create(objecto)
   }
 
   async actualizar (id, usuario) {
