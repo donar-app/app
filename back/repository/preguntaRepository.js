@@ -23,6 +23,7 @@ class PreguntaRepository {
         context: 'query'
       }
     )
+      .aggregate()
   }
 }
 

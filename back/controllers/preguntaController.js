@@ -5,7 +5,7 @@ const PublicacionRepository = require('../repository/publicacionRepository')
 const { responseJSON } = require('../utils/responseJSON')
 const asyncHandler = require('../middlewares/async-handler')
 
-const crearPregunta = asyncHandler(async (req, res, next) => {
+const crearPregunta = asyncHandler(async (req, res) => {
   const { jwt_usuario_id: usuarioID, publicacion: publicacionID, pregunta: preguntaValue } = req.body
 
   const publicacion = await PublicacionRepository.obtenerPorID(publicacionID)
@@ -33,7 +33,7 @@ const crearPregunta = asyncHandler(async (req, res, next) => {
   return res.status(201).json(responseJSON(true, 'pregunta_creado', 'Gracias por su pregunta.', pregunta))
 })
 
-const obtenerPregunta = asyncHandler(async (req, res, next) => {
+const obtenerPregunta = asyncHandler(async (req, res) => {
   const { id } = req.params
 
   if (!id) {
@@ -53,11 +53,16 @@ const obtenerPreguntas = asyncHandler(async (req, res) => {
   return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas envias.', preguntas))
 })
 
-const responderPregunta = asyncHandler(async (req, res, next) => {
-  const { id: preguntaID, jwt_usuario_id: usuarioID, respuesta } = req.body
+const responderPregunta = asyncHandler(async (req, res) => {
+  const { id: preguntaID, publicacion_id: publicacionID, jwt_usuario_id: usuarioID, respuesta } = req.body
 
   if (!preguntaID || !respuesta) {
     return res.json(responseJSON(false, 'pregunta-faltan_parametros', 'Faltan algunos parametros', ['id', 'respuesta']))
+  }
+  const publicacion = await PublicacionRepository.obtenerPorID(publicacionID, usuarioID)
+
+  if (!publicacion) {
+    return res.json(responseJSON(false, 'publicacion-error_no_encontada', 'Publicacion no encontrada', []))
   }
 
   const pregunta = await PreguntaRepository.buscarParaResponder(preguntaID, usuarioID, respuesta)
@@ -65,6 +70,7 @@ const responderPregunta = asyncHandler(async (req, res, next) => {
   if (!pregunta) {
     return res.json(responseJSON(false, 'pregunta-error_no_encontada', 'No se pudo responder la pregunta.', []))
   }
+
   return res.json(responseJSON(false, 'pregunta_respondida', 'Se respondia la pregunta correctamente.', pregunta))
 })
 
