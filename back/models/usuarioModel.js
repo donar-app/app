@@ -92,10 +92,10 @@ const Usuario = new Schema({
     ref: 'Actualizo',
     required: [false, 'El alias es necesario']
   }
-}, { 
+}, {
   collection: 'usuario',
   toJSON: {
-    virtuals: true,
+    virtuals: true
   }
 })
 

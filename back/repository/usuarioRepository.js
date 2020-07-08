@@ -1,14 +1,21 @@
 const UsuarioModel = require('../models/usuarioModel')
-const DefaultRepostory = require('../repository/defaultRepositoy')
-class UsuarioRepository extends DefaultRepostory {
-  async obtenerPorAlias (alias) {
-    return await this.model.findOne({ alias: alias, es_activo: true })
+class UsuarioRepository {
+  constructor (model) {
+    this.model = model
   }
 
-  async actualizar (id, object) {
+  async obtenerUnoPorParametros (parametros) {
+    return await this.model.findOne(parametros)
+  }
+
+  async guardar (objecto) {
+    return await this.model.create(objecto)
+  }
+
+  async actualizar (id, usuario) {
     return await this.model.findOneAndUpdate(
       { _id: id },
-      object,
+      usuario,
       {
         new: true,
         runValidators: true,

@@ -14,11 +14,9 @@ const crearToken = async (objToken) => {
     {
       iss: 'donar',
       id: objToken.id,
-      alias: objToken.alias,
-      pais: objToken.pais,
-      ciudad: objToken.ciudad
+      alias: objToken.alias
     },
-    process.env.SECRETKEY,
+    process.env.SECRET_KEY,
     { expiresIn: '15min' }
   )
 }
@@ -36,7 +34,7 @@ const verificaToken = async (req, res, next) => {
     return res.status(401).json(responseJSON(false, 'token_erroneo', 'No Autorizado', []))
   }
   try {
-    const decoded = await jwt.verify(token, process.env.SECRETKEY)
+    const decoded = await jwt.verify(token, process.env.SECRET_KEY)
 
     if (!decoded) {
       return res.status(401).json(responseJSON(false, 'token_no_valido', 'No Autorizado', []))
@@ -44,19 +42,15 @@ const verificaToken = async (req, res, next) => {
 
     const id = Object.prototype.hasOwnProperty.call(decoded, 'id')
     const alias = Object.prototype.hasOwnProperty.call(decoded, 'alias')
-    const ciudad = Object.prototype.hasOwnProperty.call(decoded, 'ciudad')
-    const pais = Object.prototype.hasOwnProperty.call(decoded, 'pais')
 
-    if (!id || !alias || !ciudad || !pais) {
+    if (!id || !alias) {
       return res.status(401).json(responseJSON(false, 'token_mal_generado', 'No Autorizado', []))
     }
 
     req.body.jwt_usuario_id = decoded.id
     req.body.jwt_usuario_alias = decoded.alias
-    req.body.jwt_usuario_ciudad = decoded.ciudad
-    req.body.jwt_usuario_pais = decoded.pais
 
-    const newToken = await crearToken({ sub: 'update', aud: 'web', id: decoded.id, alias: decoded.alias, ciudad: decoded.ciudad, pais: decoded.pais })
+    const newToken = await crearToken({ sub: 'update', aud: 'web', id: decoded.id, alias: decoded.alias })
 
     await setTokenEnCabecera(res, newToken)
     next()
@@ -78,13 +72,13 @@ const verificaCredenciales = async (req, res, next) => {
     return res.status(200).json(responseJSON(false, 'autentificacion_erronea', 'Autentificacion erronea', []))
   }
 
-  const [alias, clave] = Buffer.from(credencialesEnbase64, 'base64').toString('utf8').split(':')
+  const [correo, clave] = Buffer.from(credencialesEnbase64, 'base64').toString('utf8').split(':')
 
-  if (!alias || !clave) {
+  if (!correo || !clave) {
     return res.status(200).json(responseJSON(false, 'credenciales_erroneas', 'Credenciales no encontradas', []))
   }
 
-  req.body.credencial_alias = alias
+  req.body.credencial_correo = correo
   req.body.credencial_clave = clave
   next()
 }

@@ -13,9 +13,9 @@ const { verificaToken } = require('../middlewares/seguridad')
 router.post('/', verificaToken, crearPregunta)
 
 /**
- * Modificar pregunta
+ * Responder una pregunta
  */
-router.put('/:id', verificaToken, responderPregunta)
+router.put('/responder-pregunta', verificaToken, responderPregunta)
 
 /**
  * Get preguntas

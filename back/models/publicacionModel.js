@@ -4,7 +4,10 @@ const Pregunta = require('./preguntaModel')
 
 const publicacionSchema = new Schema({
 
-  anunciante_id: { type: Schema.Types.ObjectId, ref: 'Usuario' },
+  anunciante_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Usuario'
+  },
   tipo: {
     type: String,
     ref: 'Tipo',
@@ -37,6 +40,20 @@ const publicacionSchema = new Schema({
   },
   imagen: {
     type: String
+  },
+  pais: {
+    type: String,
+    ref: 'Pais',
+    minlength: 1,
+    maxlength: 5,
+    required: [true, 'El pais es necesario']
+  },
+  ciudad: {
+    type: String,
+    ref: 'Ciudad',
+    minlength: 3,
+    maxlength: 50,
+    required: [false, 'El ciudad es necesario']
   },
   creado_en: {
     type: Date,
