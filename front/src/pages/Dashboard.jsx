@@ -9,19 +9,19 @@ import { petition } from '../functions';
 
 const Dashboard = ({ authorization }) => {
   const history = useHistory();
-  const [peticiones, setPeticiones] = useState(null);
+  const [publicaciones, setPublicaciones] = useState(null);
 
   const goTo = (path) => {
     history.push(`${path}`);
   };
 
   useEffect(() => {
-    petition('peticiones', 'GET', authorization.authorization)
+    petition('publicaciones', 'GET', authorization.authorization)
       .then((response) => {
         if (response.tipo === 'error' || response.message === 'Internal Server Error') {
-          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las peticiones';
+          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';
           Swal.fire(
-            'Error al traer las peticiones',
+            'Error al traer las publicaciones',
             mensaje,
             'error',
           );
@@ -31,7 +31,7 @@ const Dashboard = ({ authorization }) => {
             response.data[i].imagen = `https://api.donar-app.com/uploads/${response.data[i].imagen}`;
           });
           // console.log(response);
-          setproductos(response.data);
+          setPublicaciones(response.data);
         }
       });
   }, []);
@@ -49,8 +49,8 @@ const Dashboard = ({ authorization }) => {
           </div> */}
         </div>
       </div>
-      {/* <SliderProduct smallText='Recibé una donación' productos={!Array.isArray(productos) ? null : productos.filter((producto) => { return producto.tipo === 'Donación'; })}>Donaciones</SliderProduct> */}
-      <SliderPeticion smallText='Tus Peticiones' peticiones={!Array.isArray(peticiones) ? null : peticiones.filter((peticion) => { return true; })}>Peticiones</SliderPeticion>
+      <SliderProduct smallText='Tus donaciones' productos={publicaciones}>Donaciones</SliderProduct>
+      {/* <SliderPeticion smallText='Tus Peticiones' peticiones={!Array.isArray(peticiones) ? null : peticiones.filter((peticion) => { return true; })}>Peticiones</SliderPeticion> */}
     </main>
   );
 };
