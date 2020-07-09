@@ -29,6 +29,7 @@ const Login = ({ setAuthorization }) => {
             'error',
           );
         } else {
+          localStorage.setItem('authorization', response.authorization);
           setAuthorization({
             ...response.cuerpo,
             authorization: response.authorization,
@@ -67,7 +68,7 @@ const Login = ({ setAuthorization }) => {
                     <LabelInput name='userLogin'>Usuario</LabelInput>
                   </div>
                   <div className='form-group'>
-                    <LabelInput name='passLogin' className="alert" type='password'>Contraseña</LabelInput>
+                    <LabelInput name='passLogin' className='alert' type='password'>Contraseña</LabelInput>
                   </div>
                   <div className='row pb-3'>
                     {/*<div className='col-6 d-flex align-items-center'>

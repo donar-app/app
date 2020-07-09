@@ -7,13 +7,14 @@ import Publicar from '../pages/Publicar';
 import NavBar from '../components/NavBar';
 import Login from '../components/Login';
 import Registro from '../components/Registro';
+import Perfil from '../components/Perfil';
 import SobreNosotros from '../pages/SobreNosotros';
 import Donar from '../pages/Donar';
 import Solicitar from '../pages/Solicitar';
 import ViewProducto from '../pages/ViewProducto';
 
 const App = () => {
-  const [authorization, setAuthorization] = useState(null);
+  const [authorization, setAuthorization] = useState({ authorization: localStorage.getItem('authorization') });
 
   return (
     <div className='tw-min-h-screen tw-flex tw-flex-col '>
@@ -52,6 +53,10 @@ const App = () => {
             <Route path='/iniciarSesion'>
               <ScrollToTop />
               <Login setAuthorization={setAuthorization} />
+            </Route>
+            <Route path='/Perfil'>
+              <ScrollToTop />
+              <Perfil authorization={authorization} setAuthorization={setAuthorization} />
             </Route>
             <Route path='/Registrarse'>
               <ScrollToTop />

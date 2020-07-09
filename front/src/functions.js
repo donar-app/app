@@ -2,7 +2,7 @@
 export const petition = (path, method, authorization = '', objectBody = {}) => {
   let authorizationChange;
   let headers;
-  if (method === 'POST') {
+  if ((method === 'POST') || (method === 'PUT')) {
     headers = { method,
       body: JSON.stringify(objectBody || {}),
       headers: {
