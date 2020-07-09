@@ -8,6 +8,28 @@ class PublicacionRepository {
     return await this.model.create(object)
   }
 
+  async obtenerPorUsuarioID (usuarioID) {
+    return await this.model.find({ estado: 'Publicado', anunciante_id: usuarioID })
+      .populate({
+        path: 'preguntas',
+        populate: {
+          path: 'usuario',
+          select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+        }
+      })
+      .populate({
+        path: 'peticiones',
+        populate: {
+          path: 'usuario',
+          select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+        }
+      })
+      .populate({
+        path: 'anunciante',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      })
+  }
+
   async obtenerPublicacionesActivas (pais) {
     return await this.model.find({ estado: 'Publicado', pais: pais })
       .populate({
