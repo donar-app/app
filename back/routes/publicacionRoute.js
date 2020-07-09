@@ -3,7 +3,7 @@
 const express = require('express')
 const router = express.Router()
 const { verificaToken } = require('../middlewares/seguridad')
-const { obtenerPublicacion, obtenerPublicaciones, obtenerMisPublicacion, crearPublicacion, editarPublicacion, eliminarPublicacion } = require('../controllers/publicacionController')
+const { obtenerPublicacion, obtenerPublicaciones, obtenerMisPublicaciones, crearPublicacion, editarPublicacion, eliminarPublicacion } = require('../controllers/publicacionController')
 
 /**
  * Obtienes todas las publicaciones activas
@@ -13,7 +13,7 @@ router.get('/', obtenerPublicaciones)
 /**
  * Obtienes todas mis publicaciones activas
  */
-router.get('/mis-publicaciones', obtenerMisPublicacion)
+router.get('/mis-publicaciones', obtenerMisPublicaciones)
 
 /**
  * Obtiene una publicacion por su ID
