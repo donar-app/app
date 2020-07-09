@@ -41,6 +41,13 @@ const obtenerUnaPeticion = asyncHandler(async (req, res) => {
   return res.json(responseJSON(true, 'peticion_retornada', 'Peticion Obtenida', peticion))
 })
 
+const misPeticiones = asyncHandler(async (req, res) => {
+  const { jwt_usuario_id: usuarioID } = req.body
+
+  const peticiones = await PeticionRepository.obtenerMisPeticiones(usuarioID)
+  return res.json(responseJSON(true, 'peticiones_retornas', 'Peticiones Obtenidas', peticiones))
+})
+
 const peticionesPorPublicacion = asyncHandler(async (req, res) => {
   const { publicacion_id: publicacionID } = req.params
   if (!publicacionID || publicacionID.length < 1) {
@@ -101,5 +108,6 @@ module.exports = {
   obtenerUnaPeticion,
   peticionesPorPublicacion,
   calificacionEmisor,
-  calificacionReceptor
+  calificacionReceptor,
+  misPeticiones
 }
