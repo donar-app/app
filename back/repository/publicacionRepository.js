@@ -9,7 +9,7 @@ class PublicacionRepository {
   }
 
   async obtenerPorUsuarioID (usuarioID) {
-    return await this.model.find({ estado: 'Publicado', anunciante_id: usuarioID })
+    return await this.model.find({ estado: 'Publicado', anunciante_id: { $ne: usuarioID } })
       .populate({
         path: 'preguntas',
         populate: {
