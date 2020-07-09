@@ -19,7 +19,7 @@ process.env.SECRETKEY = process.env.SECRETKEY = process.env.SECRETKEY || ".xeg7
 let urlDB;
 
 if(process.env.NODE_ENV === 'dev'){
-    urlDB = 'mongodb://localhost:27017/donar';
+    urlDB = 'mongodb+srv://admin:7pW2WwSSOn73DMNb@cursoudemy-2ynbr.mongodb.net/donar';
 } else {
     urlDB = process.env.URLDB;
 }
