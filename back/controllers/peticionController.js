@@ -13,10 +13,10 @@ const crearPeticion = asyncHandler(async (req, res) => {
     return res.json(responseJSON(false, 'peticion_invalida', 'Error en ID', ['obj_peticion', 'publicacion_id']))
   }
 
-  const publicacion = await PublicacionRepository.obtenerPorID(publicacionID)
+  const publicacion = await PublicacionRepository.obtenerParaPeticion(publicacionID, usuarioID)
 
   if (!publicacion) {
-    return res.json(responseJSON(false, 'peticion-publicacion_nula', 'Publicacion no existe', []))
+    return res.json(responseJSON(false, 'peticion-publicacion_nula', 'Publicacion no encontrada', []))
   }
 
   objPeticion.publicacion_id = publicacion.id
@@ -66,47 +66,33 @@ const modificaPeticion = asyncHandler(async (req, res) => {
 })
 
 const calificacionEmisor = asyncHandler(async (req, res) => {
-  const { id } = req.params
-  const { jwt_usuario_id: usuarioID, obj_peticion: objPeticion } = req.body
+  const { id, calificacion, jwt_usuario_id: usuarioID } = req.body
 
-  /*
-  // Verificar permisos
-  let peticion = await getPeticion(id)
-  const publicacion = await getPublication(peticion.publicacion_id)
-  const usuario = await obtenerUsuario(publicacion.anunciante_id)
-
-  if (String(usuarioID) === String(publicacion.anunciante_id)) {
-    throw new NotHavePermissions()
+  if (!id || !calificacion) {
+    return res.json(responseJSON(false, 'peticion-faltan_parametros', 'Error parametros', ['id', 'calificacion']))
   }
 
-  peticion = await updatePeticion(id, {
-    es_entregada: req.body.es_entregada,
-    calificacion_emisor: req.body.calificacion_emisor
-  })
-  */
-  return responseJSON(true, 'calificacion_emisor', 'La calificacion fue realizada.', [])
+  const peticion = await PeticionRepository.obtenerParaCalificacionEmisior(id, usuarioID, calificacion)
+
+  if (!peticion) {
+    return res.json(responseJSON(false, 'peticion-no_encontrada', 'Peticion no encontradad', []))
+  }
+  return res.json(responseJSON(true, 'peticion-calificacion_realizada', 'Calificacion Realizada', peticion))
 })
 
 const calificacionReceptor = asyncHandler(async (req, res) => {
-  const { id } = req.params
-  const { jwt_usuario_id: usuarioId } = req.body
+  const { id, calificacion, jwt_usuario_id: usuarioID } = req.body
 
-  /*
-  // Verificar permisos
-  let peticion = await getPeticion(id)
-  const publicacion = await getPublication(peticion.publicacion_id)
-  const usuario = await obtenerUsuario(publicacion.anunciante_id)
-
-  if (String(usuarioId) !== String(peticion.usuario_id)) {
-    throw new NotHavePermissions()
+  if (!id || !calificacion) {
+    return res.json(responseJSON(false, 'peticion-faltan_parametros', 'Error parametros', ['id', 'calificacion']))
   }
 
-  peticion = await updatePeticion(id, {
-    es_recibida: req.body.es_recibida,
-    calificacion_receptor: req.body.calificacion_receptor
-  })
-  */
-  return responseJSON(true, 'califcacion_receptor', 'La calificacion fue realizada.', [])
+  const peticion = await PeticionRepository.obtenerParaCalificacionReceptor(id, usuarioID, calificacion)
+
+  if (!peticion) {
+    return res.json(responseJSON(false, 'peticion-no_encontrada', 'Peticion no encontradad', []))
+  }
+  return res.json(responseJSON(true, 'peticion-calificacion_realizada', 'Calificacion Realizada', peticion))
 })
 
 module.exports = {

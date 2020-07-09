@@ -16,6 +16,16 @@ const generaStringRandom = (cantidad) => {
   return randomString
 }
 
+const seguridadDeClave = (clave) => {
+  const regex = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})')
+
+  if (clave.length < 6 || regex.test(clave) === false) {
+    return false
+  }
+  return true
+}
+
 module.exports = {
-  generaStringRandom
+  generaStringRandom,
+  seguridadDeClave
 }

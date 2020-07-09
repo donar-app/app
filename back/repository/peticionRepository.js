@@ -27,6 +27,10 @@ class PeticionRepository {
       }
     )
   }
+
+  async obtenerParaCalificacionEmisior (id, usuarioID, calificacion) {
+    return await this.model.findOneAndUpdate({ _id: id, usuario_id: { $ne: usuarioID } }, calificacion).populate('Publicacion')
+  }
 }
 
 module.exports = new PeticionRepository(PeticionModel)

@@ -1,8 +1,15 @@
 const PublicacionModel = require('../models/publicacionModel')
-const DefaultRepository = require('../repository/defaultRepositoy')
-class PublicacionRepository extends DefaultRepository {
-  async obtenerPublicacionesActivas (id) {
-    return await this.model.find({ estado: 'Publicado' })
+class PublicacionRepository {
+  constructor (model) {
+    this.model = model
+  }
+
+  async guardar (object) {
+    return await this.model.create(object)
+  }
+
+  async obtenerPublicacionesActivas (pais) {
+    return await this.model.find({ estado: 'Publicado', pais: pais })
       .populate({
         path: 'preguntas',
         populate: {
@@ -21,6 +28,13 @@ class PublicacionRepository extends DefaultRepository {
         path: 'anunciante',
         select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
       })
+  }
+
+  async obtenerParaPeticion (id, usuarioID) {
+    return await this.model.findOne({
+      _id: id,
+      anunciante_id: { $ne: usuarioID }
+    })
   }
 
   async obtenerPorID (id) {
@@ -45,7 +59,29 @@ class PublicacionRepository extends DefaultRepository {
       })
   }
 
-  async actualizar (id, object) {
+  async obtenerPorAnuncianteAndID (id, usuarioID) {
+    return await this.model.findOne({ _id: id, anunciante_id: usuarioID })
+      .populate({
+        path: 'preguntas',
+        populate: {
+          path: 'usuario',
+          select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+        }
+      })
+      .populate({
+        path: 'peticiones',
+        populate: {
+          path: 'usuario',
+          select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+        }
+      })
+      .populate({
+        path: 'anunciante',
+        select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
+      })
+  }
+
+  async actualizarPorID (id, object) {
     return await this.model.findOneAndUpdate(
       { _id: id },
       object,
@@ -54,6 +90,13 @@ class PublicacionRepository extends DefaultRepository {
         runValidators: true,
         context: 'query'
       }
+    )
+  }
+
+  async eliminar (id, usuarioID) {
+    return await this.model.findOneAndUpdate(
+      { _id: id, anunciante_id: usuarioID },
+      { estado: 'eliminada' }
     )
   }
 }
