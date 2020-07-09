@@ -16,6 +16,10 @@ class PeticionRepository {
     return await this.model.find({ publicacion_id: id })
   }
 
+  async obtenerMisPeticiones (id) {
+    return await this.model.find({ usuario_id: id })
+  }
+
   async actualizar (id, object) {
     return await this.model.findOneAndUpdate(
       { _id: id },
