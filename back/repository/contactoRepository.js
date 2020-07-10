@@ -1,5 +1,9 @@
 const ContactoModel = require('../models/contactoModel')
 class ContactoRepository {
+  /**
+   * Cargamos todos los metodos que contiene mongoose
+   * @param {ContactoModel} model Modelo de la coleccion Contacto
+   */
   constructor (model) {
     this.model = model
   }

@@ -1,5 +1,9 @@
 const PublicacionModel = require('../models/publicacionModel')
 class PublicacionRepository {
+  /**
+   * Cargamos todos los metodos que contiene mongoose
+   * @param {PublicacionModel} model Modelo de la coleccion Publicacion
+   */
   constructor (model) {
     this.model = model
   }
