@@ -14,6 +14,17 @@ const obtenerPublicaciones = asyncHandler(async (req, res) => {
   return res.json(responseJSON(true, 'publicaciones_activas', 'Todas las publicaciones', publicaciones))
 })
 
+const obtenerMisPublicaciones = asyncHandler(async (req, res) => {
+  const { jwt_usuario_id: id } = req.body
+  const publicacion = await PublicacionRepository.obtenerPorAnunciante(id)
+
+  if (!publicacion) {
+    return res.json(responseJSON(false, 'publicacion_no_encontradad', 'Publicacion no encontrada', []))
+  }
+
+  return res.json(responseJSON(true, 'publicacion_enviada', 'Publicacion Enviada', publicacion))
+})
+
 const obtenerPublicacion = asyncHandler(async (req, res) => {
   const { id } = req.params
   const publicacion = await PublicacionRepository.obtenerPorID(id)
@@ -103,5 +114,6 @@ module.exports = {
   obtenerPublicacion,
   crearPublicacion,
   editarPublicacion,
-  eliminarPublicacion
+  eliminarPublicacion,
+  obtenerMisPublicaciones
 }

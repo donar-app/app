@@ -25,7 +25,7 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
             categoria: response.data.categoria,
             descripcion: response.data.descripcion,
             titulo: response.data.titulo,
-            imagen: `https://api.donar-app.com/uploads/${ response.data.imagen }`,
+            imagen: `https://api.donar-app.com/uploads/${response.data.imagen}`,
           });
         }
       });
@@ -39,8 +39,9 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
       showConfirmButton: false,
       allowOutsideClick: false,
     });
-    petition('peticiones', 'POST', authorization, {
+    petition('peticiones', 'POST', authorization.authorization, {
       publicacion_id: id,
+      obj_peticion: {},
     })
       .then((response) => {
         if (response.tipo === 'error') {

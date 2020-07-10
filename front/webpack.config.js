@@ -9,6 +9,8 @@ const TersetJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const HtmlCriticalWebpackPlugin = require('html-critical-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+const { GenerateSW } = require('workbox-webpack-plugin');
 const manifest = require('./modules-manifest.json');
 
 const PATHS = {
@@ -130,5 +132,35 @@ module.exports = {
         blockJSRequests: false,
       },
     }),
+    new WebpackPwaManifest({ //https://www.npmjs.com/package/webpack-pwa-manifest
+      filename: 'manifest.json',
+      short_name: 'Donar-App',
+      name: 'Donar-app.com',
+      lang: 'es',
+      description: 'Donar-app.com',
+      start_url: '/',
+      background_color: '#dd7f0e',
+      theme_color: '#dd7f0e',
+      dir: 'auto',
+      display: 'fullscreen',
+      orientation: 'any',
+      crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+      icons: [
+        {
+          src: path.resolve('src/assets/static/icono-logo-circulo.png'),
+          sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
+        },
+        {
+          src: path.resolve('src/assets/static/icono-logo-circulo.png'),
+          size: '1024x1024', // you can also use the specifications pattern
+        },
+        {
+          src: path.resolve('src/assets/static/icono-logo-circulo.png'),
+          size: '1024x1024',
+          purpose: 'maskable',
+        },
+      ],
+    }),
+    new GenerateSW(), //https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin.GenerateSW#GenerateSW
   ],
 };
