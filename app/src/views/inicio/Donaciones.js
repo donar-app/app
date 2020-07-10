@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, View, Text,SafeAreaView } from "react-native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { getAllDonaciones } from '../../api/publicaciones';
 import Publicacion from '../../components/Publicacion';
+import PublicacionCompleta from '../../components/PublicacionCompleta';
 
 const Stack = createStackNavigator();
 
@@ -14,15 +15,20 @@ const styles = StyleSheet.create({
 });
 
 
-const DonacionesView = () => {
+const DonacionesView = (navigation, setPublicacion) => {
     const [publicaciones, setPublicaciones] = useState([]);
     useEffect(() => {
         async function fetchData() {
-          // You can await here
           setPublicaciones( await getAllDonaciones() );
         }
         fetchData();
-      }, []); // Or [] if effect doesn't need props or state
+      }, []);
+
+    const handleOnPress = (publicacion) => {
+        setPublicacion(publicacion);
+        console.log({publicacion});
+        navigation.navigate('Publicacion');
+    }
 
     return (
             <ScrollView style={ StyleSheet.container }>
@@ -32,7 +38,7 @@ const DonacionesView = () => {
                             publicaciones.map( 
                                 (publicacion) => {
                                     // return <Text>{publicacion._id}</Text>;
-                                    return <Publicacion publicacion={publicacion} key={publicacion._id}/>;
+                                    return <Publicacion publicacion={publicacion} key={publicacion._id} handleOnPress={handleOnPress}/>;
                                 }
                             )
                         }
@@ -42,9 +48,16 @@ const DonacionesView = () => {
 };
 
 const Donaciones = ({ navigation }) => {
+    const [publicacion, setPublicacion] = useState({
+        _id:'',
+        peticiones: [],
+        preguntas: []
+    });
+
     return (
         <Stack.Navigator>
-          <Stack.Screen name="Donaciones" component={DonacionesView} />
+          <Stack.Screen name="Donaciones" component={() => DonacionesView(navigation, setPublicacion)} />
+          <Stack.Screen name="Publicacion" component={() => PublicacionCompleta({publicacion})}/>
         </Stack.Navigator>
     );
 };
