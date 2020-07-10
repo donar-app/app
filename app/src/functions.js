@@ -41,4 +41,3 @@ export const peticion = (path, method, authorization = '', objectBody = {}) => {
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-  

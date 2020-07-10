@@ -37,7 +37,6 @@ const DonacionesView = (navigation, setPublicacion) => {
                             publicaciones && 
                             publicaciones.map( 
                                 (publicacion) => {
-                                    // return <Text>{publicacion._id}</Text>;
                                     return <Publicacion publicacion={publicacion} key={publicacion._id} handleOnPress={handleOnPress}/>;
                                 }
                             )
@@ -54,10 +53,13 @@ const Donaciones = ({ navigation }) => {
         preguntas: []
     });
 
+    const donacionesComponent = () => DonacionesView(navigation, setPublicacion);
+    const publicacionComponent = () => PublicacionCompleta({publicacion});
+
     return (
         <Stack.Navigator>
-          <Stack.Screen name="Donaciones" component={() => DonacionesView(navigation, setPublicacion)} />
-          <Stack.Screen name="Publicacion" component={() => PublicacionCompleta({publicacion})}/>
+          <Stack.Screen name="Donaciones" component={donacionesComponent} />
+          <Stack.Screen name="Publicacion" component={publicacionComponent}/>
         </Stack.Navigator>
     );
 };
