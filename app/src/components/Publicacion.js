@@ -45,7 +45,7 @@ const Styles = StyleSheet.create({
     contenedor: {
         flex: 1,
         borderWidth: 1,
-        borderColor: "#999",
+        borderColor: "#f1f1f1",
         backgroundColor: "white",
         borderRadius: 5,
         margin: 20,

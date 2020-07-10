@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Donaciones from './Donaciones';
+import Solicitudes from './Solicitudes';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,12 +13,12 @@ const Index = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Tienda') {
+          if (route.name === 'Donaciones') {
             iconName = focused
-              ? 'ios-cart'
-              : 'ios-cart';
-          } else if (route.name === 'Software') {
-            iconName = focused ? 'ios-rocket' : 'ios-rocket';
+              ? 'ios-gift'
+              : 'ios-gift';
+          } else if (route.name === 'Solicitudes') {
+            iconName = focused ? 'ios-megaphone' : 'ios-megaphone';
           } else if (route.name === 'Apps') {
             iconName = focused ? 'ios-phone-portrait' : 'ios-phone-portrait';
           } else if (route.name === 'Webs') {
@@ -34,6 +35,7 @@ const Index = () => {
       }}
       >
         <Tab.Screen name="Donaciones" component={ Donaciones } name="Donaciones" />
+        <Tab.Screen name="Solicitudes" component={ Solicitudes } name="Solicitudes" />
       </Tab.Navigator>
   );
 }
