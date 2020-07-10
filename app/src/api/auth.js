@@ -34,6 +34,42 @@ const postIngreso = async ({email, password}) => {
 
 };
 
+const postRegistro = async (registro) => {
+    try {
+        const response = await peticion('registro', 'POST', null, registro);
+        const { tipo } = response;
+        
+        if (tipo === 'error') {
+          const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar';
+
+          return {
+              error: true,
+              mensaje,
+          };
+        } 
+        
+        const { cuerpo, mensaje } = response;
+
+        if( typeof cuerpo === 'undefined') {
+            return {
+                error: true,
+                mensaje: 'Error al intentar registrarse'
+            };
+        } else {
+            return {
+                error: false,
+                usuario: response.cuerpo,
+                mensaje: response.mensaje,
+            };
+        }
+    } catch (error) {
+        return {
+            error: true,
+            mensaje: 'Error al intentar registrarse'
+        };
+    }
+
+};
 
 const checkLogin = async () => {
     try {
@@ -64,4 +100,5 @@ const checkLogin = async () => {
 export {
     postIngreso,
     checkLogin,
+    postRegistro,
 };
