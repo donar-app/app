@@ -23,10 +23,8 @@ const LoginView = (navigation, setPublicacion) => {
             
             if( verificarLogin.error ) {
                 console.log({verificarLogin});
+                alert('Inicie sesión de nuevo');
             }
-
-            // navigate to dashboard
-            alert('Está logeado');
         }
         getData();
         return () => {
