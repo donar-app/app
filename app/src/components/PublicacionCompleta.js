@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, Button, TouchableOpacity, Dimensions } from "react-native";
 import { APIURL } from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { checkLogin } from '../api/auth'
 import { postPeticiones } from '../api/peticiones'
+import { postPreguntas } from '../api/preguntas'
 
 const PublicacionCompleta =  ({ publicacion, navigation }) => {
     const handleButton = async () => {
@@ -19,6 +20,25 @@ const PublicacionCompleta =  ({ publicacion, navigation }) => {
             console.log('DEspues de verificar login');
             const peticion = await postPeticiones({publicacionId: publicacion._id});
             // console({peticion});
+            
+        } catch (e) {
+            console.error({e});
+        }
+    }
+
+    const [preguntaValue, setPregunta] = useState(null);
+
+    const handlePreguntar = async () => {
+        // Verificar pregunta
+        try {
+            const verificarLogin = await checkLogin();
+            
+            if( verificarLogin.error ) {
+                alert('Inicie sesión de para continuar');
+                navigation.navigate('Login');
+            }
+            const pregunta = await postPreguntas({publicacionId: publicacion._id, pregunta: preguntaValue});
+            console.log({pregunta});
             
         } catch (e) {
             console.error({e});
@@ -50,9 +70,9 @@ const PublicacionCompleta =  ({ publicacion, navigation }) => {
             <View style={ Styles.contenedorPreguntas }>
                 <Text style={ Styles.tituloPreguntas }>Preguntas</Text>
                 <View style={ Styles.contenedorPreguntar }>
-                    <TextInput style={ Styles.inputPreguntar } placeholder='Preguntar..' />
+                    <TextInput style={ Styles.inputPreguntar } value={preguntaValue} onChange={(e) => setPregunta(e.nativeEvent.text)} placeholder='Preguntar..' />
                     <TouchableOpacity>
-                        <Text style={ Styles.buttonPreguntar }>Enviar</Text>
+                        <Text style={ Styles.buttonPreguntar } onPress={handlePreguntar}>Enviar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
