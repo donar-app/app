@@ -42,7 +42,7 @@ const Styles = StyleSheet.create({
 });
 
 
-const DonacionesView = (navigation, setPublicacion) => {
+const DonacionesView = ({navigation, setPublicacion}) => {
     const [publicaciones, setPublicaciones] = useState([]);
     useEffect(() => {
         async function fetchData() {
@@ -51,10 +51,12 @@ const DonacionesView = (navigation, setPublicacion) => {
         fetchData();
       }, []);
 
+      
+
       return (<ScrollView>
-        <SliderPublicaciones publicaciones={publicaciones} titulo={'Mis Donaciones'} setPublicacion={setPublicacion} navigation={navigation}/>
-        <SliderPublicaciones publicaciones={publicaciones} titulo={'Mis Peticiones de Donaciones'} setPublicacion={setPublicacion} navigation={navigation}/>
-        <SliderPublicaciones publicaciones={publicaciones} titulo={'Donaciones en curso'} setPublicacion={setPublicacion} navigation={navigation}/>
+        <SliderPublicaciones publicaciones={publicaciones} titulo={'Mis Donaciones'} setPublicacion={setPublicacion} navigation={navigation} navigateTo='DonacionesDashboardPublicacion' />
+        <SliderPublicaciones publicaciones={publicaciones} titulo={'Mis Peticiones de Donaciones'} setPublicacion={setPublicacion} navigation={navigation} navigateTo='DonacionesDashboardPublicacion'/>
+        <SliderPublicaciones publicaciones={publicaciones} titulo={'Donaciones en curso'} setPublicacion={setPublicacion} navigation={navigation} navigateTo='DonacionesDashboardPublicacion'/>
       </ScrollView>);
 };
 
@@ -65,13 +67,13 @@ const Donaciones = ({ navigation }) => {
         preguntas: []
     });
 
-    const donacionesComponent = () => DonacionesView(navigation, setPublicacion);
+    const donacionesComponent = () => DonacionesView({navigation, setPublicacion});
     const publicacionComponent = () => PublicacionCompleta({publicacion});
 
     return (
         <Stack.Navigator>
-          <Stack.Screen name="Donaciones" component={donacionesComponent} />
-          <Stack.Screen name="Publicacion" component={publicacionComponent}/>
+          <Stack.Screen name="DonacionesDashboard" component={donacionesComponent} options={{ title: 'Dashboard de Donaciones' }}/>
+          <Stack.Screen name="DonacionesDashboardPublicacion" component={publicacionComponent} options={{ title: 'Ver Donación' }}/>
         </Stack.Navigator>
     );
 };

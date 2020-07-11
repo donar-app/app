@@ -7,16 +7,16 @@ import Carousel from 'react-native-snap-carousel';
 import { scrollInterpolator, animatedStyles } from '../utils/animation';
 
 
-const handleOnPress = (publicacion) => {
+const handleOnPress = ({publicacion, setPublicacion, navigation, navigateTo}) => {
     setPublicacion(publicacion);
     console.log({publicacion});
-    navigation.navigate('Publicacion');
+    navigation.navigate(navigateTo);
 }
 
 
-const _renderItem = ({item, index}) => {
+const _renderItem = ({item, index, setPublicacion, navigation, navigateTo}) => {
     return (
-        <PublicacionSlideCuadrado publicacion={item} key={index} handleOnPress={handleOnPress}/>
+        <PublicacionSlideCuadrado publicacion={item} key={index} handleOnPress={() => { handleOnPress({publicacion: item, setPublicacion, navigation, navigateTo}) }} />
     );
 }
 
@@ -47,12 +47,14 @@ const SlideStyles = StyleSheet.create({
     }
 });
 
-const SliderPublicacionesView = ({publicaciones}) => {
+const SliderPublicacionesView = ({publicaciones, setPublicacion, navigation, navigateTo}) => {
+
+    
     const [index, setIndex] = useState(0);
     return (
         <Carousel
       data={publicaciones}
-      renderItem={_renderItem}
+      renderItem={({item, index}) => _renderItem({item, index, setPublicacion, navigation, navigateTo}) }
       sliderWidth={SLIDER_WIDTH}
       itemWidth={ITEM_WIDTH}
     //   containerCustomStyle={styles.carouselContainer}
@@ -68,14 +70,14 @@ const SliderPublicacionesView = ({publicaciones}) => {
     )
 }
 
-const SliderPublicaciones = ({publicaciones, titulo, verTodas='Ver Todas'}) => (
+const SliderPublicaciones = ({publicaciones, titulo, verTodas='Ver Todas', setPublicacion, navigation, navigateTo}) => (
     <View>
         <View style={SlideStyles.titulo}>
             <View style={SlideStyles.texto}><Text style={SlideStyles.textoTitulo}>{titulo}</Text></View>
             <View style={SlideStyles.texto}><TouchableOpacity><Text style={SlideStyles.textoBoton}>{verTodas}</Text></TouchableOpacity></View>
         </View>
         <ScrollView style={SlideStyles.scrollView}>
-            <SliderPublicacionesView publicaciones={publicaciones} />
+            <SliderPublicacionesView publicaciones={publicaciones} setPublicacion={setPublicacion} navigation={navigation} navigateTo={navigateTo} />
         </ScrollView>
     </View>
 );
