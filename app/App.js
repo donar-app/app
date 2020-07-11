@@ -9,6 +9,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Inicio from './src/views/inicio/Index';
 import Login from './src/views/auth/Login';
 import Registro from './src/views/auth/Registro';
+import Dashboard from './src/views/dashboard/Index';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -20,6 +21,7 @@ export default function App() {
         <Drawer.Screen name="Inicio" component={Inicio} />
         <Drawer.Screen name="Login" component={Login} />
         <Drawer.Screen name="Registro" component={Registro} />
+        <Drawer.Screen name="Dashboard" component={Dashboard} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
