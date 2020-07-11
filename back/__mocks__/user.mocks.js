@@ -1,6 +1,7 @@
-const usuariosOK = [
+const usuariosRegistroOK = [
   {
-    code_result: 'usuario-registrado',
+    descripcion: 'Registro correcto',
+    code_result: 'registro-ok',
     obj_usuario: {
       nombre: 'Lucas',
       apellido: 'Biglia',
@@ -12,7 +13,8 @@ const usuariosOK = [
     }
   },
   {
-    code_result: 'usuario-registrado',
+    descripcion: 'Registro Correcto',
+    code_result: 'registro-ok',
     obj_usuario: {
       nombre: 'Pablo',
       apellido: 'Guerrero',
@@ -24,7 +26,8 @@ const usuariosOK = [
     }
   },
   {
-    code_result: 'usuario-registrado',
+    descripcion: 'Indicara registro correcto, pero en realidad ya el usuario esta registrado, pero no dara esa informacion, sino que enviara un mail',
+    code_result: 'registro-ok',
     obj_usuario: {
       nombre: 'Pablo',
       apellido: 'Guerrero',
@@ -37,9 +40,10 @@ const usuariosOK = [
   }
 ]
 
-const usuariosERROR = [
+const usuariosRegistroError = [
   {
-    code_result: 'usuario-registrado',
+    descripcion: 'EL nombre no puede estar vacio',
+    code_result: 'registro-error_en_propiedades',
     obj_usuario: {
       nombre: '',
       apellido: 'Costa',
@@ -51,7 +55,8 @@ const usuariosERROR = [
     }
   },
   {
-    code_result: 'usuario-registrado',
+    descripcion: 'EL apellido no puede estar vacio',
+    code_result: 'registro-error_en_propiedades',
     obj_usuario: {
       nombre: 'James',
       apellido: '',
@@ -63,7 +68,8 @@ const usuariosERROR = [
     }
   },
   {
-    code_result: 'usuario-registrado',
+    descripcion: 'EL alias no puede estar vacio',
+    code_result: 'registro-error_en_propiedades',
     obj_usuario: {
       nombre: 'Marcelo',
       apellido: 'Moreno',
@@ -75,7 +81,8 @@ const usuariosERROR = [
     }
   },
   {
-    code_result: 'usuario-registrado',
+    descripcion: 'La contraseña es insegura, no cumple con los requerimientos',
+    code_result: 'registro-clave_insegura',
     obj_usuario: {
       nombre: 'Alexis',
       apellido: 'Sanchez',
@@ -85,22 +92,66 @@ const usuariosERROR = [
       pais: 'cl',
       ciudad: 'santiago'
     }
+  }
+]
+
+const usuariosModificarOK = [
+  {
+    code_result: 'usuario-editado',
+    obj_usuario: {
+      nombre: 'Ever',
+      apellido: 'Banega',
+      alias: 'ever',
+      clave: 'ever...123',
+      correo: 'ever@hotmail.com',
+      pais: 'ar',
+      ciudad: 'salta'
+    }
+  }
+]
+
+const usuariosModificarError = [
+  {
+    code_result: 'usuario-clave_insegura',
+    obj_usuario: {
+      nombre: 'Ever',
+      apellido: 'Banega',
+      alias: 'ever',
+      clave: 'ever',
+      correo: 'ever@hotmail.com',
+      pais: 'ar',
+      ciudad: 'salta'
+    }
   },
   {
-    code_result: 'usuario-registrado',
+    code_result: 'usuario-error_propiedad',
     obj_usuario: {
-      nombre: 'Douglas',
-      apellido: 'Costa',
-      alias: 'dco',
-      clave: 'douglas...123',
-      correo: 'lucas@hotmail.com',
-      pais: 'br',
-      ciudad: 'brasil'
+      nombre: 'E',
+      apellido: 'Banega',
+      alias: 'ever',
+      clave: 'ever...123',
+      correo: 'pablo@hotmail.com',
+      pais: 'ar',
+      ciudad: 'salta'
+    }
+  },
+  {
+    code_result: 'usuario-error_propiedad',
+    obj_usuario: {
+      nombre: 'Ever',
+      apellido: 'B',
+      alias: 'ever',
+      clave: 'ever...123',
+      correo: 'pa',
+      pais: 'ar',
+      ciudad: 'salta'
     }
   }
 ]
 
 module.exports = {
-  usuariosOK,
-  usuariosERROR
+  usuariosRegistroOK,
+  usuariosRegistroError,
+  usuariosModificarOK,
+  usuariosModificarError
 }

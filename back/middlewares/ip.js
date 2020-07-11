@@ -5,7 +5,8 @@ const ipRepository = require('../repository/ipRepository')
 const verificaIP = async (req, res, next) => {
   const ip = '181.44.119.178' // req.ip
   if (ips.length === 0) {
-    ips = await ipRepository.obtenerTodas()
+    const result = await ipRepository.leerTodos()
+    ips = result.objeto
   }
   if (req.cookies.pais) {
     req.body.cookie_pais = req.cookies.pais
@@ -22,7 +23,7 @@ const verificaIP = async (req, res, next) => {
     .catch((error) => console.log('error.message >> ', error.message))
     .then(async (data) => {
       ips.push({ pais: data.country_code, ip: data.ip })
-      await ipRepository.guardar({
+      await ipRepository.crear({
         pais: data.country_code,
         region: data.region_name,
         ciudad: data.city,

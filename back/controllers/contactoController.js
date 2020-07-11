@@ -15,7 +15,7 @@ const crearContacto = asyncHandler(async (req, res, next) => {
       timeZone: 'America/Argentina/Buenos_Aires'
     }))
 
-  const contacto = await ContactoRepository.guardar(objContacto)
+  const contacto = await ContactoRepository.crear(objContacto)
 
   if (!contacto) {
     return res.json(responseJSON(false, 'contacto_no_guardado', 'Error en guardar sugerencia', []))

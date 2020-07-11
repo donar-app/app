@@ -25,7 +25,12 @@ const seguridadDeClave = (clave) => {
   return true
 }
 
+const encodeBasic = (usuario, clave) => {
+  return `Basic ${Buffer.from(`${usuario}:${clave}`).toString('base64')}`
+}
+
 module.exports = {
   generaStringRandom,
-  seguridadDeClave
+  seguridadDeClave,
+  encodeBasic
 }

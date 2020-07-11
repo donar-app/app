@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 const { verificaCredenciales } = require('../middlewares/seguridad')
-const { crearUsuario, confirmarRegistro, login, recuperarClave } = require('../controllers/usuarioController')
+const { crearUsuario, confirmarRegistro, login, recuperarClave } = require('../controllers/seguridadController')
 
 /**
  * Bienvenida a la API

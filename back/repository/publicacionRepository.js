@@ -1,15 +1,13 @@
 const PublicacionModel = require('../models/publicacionModel')
-class PublicacionRepository {
+const DefaultRepository = require('../repository/defaultRepository')
+
+class PublicacionRepository extends DefaultRepository {
   /**
    * Cargamos todos los metodos que contiene mongoose
    * @param {PublicacionModel} model Modelo de la coleccion Publicacion
    */
-  constructor (model) {
+  super (model) {
     this.model = model
-  }
-
-  async guardar (object) {
-    return await this.model.create(object)
   }
 
   async obtenerPorAnunciante (usuarioID) {
@@ -105,18 +103,6 @@ class PublicacionRepository {
         path: 'anunciante',
         select: ['_id', 'nombre', 'apellido', 'correo', 'pais', 'ciudad', 'es_activo', 'creado_en']
       })
-  }
-
-  async actualizarPorID (id, object) {
-    return await this.model.findOneAndUpdate(
-      { _id: id },
-      object,
-      {
-        new: true,
-        runValidators: true,
-        context: 'query'
-      }
-    )
   }
 
   async eliminar (id, usuarioID) {

@@ -8,7 +8,7 @@ const asyncHandler = require('../middlewares/async-handler')
 const crearPregunta = asyncHandler(async (req, res) => {
   const { jwt_usuario_id: usuarioID, publicacion: publicacionID, pregunta: preguntaValue } = req.body
 
-  const publicacion = await PublicacionRepository.obtenerPorID(publicacionID)
+  const publicacion = await PublicacionRepository.leerPorID(publicacionID)
 
   if (!publicacion) {
     return res.json(responseJSON(false, 'publicacion-error_pregunta', 'Publicacion no existe', []))
@@ -17,7 +17,7 @@ const crearPregunta = asyncHandler(async (req, res) => {
   if (String(publicacion.anunciante) === String(usuarioID)) {
     return res.json(responseJSON(false, 'pregunta_error', 'No puede autopreguntarse', []))
   }
-  const pregunta = await PreguntaRepository.guardar({
+  const pregunta = await PreguntaRepository.crear({
     pregunta: preguntaValue,
     publicacion_id: publicacionID,
     usuario_id: usuarioID,
@@ -39,7 +39,7 @@ const obtenerPregunta = asyncHandler(async (req, res) => {
   if (!id) {
     return res.json(responseJSON(false, 'pregunta-sin_id', 'Pregunta no encontrada.', []))
   }
-  const pregunta = await PreguntaRepository.obtenerPorID(id)
+  const pregunta = await PreguntaRepository.leerPorID(id)
   return res.json(responseJSON(true, 'pregunta-enviada', 'Pregunta enviada.', pregunta))
 })
 
@@ -49,7 +49,7 @@ const obtenerPreguntas = asyncHandler(async (req, res) => {
   if (!publicacionID) {
     return res.json(responseJSON(false, 'pregunta-sin_id', 'Publicacion no encontrada.', []))
   }
-  const preguntas = await PreguntaRepository.obtenerPreguntasPorPublicacion(publicacionID)
+  const preguntas = await PreguntaRepository.leerPreguntasPorPublicacion(publicacionID)
   return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas envias.', preguntas))
 })
 
@@ -59,13 +59,13 @@ const responderPregunta = asyncHandler(async (req, res) => {
   if (!preguntaID || !respuesta) {
     return res.json(responseJSON(false, 'pregunta-faltan_parametros', 'Faltan algunos parametros', ['id', 'respuesta']))
   }
-  const publicacion = await PublicacionRepository.obtenerPorID(publicacionID, usuarioID)
+  const publicacion = await PublicacionRepository.leerPorID(publicacionID, usuarioID)
 
   if (!publicacion) {
     return res.json(responseJSON(false, 'publicacion-error_no_encontada', 'Publicacion no encontrada', []))
   }
 
-  const pregunta = await PreguntaRepository.buscarParaResponder(preguntaID, usuarioID, respuesta)
+  const pregunta = await PreguntaRepository.leerParaResponder(preguntaID, usuarioID, respuesta)
 
   if (!pregunta) {
     return res.json(responseJSON(false, 'pregunta-error_no_encontada', 'No se pudo responder la pregunta.', []))

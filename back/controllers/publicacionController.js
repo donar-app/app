@@ -10,13 +10,13 @@ const { ResourceNotImage } = require('../errors')
 
 const obtenerPublicaciones = asyncHandler(async (req, res) => {
   const { cookie_pais: pais } = req.body
-  const publicaciones = await PublicacionRepository.obtenerPublicacionesActivas(pais)
+  const publicaciones = await PublicacionRepository.leerPublicacionesActivas(pais)
   return res.json(responseJSON(true, 'publicaciones_activas', 'Todas las publicaciones', publicaciones))
 })
 
 const obtenerMisPublicaciones = asyncHandler(async (req, res) => {
   const { jwt_usuario_id: id } = req.body
-  const publicacion = await PublicacionRepository.obtenerPorAnunciante(id)
+  const publicacion = await PublicacionRepository.leerPorAnunciante(id)
 
   if (!publicacion) {
     return res.json(responseJSON(false, 'publicacion_no_encontradad', 'Publicacion no encontrada', []))
@@ -27,7 +27,7 @@ const obtenerMisPublicaciones = asyncHandler(async (req, res) => {
 
 const obtenerPublicacion = asyncHandler(async (req, res) => {
   const { id } = req.params
-  const publicacion = await PublicacionRepository.obtenerPorID(id)
+  const publicacion = await PublicacionRepository.leerPorID(id)
 
   if (!publicacion) {
     return res.json(responseJSON(false, 'publicacion_no_encontradad', 'Publicacion no encontrada', []))
@@ -48,7 +48,7 @@ const crearPublicacion = asyncHandler(async (req, res) => {
 
   fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), buff, 'base64')
 
-  const publicacion = await PublicacionRepository.guardar({
+  const publicacion = await PublicacionRepository.crear({
     anunciante_id: id,
     titulo,
     categoria,
@@ -74,7 +74,7 @@ const editarPublicacion = asyncHandler(async (req, res) => {
   const nameFile = `${id}-${new Date().getTime()}`
   const buff = Buffer.from(imagen64, 'base64')
 
-  const publicacion = await PublicacionRepository.obtenerPorAnuncianteAndID(id, usuarioID)
+  const publicacion = await PublicacionRepository.leerPorAnuncianteAndID(id, usuarioID)
 
   if (!publicacion) {
     return res.json(responseJSON(false, 'publicacion-no_encontrada', 'Publicacion no existe', []))

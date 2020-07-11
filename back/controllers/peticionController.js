@@ -13,7 +13,7 @@ const crearPeticion = asyncHandler(async (req, res) => {
     return res.json(responseJSON(false, 'peticion_invalida', 'Error en ID', ['obj_peticion', 'publicacion_id']))
   }
 
-  const publicacion = await PublicacionRepository.obtenerParaPeticion(publicacionID, usuarioID)
+  const publicacion = await PublicacionRepository.leerParaPeticion(publicacionID, usuarioID)
 
   if (!publicacion) {
     return res.json(responseJSON(false, 'peticion-publicacion_nula', 'Publicacion no encontrada', []))
@@ -25,7 +25,7 @@ const crearPeticion = asyncHandler(async (req, res) => {
     new Date().toLocaleString('es-AR', {
       timeZone: 'America/Argentina/Buenos_Aires'
     }))
-  const peticion = await PeticionRepository.guardar(objPeticion, usuarioID, publicacionID)
+  const peticion = await PeticionRepository.crear(objPeticion, usuarioID, publicacionID)
   if (!peticion) {
     return res.json(responseJSON(false, 'peticion-error', 'No se puede guardar la peticion', []))
   }
@@ -37,14 +37,14 @@ const obtenerUnaPeticion = asyncHandler(async (req, res) => {
   if (!id || id.length < 1) {
     return res.json(responseJSON(true, 'peticion_invalida', 'Error en ID', []))
   }
-  const peticion = await PeticionRepository.obtenerPorID(id)
+  const peticion = await PeticionRepository.leerPorID(id)
   return res.json(responseJSON(true, 'peticion_retornada', 'Peticion Obtenida', peticion))
 })
 
 const misPeticiones = asyncHandler(async (req, res) => {
   const { jwt_usuario_id: usuarioID } = req.body
 
-  const peticiones = await PeticionRepository.obtenerMisPeticiones(usuarioID)
+  const peticiones = await PeticionRepository.leerMisPeticiones(usuarioID)
   return res.json(responseJSON(true, 'peticiones_retornas', 'Peticiones Obtenidas', peticiones))
 })
 
@@ -54,7 +54,7 @@ const peticionesPorPublicacion = asyncHandler(async (req, res) => {
     return res.json(responseJSON(true, 'peticion_invalida', 'Error en ID', []))
   }
 
-  const peticiones = await PeticionRepository.obtenerVariasPorPublicacion(publicacionID)
+  const peticiones = await PeticionRepository.leerVariasPorPublicacion(publicacionID)
   return res.json(responseJSON(true, 'peticiones_retornas', 'Peticiones Obtenidas', peticiones))
 })
 
@@ -67,7 +67,7 @@ const modificaPeticion = asyncHandler(async (req, res) => {
   }
 
   const peticion = await PeticionRepository.actualizar(id, objPeticion)
-  const usuario = await UsuarioRepository.obtenerPorID(usuarioID)
+  const usuario = await UsuarioRepository.leerPorID(usuarioID)
 
   return res.json(responseJSON(true, 'peticion_modificada', 'Peticiones Modificada', [usuario, peticion]))
 })
@@ -79,7 +79,7 @@ const calificacionEmisor = asyncHandler(async (req, res) => {
     return res.json(responseJSON(false, 'peticion-faltan_parametros', 'Error parametros', ['id', 'calificacion']))
   }
 
-  const peticion = await PeticionRepository.obtenerParaCalificacionEmisior(id, usuarioID, calificacion)
+  const peticion = await PeticionRepository.leerParaCalificacionEmisior(id, usuarioID, calificacion)
 
   if (!peticion) {
     return res.json(responseJSON(false, 'peticion-no_encontrada', 'Peticion no encontradad', []))
@@ -94,7 +94,7 @@ const calificacionReceptor = asyncHandler(async (req, res) => {
     return res.json(responseJSON(false, 'peticion-faltan_parametros', 'Error parametros', ['id', 'calificacion']))
   }
 
-  const peticion = await PeticionRepository.obtenerParaCalificacionReceptor(id, usuarioID, calificacion)
+  const peticion = await PeticionRepository.leerParaCalificacionReceptor(id, usuarioID, calificacion)
 
   if (!peticion) {
     return res.json(responseJSON(false, 'peticion-no_encontrada', 'Peticion no encontradad', []))

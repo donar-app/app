@@ -12,8 +12,8 @@ const confirmacionDeRegistro = async (destinatario, codigoVerificacion) => {
   return true
 }
 
-const enviaNuevaClave = async (destinatario) => {
-  const html = 'Hola'
+const enviaNuevaClave = async (destinatario, claveNueva) => {
+  const html = 'Hola' + claveNueva
   const asunto = 'asd'
   const resultadoEnvio = await enviarCorreo('seguridad@donar-app.com', destinatario, asunto, html)
   if (!resultadoEnvio) {

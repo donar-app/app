@@ -1,16 +1,13 @@
 const PreguntaModel = require('../models/preguntaModel')
+const DefaultRepository = require('../repository/defaultRepository')
 
-class PreguntaRepository {
+class PreguntaRepository extends DefaultRepository {
   /**
    * Cargamos todos los metodos que contiene mongoose
    * @param {PreguntaModel} model Modelo de la coleccion Pregunta
    */
-  constructor (model) {
+  super (model) {
     this.model = model
-  }
-
-  async guardar (object) {
-    return await this.model.create(object)
   }
 
   async obtenerPreguntasPorPublicacion (id) {
