@@ -19,6 +19,7 @@ const Login = ({ setAuthorization }) => {
       showConfirmButton: false,
       allowOutsideClick: false,
     });
+    console.log(`Basic ${btoa(`${document.querySelector('#userLogin').value}:${document.querySelector('#passLogin').value}`)}`);
     petition('ingreso', 'POST', `Basic ${btoa(`${document.querySelector('#userLogin').value}:${document.querySelector('#passLogin').value}`)}`)
       .then((response) => {
         if (response.tipo === 'error') {
