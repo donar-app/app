@@ -8,6 +8,7 @@ const { responseJSON } = require('../utils/responseJSON')
 
 const crearPeticion = asyncHandler(async (req, res) => {
   const { jwt_usuario_id: usuarioID, obj_peticion: objPeticion, publicacion_id: publicacionID } = req.body
+  return res.json({ jwt_usuario_id: usuarioID, obj_peticion: objPeticion, publicacion_id: publicacionID })
 
   if (!objPeticion || !publicacionID) {
     return res.json(responseJSON(false, 'peticion_invalida', 'Error en ID', ['obj_peticion', 'publicacion_id']))
@@ -25,7 +26,6 @@ const crearPeticion = asyncHandler(async (req, res) => {
     new Date().toLocaleString('es-AR', {
       timeZone: 'America/Argentina/Buenos_Aires'
     }))
-  return res.json({ objPeticion })
   const peticion = await PeticionRepository.guardar(objPeticion)
   if (!peticion) {
     return res.json(responseJSON(false, 'peticion-error', 'No se puede guardar la peticion', []))
