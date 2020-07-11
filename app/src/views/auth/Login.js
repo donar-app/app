@@ -21,10 +21,10 @@ const LoginView = (navigation, setPublicacion) => {
             
             const verificarLogin = await checkLogin();
             
-            if( verificarLogin.error ) {
-                console.log({verificarLogin});
-                alert('Inicie sesión de nuevo');
-            }
+            // if( verificarLogin.error ) {
+            //     console.log({verificarLogin});
+            //     alert('Inicie sesión de nuevo');
+            // }
         }
         getData();
         return () => {

@@ -54,7 +54,7 @@ const Donaciones = ({ navigation }) => {
     });
 
     const donacionesComponent = () => DonacionesView(navigation, setPublicacion);
-    const publicacionComponent = () => PublicacionCompleta({publicacion});
+    const publicacionComponent = () => PublicacionCompleta({publicacion, navigation});
 
     return (
         <Stack.Navigator>
