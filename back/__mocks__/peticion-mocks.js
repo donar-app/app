@@ -1,8 +1,8 @@
-const contactoOK = [
+const crearPeticionOK = [
   {
-    descripcion: 'Crear un contacto',
-    code_result: 'contacto-registrado',
-    obj_contacto: {
+    descripcion: 'Crear un peticion',
+    code_result: 'peticion-ok',
+    obj_peticion: {
       nombre: 'Lucas',
       correo: 'lucas@hotmail.com',
       titulo: 'Funciona todo genial',
@@ -11,11 +11,11 @@ const contactoOK = [
   }
 ]
 
-const contactoError = [
+const crearPeticionError = [
   {
     descripcion: 'Error en el nombre',
-    code_result: 'contacto-no_guardado',
-    obj_contacto: {
+    code_result: 'peticion-no_guardado',
+    obj_peticion: {
       nombre: '',
       correo: 'lucas@hotmail.com',
       titulo: 'Funciona todo genial',
@@ -24,8 +24,8 @@ const contactoError = [
   },
   {
     descripcion: 'Error en el correo',
-    code_result: 'contacto-no_guardado',
-    obj_contacto: {
+    code_result: 'peticion-no_guardado',
+    obj_peticion: {
       nombre: 'Lucas',
       correo: 123,
       titulo: 'Funciona todo genial',
@@ -34,8 +34,8 @@ const contactoError = [
   },
   {
     descripcion: 'Error en el titulo y mensaje',
-    code_result: 'contacto-no_guardado',
-    obj_contacto: {
+    code_result: 'peticion-no_guardado',
+    obj_peticion: {
       nombre: 'Lucas',
       correo: 'lucas@hotmail.com',
       titulo: undefined,
@@ -44,6 +44,6 @@ const contactoError = [
   }
 ]
 module.exports = {
-  contactoOK,
-  contactoError
+  crearPeticionOK,
+  crearPeticionError
 }

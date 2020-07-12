@@ -1,8 +1,8 @@
-const contactoOK = [
+const crearPublicacionOK = [
   {
-    descripcion: 'Crear un contacto',
-    code_result: 'contacto-registrado',
-    obj_contacto: {
+    descripcion: 'Crear un publicacion',
+    code_result: 'publicacion-creada',
+    obj_publicacion: {
       nombre: 'Lucas',
       correo: 'lucas@hotmail.com',
       titulo: 'Funciona todo genial',
@@ -11,11 +11,11 @@ const contactoOK = [
   }
 ]
 
-const contactoError = [
+const crearPublicacionError = [
   {
     descripcion: 'Error en el nombre',
-    code_result: 'contacto-no_guardado',
-    obj_contacto: {
+    code_result: 'publicacion-no_guardado',
+    obj_publicacion: {
       nombre: '',
       correo: 'lucas@hotmail.com',
       titulo: 'Funciona todo genial',
@@ -24,8 +24,8 @@ const contactoError = [
   },
   {
     descripcion: 'Error en el correo',
-    code_result: 'contacto-no_guardado',
-    obj_contacto: {
+    code_result: 'publicacion-no_guardado',
+    obj_publicacion: {
       nombre: 'Lucas',
       correo: 123,
       titulo: 'Funciona todo genial',
@@ -34,8 +34,8 @@ const contactoError = [
   },
   {
     descripcion: 'Error en el titulo y mensaje',
-    code_result: 'contacto-no_guardado',
-    obj_contacto: {
+    code_result: 'publicacion-no_guardado',
+    obj_publicacion: {
       nombre: 'Lucas',
       correo: 'lucas@hotmail.com',
       titulo: undefined,
@@ -44,6 +44,6 @@ const contactoError = [
   }
 ]
 module.exports = {
-  contactoOK,
-  contactoError
+  crearPublicacionOK,
+  crearPublicacionError
 }

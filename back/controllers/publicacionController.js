@@ -6,6 +6,7 @@ const PublicacionRepository = require('../repository/publicacionRepository')
 const isImage = require('../utils/is-image')
 const asyncHandler = require('../middlewares/async-handler')
 const { responseJSON } = require('../utils/responseJSON')
+const { validOneFile, validManyFiles } = require('../utils/file')
 const { ResourceNotImage } = require('../errors')
 
 const obtenerPublicaciones = asyncHandler(async (req, res) => {
@@ -37,18 +38,15 @@ const obtenerPublicacion = asyncHandler(async (req, res) => {
 })
 
 const crearPublicacion = asyncHandler(async (req, res) => {
-  const { jwt_usuario_id: id, cookie_pais: pais, titulo, categoria, descripcion, tipo, imagen } = req.body
-  const imagen64 = imagen.replace(/^data:image\/\w+;base64,/, '')
-  const nameFile = `${id}-${new Date().getTime()}`
-  const buff = Buffer.from(imagen64, 'base64')
+  const { jwt_usuario_id: id, cookie_pais: pais } = req.body
+  const { error, mensaje, body, imagenes } = await validManyFiles(req, res, 'uploads/', 'imagenes', 4)
 
-  // await fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), imagen)
+  if (error) {
+    return res.json(responseJSON(false, 'publicacion-error_creacion', mensaje, []))
+  }
+  const { titulo, categoria, descripcion, tipo } = body
 
-  if (!isImage(buff)) throw new ResourceNotImage()
-
-  fs.writeFileSync(path.resolve(__dirname, `../uploads/${nameFile}.png`), buff, 'base64')
-
-  const publicacion = await PublicacionRepository.crear({
+  const { objeto: publicacion } = await PublicacionRepository.crear({
     anunciante_id: id,
     titulo,
     categoria,
@@ -57,7 +55,7 @@ const crearPublicacion = asyncHandler(async (req, res) => {
     pais,
     creado_en: new Date(),
     actualizada_en: new Date(),
-    imagen: `${nameFile}.png`,
+    imagenes,
     estado: 'Publicado'
   })
 

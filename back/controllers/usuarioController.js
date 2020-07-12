@@ -11,15 +11,15 @@ const obtenerUsuario = asyncHandler(async (req, res) => {
   const { jwt_usuario_id: id } = req.body
   const { objeto: usuario } = await UsuarioRepository.leerPorID(id)
   if (!usuario) {
-    return responseJSON(false, 'usuario-no_encontrado', 'Usuario no encontrado!', [])
+    return res.json(responseJSON(false, 'usuario-no_encontrado', 'Usuario no encontrado!', []))
   }
-  return responseJSON(true, 'usuario-encontrado', 'Usuario encontrado!', usuario)
+  return res.json(responseJSON(true, 'usuario-encontrado', 'Usuario encontrado!', usuario))
 })
 
 const actualizarUsuario = asyncHandler(async (req, res) => {
   const { obj_usuario: objUsuario, jwt_usuario_id: usuarioID } = req.body
   if (!objUsuario) {
-    return responseJSON(false, 'usuario_faltante', 'Falta el objeto usuario', ['obj_usuario'])
+    return res.json(responseJSON(false, 'usuario_faltante', 'Falta el objeto usuario', ['obj_usuario']))
   }
 
   if (objUsuario.clave) {
@@ -54,7 +54,7 @@ const eliminarUsuario = asyncHandler(async (req, res) => {
     return res.json(responseJSON(false, 'usuario-error_al_eliminar', 'Usuario no encontrado', []))
   }
 
-  return res.json(responseJSON(true, 'usuario_eliminado', 'Usuario Eliminado', usuario))
+  return res.json(responseJSON(true, 'usuario-eliminado', 'Usuario Eliminado', usuario))
 })
 
 module.exports = {

@@ -14,8 +14,6 @@ const Contacto = new Schema({
     ref: 'Correo',
     minlength: 5,
     maxlength: 50,
-    unique: true,
-    index: true,
     required: [true, 'El correo es necesario']
   },
   titulo: {

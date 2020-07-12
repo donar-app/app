@@ -38,9 +38,12 @@ const publicacionSchema = new Schema({
     type: String,
     default: 'Publicado'
   },
-  imagen: {
-    type: String
-  },
+  imagenes: [
+    {
+      url: String,
+      nombre: String
+    }
+  ],
   pais: {
     type: String,
     ref: 'Pais',

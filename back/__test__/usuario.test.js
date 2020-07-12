@@ -1,14 +1,14 @@
 const supertest = require('supertest')
-const app = require('../../app')
+const app = require('../app')
 const request = supertest(app)
 const crypto = require('crypto')
-const { encodeBasic } = require('../../utils/myUtils')
-const usuarioModel = require('../../models/usuarioModel')
-const { usuariosRegistroOK, usuariosRegistroError, usuariosModificarOK, usuariosModificarError } = require('../../__mocks__/user.mocks')
+const { encodeBasic } = require('../utils/myUtils')
+const usuarioModel = require('../models/usuarioModel')
+const { usuariosRegistroOK, usuariosRegistroError, usuariosModificarOK, usuariosModificarError } = require('../__mocks__/user.mocks')
 let token = null
 let usuarioID = null
 
-describe('Endpoints Usuario', () => {
+describe('Endpoints Usuario y Seguridad', () => {
   beforeAll(async (done) => {
     setTimeout(async () => {
       await usuarioModel.deleteMany({})
@@ -72,4 +72,18 @@ describe('Endpoints Usuario', () => {
     expect(resultAPI.body.codigo).toEqual(codeResult)
     expect(resultAPI.statusCode).toEqual(200)
   }, 30000)
+
+  test('Obtener un Usuario - OK', async (done) => {
+    const resultAPI = await request.get('/usuarios').set('Authorization', `Bearer ${token}`)
+    expect(resultAPI.body.codigo).toEqual('usuario-encontrado')
+    expect(resultAPI.statusCode).toEqual(200)
+    done()
+  })
+
+  test('Eliminar un Usuario - OK', async (done) => {
+    const resultAPI = await request.delete('/usuarios').set('Authorization', `Bearer ${token}`)
+    expect(resultAPI.body.codigo).toEqual('usuario-eliminado')
+    expect(resultAPI.statusCode).toEqual(200)
+    done()
+  })
 })

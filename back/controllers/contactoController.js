@@ -7,7 +7,7 @@ const asyncHandler = require('../middlewares/async-handler')
 const crearContacto = asyncHandler(async (req, res, next) => {
   const { obj_contacto: objContacto } = req.body
   if (!objContacto) {
-    return res.json(responseJSON(false, 'contacto_error', 'Faltan parametros', ['obj_contacto']))
+    return res.json(responseJSON(false, 'contacto-error_parametros', 'Faltan parametros', ['obj_contacto']))
   }
 
   objContacto.creado_en = new Date(
@@ -15,13 +15,13 @@ const crearContacto = asyncHandler(async (req, res, next) => {
       timeZone: 'America/Argentina/Buenos_Aires'
     }))
 
-  const contacto = await ContactoRepository.crear(objContacto)
+  const { objeto: contacto } = await ContactoRepository.crear(objContacto)
 
   if (!contacto) {
-    return res.json(responseJSON(false, 'contacto_no_guardado', 'Error en guardar sugerencia', []))
+    return res.json(responseJSON(false, 'contacto-no_guardado', 'Error en guardar sugerencia', []))
   }
 
-  return res.json(responseJSON(true, 'contacto_registrado', 'Gracias por Contactarnos', contacto))
+  return res.status(201).json(responseJSON(true, 'contacto-registrado', 'Gracias por Contactarnos', contacto))
 })
 
 module.exports = {
