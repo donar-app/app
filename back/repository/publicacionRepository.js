@@ -13,7 +13,7 @@ class PublicacionRepository {
   }
 
   async obtenerPorAnunciante (usuarioID) {
-    return await this.model.findOne({ anunciante_id: usuarioID })
+    return await this.model.find({ anunciante_id: usuarioID })
       .populate({
         path: 'preguntas',
         populate: {
