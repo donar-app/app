@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import IosChatbubbles from 'react-ionicons/lib/IosChatbubbles';
 import IosPersonAdd from 'react-ionicons/lib/IosPersonAdd';
+import moment from 'moment';
 import LoaderDualRing from '../components/LoaderDualRing';
 import { petition } from '../functions';
 
@@ -139,6 +140,26 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
             <div className='tw-flex-1'>
               <input className='bg-transparent focus:outline-none focus:outline-none border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal tw-ml-5' style={{ width: '80vw' }} placeholder='Preguntar...' />
               <button className='tw-border-black tw-p-3 tw-border'>Enviar</button>
+            </div>
+            <div>
+              {
+                dataProducto.preguntas &&
+                dataProducto.preguntas.map((pregunta) => (
+                  <div className='tw-rounded tw-bg-white tw-mx-5 tw-my-5 tw-p-8 tw-shadow-md'>
+                    <p style={{ width: '100%' }} className='text-left'>
+                      P:
+                      {' '}
+                      {pregunta.pregunta}
+                    </p>
+                    <p style={{ width: '100%' }} className='text-right'>
+                      R:
+                      {' '}
+                      {pregunta.respuesta}
+                    </p>
+                    <p className='tw-text-xs'>{moment(pregunta.creado_en).format('YYYY-MM-DD HH:mm:ss')}</p>
+                  </div>
+                ))
+              }
             </div>
           </div>
         )}
