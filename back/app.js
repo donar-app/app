@@ -39,7 +39,7 @@ app.use(express.json({ limit: '10mb' }))
 app.use(helmet())
 app.use(cors({ origin: true, credentials: true }))
 app.use(cookieParser())
-// app.use(verificaIP)
+app.use(verificaIP)
 
 app.use('/', indexRouter)
 app.use('/contacto', contactoRouter)

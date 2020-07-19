@@ -14,6 +14,8 @@ const buttonStyle = {
 };
 
 const Perfil = ({ authorization, setAuthorization }) => {
+  const history = useHistory();
+
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [pais, setPais] = useState('');
@@ -22,6 +24,18 @@ const Perfil = ({ authorization, setAuthorization }) => {
   useEffect(() => {
     petition('usuarios', 'GET', authorization.authorization, {})
       .then((response) => {
+        if (response.tipo === 'error') {
+          if (response.codigo === 'token_no_valido') {
+            Swal.fire(
+              'No Autorizado',
+              response.mensaje,
+              'error',
+            );
+          }
+          history.push('/iniciarSesion');
+          return;
+        }
+        console.log({ response });
         const { cuerpo: usuario } = response;
 
         setNombre(usuario.nombre);
@@ -30,8 +44,6 @@ const Perfil = ({ authorization, setAuthorization }) => {
         setCiudad(usuario.ciudad);
       });
   }, []);
-
-  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -1,6 +1,7 @@
-'use strit'
+'use strict'
 
 const express = require('express')
+
 const router = express.Router()
 const { obtenerUnaPeticion, peticionesPorPublicacion, misPeticiones, crearPeticion, modificaPeticion, calificacionEmisor, calificacionReceptor } = require('../controllers/peticionController')
 
