@@ -101,37 +101,44 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
         </div>
       ) :
         (
-          <div className='tw-rounded tw-bg-white tw-mx-5'>
-            <div className='tw-flex tw-flex-col tw-justify-center tw-items-center col-xs-12'>
-              <h2 className='text-center tw-font-bold tw-pt-2 tw-text-xl tw-m-5'>{dataProducto.titulo}</h2>
-              <img className='tw-bg-gray-200 tw-object-contain tw-w-full' style={{ height: '40vh' }} src={dataProducto.imagen} alt='' />
-            </div>
-            <div className='tw-px-4 py-4'>
-              <p className='tw-p-1 tw-rounded'>
-                {dataProducto.descripcion}
-              </p>
-            </div>
-            <div className='tw-flex tw-justify-center'>
-              <div className='tw-justify-center tw-items-center tw-w-5'>
-                <p className='text-center'>
-                  {dataProducto.preguntas.length || '0'}
-                  {' '}
-                  <br />
-                </p>
-                <IosChatbubbles fontSize='5vw' color='black' />
+          <div>
+            <div className='tw-rounded tw-bg-white tw-mx-5'>
+              <div className='tw-flex tw-flex-col tw-justify-center tw-items-center col-xs-12'>
+                <h2 className='text-center tw-font-bold tw-pt-2 tw-text-xl tw-m-5'>{dataProducto.titulo}</h2>
+                <img className='tw-bg-gray-200 tw-object-contain tw-w-full' style={{ height: '40vh' }} src={dataProducto.imagen} alt='' />
               </div>
-              <div style={{ width: '40%' }} />
-              <div className='tw-justify-center tw-items-center tw-w-5'>
-                <p className='text-center'>
-                  {dataProducto.preguntas.length || '0'}
-                  {' '}
-                  <br />
+              <div className='tw-px-4 py-4'>
+                <p className='tw-p-1 tw-rounded'>
+                  {dataProducto.descripcion}
                 </p>
-                <IosPersonAdd fontSize='5vw' color='black' />
+              </div>
+              <div className='tw-flex tw-justify-center'>
+                <div className='tw-justify-center tw-items-center tw-w-5'>
+                  <p className='text-center'>
+                    {dataProducto.preguntas.length || '0'}
+                    {' '}
+                    <br />
+                  </p>
+                  <IosChatbubbles fontSize='5vw' color='black' />
+                </div>
+                <div style={{ width: '40%' }} />
+                <div className='tw-justify-center tw-items-center tw-w-5'>
+                  <p className='text-center'>
+                    {dataProducto.preguntas.length || '0'}
+                    {' '}
+                    <br />
+                  </p>
+                  <IosPersonAdd fontSize='5vw' color='black' />
+                </div>
+              </div>
+              <div className='tw-text-center'>
+                <button onClick={handleClick} type='button' className='bg-blue-donar hover:bg-blue-900 text-white font-bold py-2 my-2 px-4 rounded'>¡Solicitar!</button>
               </div>
             </div>
-            <div className='tw-text-center'>
-              <button onClick={handleClick} type='button' className='bg-blue-donar hover:bg-blue-900 text-white font-bold py-2 my-2 px-4 rounded'>¡Solicitar!</button>
+            <h3 className='text-center tw-m-5 tw-text-xl'>Preguntas</h3>
+            <div className='tw-flex-1'>
+              <input className='bg-transparent focus:outline-none focus:outline-none border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal tw-ml-5' style={{ width: '80vw' }} placeholder='Preguntar...' />
+              <button className='tw-border-black tw-p-3 tw-border'>Enviar</button>
             </div>
           </div>
         )}
