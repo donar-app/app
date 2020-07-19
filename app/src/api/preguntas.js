@@ -1,25 +1,19 @@
 import { peticion } from '../functions';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const postPreguntas = async ({ publicacionId, pregunta }) => {
+const postPreguntas = async ({ publicacion, pregunta }) => {
     const authorization = await AsyncStorage.getItem('authorization');
-    
-    console.log( {
-        publicacion_id: publicacionId,
-        pregunta,
-        authorization
+
+    // console.log({ authorization, publicacion, pregunta });
+
+    const response = await peticion('preguntas', 'POST', authorization, {
+        publicacion,
+        pregunta
     });
 
-    const response = [];
+    // console.log({response});
 
-    // const response = await peticion('preguntas', 'POST', authorization, {
-    //     publicacion_id: publicacionId,
-    //     pregunta
-    // });
-
-    // console.log(response);
-
-    return  response;
+    return response;
 };
 
 export {

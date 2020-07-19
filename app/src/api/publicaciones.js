@@ -1,7 +1,14 @@
 import { peticion } from '../functions';
 
 const getAllPublicaciones = async () => {
-    const { data } = await peticion('publicaciones', 'GET');
+    const response = await peticion('publicaciones', 'GET');
+
+    if( response && response.tipo == 'error' ) {
+        console.log({error: response});
+        return [];
+    }
+
+    const { cuerpo: data } = response;
 
     return data;
 };

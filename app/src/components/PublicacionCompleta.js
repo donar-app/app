@@ -17,10 +17,8 @@ const PublicacionCompleta =  ({ publicacion, navigation }) => {
                 navigation.navigate('Login');
             }
 
-            console.log('DEspues de verificar login');
             const peticion = await postPeticiones({publicacionId: publicacion._id});
-            // console({peticion});
-            
+            alert('Petición enviada');
         } catch (e) {
             console.error({e});
         }
@@ -37,8 +35,8 @@ const PublicacionCompleta =  ({ publicacion, navigation }) => {
                 alert('Inicie sesión de para continuar');
                 navigation.navigate('Login');
             }
-            const pregunta = await postPreguntas({publicacionId: publicacion._id, pregunta: preguntaValue});
-            console.log({pregunta});
+            const pregunta = await postPreguntas({publicacion: publicacion._id, pregunta: preguntaValue});
+            // console.log({pregunta});
             
         } catch (e) {
             console.error({e});
