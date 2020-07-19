@@ -141,7 +141,7 @@ const NavBar = ({ authorization }) => {
                 </Link>
               </div>
               <div className='col-12 mb-4'>
-                <Link onClick={closeMenu} to='/mis-publicaciones'>
+                <Link onClick={closeMenu} to='/misPublicaciones'>
                   <i className='text-secondary fas fa-bullhorn' />
                   <span className='pl-3'>Mis Publicaciones</span>
                 </Link>
