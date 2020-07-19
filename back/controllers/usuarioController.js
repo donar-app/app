@@ -76,10 +76,12 @@ const confirmarRegistro = asyncHandler(async (req, res) => {
 const obtenerUsuario = asyncHandler(async (req, res) => {
   const { jwt_usuario_id: id } = req.body
   const usuario = await UsuarioRepository.obtenerPorID(id)
+
   if (!usuario) {
     return responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado!', [])
   }
-  return responseJSON(true, 'usuario_encontrado', 'Usuario encontrado!', usuario)
+
+  return res.json(responseJSON(true, 'usuario_encontrado', 'Usuario encontrado!', usuario))
 })
 
 const login = asyncHandler(async (req, res) => {
