@@ -1,4 +1,5 @@
 const PreguntaModel = require('../models/preguntaModel')
+const PublicacionModel = require('../models/publicacionModel')
 
 class PreguntaRepository {
   /**
@@ -32,6 +33,21 @@ class PreguntaRepository {
 
   async obtenerPreguntasPorUsuario (usuarioID) {
     return await this.model.find({ usuario_id: usuarioID })
+  }
+
+  async obtenerRespuestasPorUsuario (usuarioID) {
+    const publicaciones = await PublicacionModel.find({ anunciante_id: usuarioID })
+    const publicacionesId = publicaciones.map(publicacion => String(publicacion._id))
+    console.log({
+      publicacion_id: {
+        $in: publicacionesId
+      }
+    })
+    return await this.model.find({
+      publicacion_id: {
+        $in: publicacionesId
+      }
+    })
   }
 }
 

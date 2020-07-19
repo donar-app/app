@@ -2,7 +2,7 @@
 
 const express = require('express')
 const router = express.Router()
-const { crearPregunta, obtenerPreguntas, responderPregunta, obtenerMisPreguntas } = require('../controllers/preguntaController')
+const { crearPregunta, obtenerPreguntas, responderPregunta, obtenerMisPreguntas, obtenerMisRespuestas } = require('../controllers/preguntaController')
 const { verificaToken } = require('../middlewares/seguridad')
 
 /**
@@ -21,6 +21,11 @@ router.put('/responder-pregunta', verificaToken, responderPregunta)
  * Get preguntas
  */
 router.get('/mis-preguntas', verificaToken, obtenerMisPreguntas)
+
+/**
+ * Get respuestas
+ */
+router.get('/mis-respuestas', verificaToken, obtenerMisRespuestas)
 
 /**
  * Get preguntas

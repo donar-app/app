@@ -50,6 +50,13 @@ const obtenerMisPreguntas = asyncHandler(async (req, res) => {
   return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas enviadas.', preguntas))
 })
 
+const obtenerMisRespuestas = asyncHandler(async (req, res) => {
+  const { jwt_usuario_id: usuarioID } = req.body
+
+  const preguntas = await PreguntaRepository.obtenerRespuestasPorUsuario(usuarioID)
+  return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas enviadas.', preguntas))
+})
+
 const obtenerPreguntas = asyncHandler(async (req, res) => {
   const { id: publicacionID } = req.params
 
@@ -86,5 +93,6 @@ module.exports = {
   responderPregunta,
   obtenerPregunta,
   obtenerPreguntas,
-  obtenerMisPreguntas
+  obtenerMisPreguntas,
+  obtenerMisRespuestas
 }

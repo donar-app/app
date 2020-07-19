@@ -7,6 +7,7 @@ import MdDoneAll from 'react-ionicons/lib/MdDoneAll';
 import donando from '../assets/static/donando.png';
 import ButtonPill from '../components/ButtonPill';
 import SliderProduct from '../components/SliderProduct';
+import Preguntas from '../components/Preguntas';
 import SliderPeticion from '../components/SliderPeticion';
 import { petition } from '../functions';
 
@@ -74,7 +75,7 @@ const Conversaciones = ({ authorization }) => {
           <Col sm={12}>
             <Tab.Content>
               <Tab.Pane eventKey='donaciones'>
-                <SliderProduct smallText='Tus donaciones' productos={!Array.isArray(publicaciones) ? null : publicaciones.filter((publicacion) => { return publicacion.tipo === 'Donación'; })}>Donaciones</SliderProduct>
+                <Preguntas smallText='Tus donaciones' productos={!Array.isArray(publicaciones) ? null : publicaciones.filter((publicacion) => { return publicacion.tipo === 'Donación'; })}>Donaciones</Preguntas>
               </Tab.Pane>
               <Tab.Pane eventKey='solicitudes'>
                 <SliderProduct smallText='Tus solicitudes' productos={!Array.isArray(publicaciones) ? null : publicaciones.filter((publicacion) => { return publicacion.tipo === 'Solicitud'; })}>Solicitudes</SliderProduct>
