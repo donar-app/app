@@ -25,12 +25,18 @@ const Home = ({ authorization }) => {
             'error',
           );
         } else {
-          response.data.forEach((element, i) => {
-            const { imagen } = element;
-            response.data[i].imagen = `https://api.donar-app.com/uploads/${response.data[i].imagen}`;
+          const { cuerpo } = response;
+
+          const productos = [];
+          cuerpo.forEach((publicacion, i) => {
+            console.log({ publicacion });
+            productos.push({
+              ...publicacion,
+              imagen: `https://api.donar-app.com/uploads/${publicacion.imagen}`,
+            });
           });
           // console.log(response);
-          setproductos(response.data);
+          setproductos(productos);
         }
       });
   }, []);
