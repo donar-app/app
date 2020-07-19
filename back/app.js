@@ -18,7 +18,8 @@ const contactoRouter = require('./routes/contactoRoute')
 
 const app = express()
 
-app.use('/uploads', express.static(`${__dirname}\\uploads`))
+// app.use('/uploads', express.static(`${__dirname}\\uploads`))
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 // Conexión a la DB
 mongoose.connect(process.env.URLDB, {
