@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import withReactContent from 'sweetalert2-react-content';
 import { useHistory, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import IosChatbubbles from 'react-ionicons/lib/IosChatbubbles';
+import IosPersonAdd from 'react-ionicons/lib/IosPersonAdd';
 import LoaderDualRing from '../components/LoaderDualRing';
 import { petition } from '../functions';
 
@@ -21,11 +23,11 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
             'error',
           );
         } else {
-          const { categoria, descripcion, titulo, imagen } = response.cuerpo;
+          const { cuerpo } = response;
+          const { imagen } = cuerpo;
+
           setDataProducto({
-            categoria,
-            descripcion,
-            titulo,
+            ...cuerpo,
             imagen: `https://api.donar-app.com/uploads/${imagen}`,
           });
         }
@@ -99,21 +101,39 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
         </div>
       ) :
         (
-          <>
-            <div className='tw-flex tw-flex-col tw-justify-center tw-items-center'>
-              <img className='tw-object-contain tw-rounded-full shadow-left p-1 tw-h-24 tw-w-24' src={dataProducto.imagen} alt='' />
-              <h2 className='text-center tw-font-bold tw-pt-2 tw-text-xl'>{dataProducto.titulo}</h2>
+          <div className='tw-rounded tw-bg-white tw-mx-5'>
+            <div className='tw-flex tw-flex-col tw-justify-center tw-items-center col-xs-12'>
+              <h2 className='text-center tw-font-bold tw-pt-2 tw-text-xl tw-m-5'>{dataProducto.titulo}</h2>
+              <img className='tw-bg-gray-200 tw-object-contain tw-w-full' style={{ height: '40vh' }} src={dataProducto.imagen} alt='' />
             </div>
             <div className='tw-px-4 py-4'>
-              <h3 className='tw-text-lg tw-font-bold pb-1'>Descripcion:</h3>
-              <p className='tw-p-1 tw-border tw-rounded'>
+              <p className='tw-p-1 tw-rounded'>
                 {dataProducto.descripcion}
               </p>
             </div>
-            <div className='tw-text-center'>
-              <button onClick={handleClick} type='button' className='bg-blue-donar hover:bg-blue-900 text-white font-bold py-2 px-4 rounded'>¡Solicitar!</button>
+            <div className='tw-flex tw-justify-center'>
+              <div className='tw-justify-center tw-items-center tw-w-5'>
+                <p className='text-center'>
+                  {dataProducto.preguntas.length || '0'}
+                  {' '}
+                  <br />
+                </p>
+                <IosChatbubbles fontSize='5vw' color='black' />
+              </div>
+              <div style={{ width: '40%' }} />
+              <div className='tw-justify-center tw-items-center tw-w-5'>
+                <p className='text-center'>
+                  {dataProducto.preguntas.length || '0'}
+                  {' '}
+                  <br />
+                </p>
+                <IosPersonAdd fontSize='5vw' color='black' />
+              </div>
             </div>
-          </>
+            <div className='tw-text-center'>
+              <button onClick={handleClick} type='button' className='bg-blue-donar hover:bg-blue-900 text-white font-bold py-2 my-2 px-4 rounded'>¡Solicitar!</button>
+            </div>
+          </div>
         )}
     </main>
   );
