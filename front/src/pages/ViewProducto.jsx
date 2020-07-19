@@ -21,11 +21,12 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
             'error',
           );
         } else {
+          const { categoria, descripcion, titulo, imagen } = response.cuerpo;
           setDataProducto({
-            categoria: response.data.categoria,
-            descripcion: response.data.descripcion,
-            titulo: response.data.titulo,
-            imagen: `https://api.donar-app.com/uploads/${response.data.imagen}`,
+            categoria,
+            descripcion,
+            titulo,
+            imagen: `https://api.donar-app.com/uploads/${imagen}`,
           });
         }
       });
