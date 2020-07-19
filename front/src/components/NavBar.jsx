@@ -147,6 +147,18 @@ const NavBar = ({ authorization }) => {
                 </Link>
               </div>
               <div className='col-12 mb-4'>
+                <Link onClick={closeMenu} to='/conversaciones'>
+                  <i className='text-secondary fas fa-comment-dots' />
+                  <span className='pl-3'>Conversaciones</span>
+                </Link>
+              </div>
+              <div className='col-12 mb-4'>
+                <Link onClick={closeMenu} to='/entregas'>
+                  <i className='text-secondary fas fa-shipping-fast' />
+                  <span className='pl-3'>Entregas</span>
+                </Link>
+              </div>
+              <div className='col-12 mb-4'>
                 <Link onClick={closeMenu} to='/perfil'>
                   <i className='text-secondary fas fa-user-edit' />
                   <span className='pl-3'>Perfil</span>
@@ -162,12 +174,12 @@ const NavBar = ({ authorization }) => {
                   )
                 }
               </div>
-              <div className='col-12'>
+              {/* <div className='col-12'>
                 <Link onClick={closeMenu} to='/salir'>
                   <i className='text-secondary fas fa-users' />
                   <span className='pl-3'>Nosotros</span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

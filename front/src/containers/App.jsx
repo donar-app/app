@@ -13,6 +13,8 @@ import Donar from '../pages/Donar';
 import Solicitar from '../pages/Solicitar';
 import ViewProducto from '../pages/ViewProducto';
 import MisPublicaciones from '../pages/MisPublicaciones';
+import Conversaciones from '../pages/Conversaciones';
+import Entregas from '../pages/Entregas';
 
 const App = () => {
   const [authorization, setAuthorization] = useState({ authorization: localStorage.getItem('authorization') });
@@ -62,6 +64,14 @@ const App = () => {
             <Route path='/misPublicaciones'>
               <ScrollToTop />
               <MisPublicaciones authorization={authorization} setAuthorization={setAuthorization} />
+            </Route>
+            <Route path='/conversaciones'>
+              <ScrollToTop />
+              <Conversaciones authorization={authorization} setAuthorization={setAuthorization} />
+            </Route>
+            <Route path='/entregas'>
+              <ScrollToTop />
+              <Entregas authorization={authorization} setAuthorization={setAuthorization} />
             </Route>
             <Route path='/Registrarse'>
               <ScrollToTop />

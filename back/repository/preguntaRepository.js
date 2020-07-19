@@ -29,6 +29,10 @@ class PreguntaRepository {
     )
       .aggregate()
   }
+
+  async obtenerPreguntasPorUsuario (usuarioID) {
+    return await this.model.find({ usuario_id: usuarioID })
+  }
 }
 
 module.exports = new PreguntaRepository(PreguntaModel)
