@@ -26,7 +26,7 @@ const SliderProduct = ({ smallText, children, productos }) => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -35,6 +35,8 @@ const SliderProduct = ({ smallText, children, productos }) => {
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: true,
+          dots: false,
         },
       },
       {
@@ -42,6 +44,8 @@ const SliderProduct = ({ smallText, children, productos }) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
+          infinite: true,
+          dots: false,
         },
       },
     ],
