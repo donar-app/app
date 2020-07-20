@@ -84,7 +84,7 @@ const Conversaciones = ({ authorization }) => {
         })
         .catch((error) => console.error({ error }));
     };
-    return getData();
+    getData();
   }, []);
 
   return (
@@ -102,10 +102,10 @@ const Conversaciones = ({ authorization }) => {
           <Col sm={12}>
             <Tab.Content>
               <Tab.Pane eventKey='donaciones'>
-                <Preguntas smallText='Tus preguntas realizadas' preguntas={preguntas}>Preguntas</Preguntas>
+                <Preguntas smallText='Tus preguntas realizadas' preguntas={preguntas} authorization={authorization}>Preguntas</Preguntas>
               </Tab.Pane>
               <Tab.Pane eventKey='solicitudes'>
-                <Preguntas smallText='Tus preguntas realizadas' preguntas={respuestas}>Respuestas</Preguntas>
+                <Preguntas smallText='Tus preguntas realizadas' preguntas={respuestas} authorization={authorization}>Respuestas</Preguntas>
               </Tab.Pane>
             </Tab.Content>
           </Col>

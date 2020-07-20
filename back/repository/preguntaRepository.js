@@ -28,7 +28,6 @@ class PreguntaRepository {
         context: 'query'
       }
     )
-      .aggregate()
   }
 
   async obtenerPreguntasPorUsuario (usuarioID) {
