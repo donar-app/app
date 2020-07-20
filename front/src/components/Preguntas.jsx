@@ -33,7 +33,7 @@ const Preguntas = ({ smallText, children, preguntas }) => {
         {
           preguntas &&
                 preguntas.map((pregunta) => {
-                  const isOwner = false;
+                  const isOwner = usuario && usuario.id === pregunta.publicacion.anunciante_id;
                   return (
                     <div className='tw-rounded tw-bg-white tw-mx-5 tw-my-5 tw-p-8 tw-shadow-md' key={pregunta._id}>
                       <p style={{ width: '100%' }} className='text-left'>

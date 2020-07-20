@@ -51,7 +51,7 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
         if (response.tipo === 'error') {
           if (response.codigo === 'token_nulo') {
             Swal.fire({
-              title: 'No se encuentra registrado u logueado',
+              title: 'No se encuentra registrado o logueado',
               text: '¿Que desea hacer?',
               icon: 'question',
               showCloseButton: true,
@@ -94,6 +94,69 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
         }
       });
   };
+
+  const [pregunta, setPregunta] = useState(null);
+
+  const handlePreguntar = () => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Enviando pregunta...',
+      html: <LoaderDualRing />,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    });
+    petition('preguntas', 'POST', authorization.authorization, {
+      pregunta,
+      publicacion: id,
+    })
+      .then((response) => {
+        if (response.tipo === 'error') {
+          if (response.codigo === 'token_nulo') {
+            Swal.fire({
+              title: 'No se encuentra registrado o logueado',
+              text: '¿Que desea hacer?',
+              icon: 'question',
+              showCloseButton: true,
+              showCancelButton: true,
+              confirmButtonText: 'Iniciar Sesion',
+              cancelButtonText: 'Registrarse',
+              confirmButtonColor: '#0071bc',
+              cancelButtonColor: '#dd7f0e',
+            }).then((result) => {
+              console.log(result);
+              if (result.isConfirmed) {
+                history.push('/iniciarSesion');
+              } else {
+                history.push('/registrarse');
+              }
+            });
+          } else {
+            const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar';
+            Swal.fire(
+              'Error al Solicitar',
+              mensaje,
+              'error',
+            );
+          }
+        } else {
+          setAuthorization({
+            ...response.cuerpo,
+            authorization: response.authorization,
+          });
+          Swal.fire({
+            icon: 'success',
+            title: 'Pregunta Realizada!',
+            showConfirmButton: false,
+            timer: 1500,
+            allowOutsideClick: false,
+          })
+            .then(() => {
+              history.push(`/publicacion/${dataProducto._id}`);
+            });
+        }
+      });
+  };
+
   return (
     <main className='animate__animated animate__fadeIn tw-pt-5'>
       {!dataProducto ? (
@@ -138,8 +201,8 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
             </div>
             <h3 className='text-center tw-m-5 tw-text-xl'>Preguntas</h3>
             <div className='tw-flex-1'>
-              <input className='bg-transparent focus:outline-none focus:outline-none border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal tw-ml-5' style={{ width: '80vw' }} placeholder='Preguntar...' />
-              <button className='tw-border-black tw-p-3 tw-border'>Enviar</button>
+              <input value={pregunta} onChange={(e) => setPregunta(e.target.value)} className='bg-transparent focus:outline-none focus:outline-none border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal tw-ml-5' style={{ width: '80vw' }} placeholder='Preguntar...' />
+              <button onClick={handlePreguntar} className='tw-border-black tw-p-3 tw-border'>Enviar</button>
             </div>
             <div>
               {
