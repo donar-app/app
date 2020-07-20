@@ -20,7 +20,7 @@ export const petition = (path, method, authorization = '', objectBody = {}) => {
       // credentials: 'include',
     };
   }
-  return fetch(`http://localhost:3000/${path}`, headers)
+  return fetch(`http://api.donar-app.com/${path}`, headers)
     .then((response) => {
       authorizationChange = `Bearer ${response.headers.get('Authorization')}`;
       return response.json();
