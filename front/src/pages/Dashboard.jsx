@@ -16,7 +16,7 @@ const Dashboard = ({ authorization }) => {
   };
 
   useEffect(() => {
-    petition('publicaciones', 'GET', authorization.authorization)
+    petition('publicaciones/mis-publicaciones', 'GET', authorization.authorization)
       .then((response) => {
         if (response.tipo === 'error' || response.message === 'Internal Server Error') {
           const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';

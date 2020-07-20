@@ -1,6 +1,10 @@
 const PreguntaModel = require('../models/preguntaModel')
 
 class PreguntaRepository {
+  /**
+   * Cargamos todos los metodos que contiene mongoose
+   * @param {PreguntaModel} model Modelo de la coleccion Pregunta
+   */
   constructor (model) {
     this.model = model
   }

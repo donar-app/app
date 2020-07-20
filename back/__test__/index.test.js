@@ -1,37 +1,31 @@
-const request = require('supertest')
+const supertest = require('supertest')
 const app = require('../app')
+const request = supertest(app)
 const crypto = require('crypto')
-const usuario = {
-  obj_usuario: {
-    nombre: 'abbul',
-    apellido: 'rodriguez',
-    alias: 'aroz',
-    clave: 'asdasdsadasda.123',
-    correo: 'abbul@hotmail.com',
-    pais: 'ar',
-    ciudad: 'cordoba'
-  }
-}
+const { usuariosOK, usuariosERROR } = require('../__mocks__/user.mocks')
 
-describe('Index Route', () => {
-  test('Inicio de la APP - / ', done => {
-    request(app)
-      .get('/')
-      .then(resAPP => {
-        expect(resAPP.body.codigo).toEqual('bienvenido')
-        done()
-      })
+describe('Endpoints Usuario', () => {
+  beforeAll(async (done) => {
+    setTimeout(() => {
+      done()
+    }, 2000)
   })
 
-  test('Registro de Usuario - /registro', done => {
-    request(app)
-      .post('/registro')
-      .send(usuario)
-      .then(resAPP => {
-        expect(resAPP.body.codigo).toEqual('usuario-registrado')
-        done()
-      })
-  })
+  test.each(usuariosOK)('Registro Usuario OK - %#', async (usuario) => {
+    const { obj_usuario: objUsuario, code_result: codeResult } = usuario
+    const resultAPI = await request.post('/registro').send({ obj_usuario: objUsuario })
+    expect(resultAPI.body.codigo).toEqual(codeResult)
+    expect(resultAPI.statusCode).toEqual(201)
+  }, 30000)
+
+  test.each(usuariosERROR)('Registro Usuario con Error - %#', async (usuario) => {
+    const { obj_usuario: objUsuario, code_result: codeResult } = usuario
+    const resultAPI = await request.post('/registro').send({ obj_usuario: objUsuario })
+    expect(resultAPI.body.codigo).toEqual(codeResult)
+    expect(resultAPI.statusCode).toEqual(200)
+  }, 30000)
+
+  /*
 
   test('Confirmacion de Registro - /confirmar-registro', done => {
     const encrypted = crypto.createHmac('sha256', process.env.SECRET_CRYPTO_REGISTER).update(`5ee57d53217b5412f4e03ba6${usuario.obj_usuario.correo}`).digest('hex')
@@ -47,7 +41,6 @@ describe('Index Route', () => {
       })
   })
 
-  /*
   test('Ingreso de Usuario - /ingreso', done => {
     request(app)
       .post('/ingreso')

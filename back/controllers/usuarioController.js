@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const SALT = bcrypt.genSaltSync(10)
 
-const crearUsuario = asyncHandler(async (req, res, next) => {
+const crearUsuario = asyncHandler(async (req, res) => {
   const { obj_usuario: objUsuario } = req.body
 
   if (!objUsuario) {
@@ -36,13 +36,13 @@ const crearUsuario = asyncHandler(async (req, res, next) => {
     const usuario = await UsuarioRepository.guardar(objUsuario)
     const encrypted = crypto.createHmac('sha256', process.env.SECRET_CRYPTO_REGISTER).update(`${usuario.id}${usuario.correo}`).digest('hex')
     await confirmacionDeRegistro(usuario.correo, encrypted)
-    return res.json(responseJSON(true, 'usuario-registrado', 'Usuario registrado con exito!', []))
+    return res.status(201).json(responseJSON(true, 'usuario-registrado', 'Usuario registrado con exito!', []))
   } catch (error) {
     if (Object.prototype.hasOwnProperty.call(error.keyValue, 'alias')) {
       return res.json(responseJSON(false, 'valor_duplicado', 'El alias ya esta registro por otro usuario.', error.keyValue))
     }
     if (Object.prototype.hasOwnProperty.call(error.keyValue, 'correo')) {
-      return res.json(responseJSON(true, 'usuario-registrado', 'Usuario registrado con exito!', []))
+      return res.status(201).json(responseJSON(true, 'usuario-registrado', 'Usuario registrado con exito!', []))
     }
     return res.json(responseJSON(false, 'error_interno', 'No pudimos registrarlo.', []))
   }
@@ -76,13 +76,15 @@ const confirmarRegistro = asyncHandler(async (req, res) => {
 const obtenerUsuario = asyncHandler(async (req, res) => {
   const { jwt_usuario_id: id } = req.body
   const usuario = await UsuarioRepository.obtenerPorID(id)
+
   if (!usuario) {
     return responseJSON(false, 'usuario_no_encontrado', 'Usuario no encontrado!', [])
   }
-  return responseJSON(true, 'usuario_encontrado', 'Usuario encontrado!', usuario)
+
+  return res.json(responseJSON(true, 'usuario_encontrado', 'Usuario encontrado!', usuario))
 })
 
-const login = asyncHandler(async (req, res, next) => {
+const login = asyncHandler(async (req, res) => {
   const { credencial_correo: correo, credencial_clave: clave } = req.body
 
   const usuario = await UsuarioRepository.obtenerUnoPorParametros({ correo: correo })
@@ -97,7 +99,9 @@ const login = asyncHandler(async (req, res, next) => {
   }
 
   if (usuario.es_activo === false) {
-    /// /////////// ACA DEBEOS ENVIAR EL MAIL NUEVAMENTE
+    /// /////////////////////////////////////
+    /// ///////ACA DEBEOS ENVIAR EL MAIL NUEVAMENTE PARA QUE CONFIRME LEL EMAIL Y COMPLETAR EL REGISTRO.
+    /// /////////////////////////////////////
     return res.json(responseJSON(false, 'usuario-cuenta_no_confirmada', 'Cuenta sin confirmar, revise un correo electronico', []))
   }
 

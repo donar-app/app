@@ -17,21 +17,27 @@ const verificaIP = async (req, res, next) => {
     res.cookie('pais', req.body.cookie_pais)
     return next()
   }
+
   axios(`http://api.ipstack.com/${ip}?access_key=${process.env.ACCESS_KEY_IP}`)
     .then((response) => response.data)
     .catch((error) => console.log('error.message >> ', error.message))
     .then(async (data) => {
       ips.push({ pais: data.country_code, ip: data.ip })
-      await ipRepository.guardar({
-        pais: data.country_code,
-        region: data.region_name,
-        ciudad: data.city,
-        valor: data.ip,
-        creado_en: new Date(
-          new Date().toLocaleString('es-AR', {
-            timeZone: 'America/Argentina/Buenos_Aires'
-          }))
-      })
+      try {
+        await ipRepository.guardar({
+          pais: data.country_code,
+          region: data.region_name,
+          ciudad: data.city,
+          valor: data.ip,
+          creado_en: new Date(
+            new Date().toLocaleString('es-AR', {
+              timeZone: 'America/Argentina/Buenos_Aires'
+            }))
+        })
+      } catch (error) {
+        console.log({ error })
+        data.country_code = 'AR'
+      }
       req.body.cookie_pais = data.country_code
       res.cookie('pais', req.body.cookie_pais)
       return next()

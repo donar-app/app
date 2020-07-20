@@ -1,5 +1,9 @@
 const PeticionModel = require('../models/peticionModel')
 class PeticionRepository {
+  /**
+   * Cargamos todos los metodos que contiene mongoose
+   * @param {PeticionModel} model Modelo de la coleccion Peticion
+   */
   constructor (model) {
     this.model = model
   }

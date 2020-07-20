@@ -1,5 +1,9 @@
 const IpModel = require('../models/ipModel')
 class IpRepository {
+  /**
+   * Cargamos todos los metodos que contiene mongoose
+   * @param {IpModel} model Modelo de la coleccion Ip
+   */
   constructor (model) {
     this.model = model
   }

@@ -1,5 +1,9 @@
 const PublicacionModel = require('../models/publicacionModel')
 class PublicacionRepository {
+  /**
+   * Cargamos todos los metodos que contiene mongoose
+   * @param {PublicacionModel} model Modelo de la coleccion Publicacion
+   */
   constructor (model) {
     this.model = model
   }
@@ -8,8 +12,8 @@ class PublicacionRepository {
     return await this.model.create(object)
   }
 
-  async obtenerPorUsuarioID (usuarioID) {
-    return await this.model.find({ estado: 'Publicado', anunciante_id: usuarioID })
+  async obtenerPorAnunciante (usuarioID) {
+    return await this.model.find({ anunciante_id: usuarioID })
       .populate({
         path: 'preguntas',
         populate: {

@@ -25,7 +25,7 @@ const crearPeticion = asyncHandler(async (req, res) => {
     new Date().toLocaleString('es-AR', {
       timeZone: 'America/Argentina/Buenos_Aires'
     }))
-  const peticion = await PeticionRepository.guardar(objPeticion, usuarioID, publicacionID)
+  const peticion = await PeticionRepository.guardar(objPeticion)
   if (!peticion) {
     return res.json(responseJSON(false, 'peticion-error', 'No se puede guardar la peticion', []))
   }

@@ -74,14 +74,14 @@ const publicacionSchema = new Schema({
 publicacionSchema.virtual('preguntas', {
   ref: 'Pregunta',
   localField: '_id',
-  foreignField: 'publicacion',
+  foreignField: 'publicacion_id',
   justOne: false
 })
 
 publicacionSchema.virtual('peticiones', {
   ref: 'Peticion',
   localField: '_id',
-  foreignField: 'publicacion',
+  foreignField: 'publicacion_id',
   justOne: false
 })
 
