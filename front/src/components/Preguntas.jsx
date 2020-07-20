@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import Slider from 'react-slick';
 import Producto from './Producto';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/slickStyle.css';
+import { checkLogin } from '../functions';
+import Pregunta from './Pregunta';
 
-const Preguntas = ({ smallText, children, preguntas }) => {
+const Preguntas = ({ smallText, children, preguntas, authorization }) => {
+  const [usuario, setUsuario] = useState(null);
+  useEffect(() => {
+    const getUsuario = async () => {
+      const usuario = await checkLogin();
+
+      if (usuario) {
+        setUsuario(usuario);
+      }
+    };
+    getUsuario();
+    // return getData();
+  }, []);
 
   return (
     <div className='tw-px-2 tw-pt-5'>
@@ -16,27 +30,9 @@ const Preguntas = ({ smallText, children, preguntas }) => {
       </div>
       <div className='tw-overflow-x-hidden'>
         {
-          preguntas &&
-                preguntas.map((pregunta) => (
-                  <div className='tw-rounded tw-bg-white tw-mx-5 tw-my-5 tw-p-8 tw-shadow-md'>
-                    <p style={{ width: '100%' }} className='text-left'>
-                      P:
-                      {' '}
-                      {pregunta.pregunta}
-                    </p>
-                    <p style={{ width: '100%' }} className='text-right'>
-                      R:
-                      {' '}
-                      {pregunta.respuesta}
-                    </p>
-                    <p className='tw-text-xs'>{moment(pregunta.creado_en).format('YYYY-MM-DD HH:mm:ss')}</p>
-                  </div>
-                ))
+          preguntas && preguntas.map((pregunta) => <Pregunta authorization={authorization} pregunta={pregunta} usuario={usuario} key={pregunta._id} />)
         }
       </div>
-      {/*<div className='tw-text-right pr-2 pt-2'>
-        <button type='button' className='tw-font-bold tw-text-gray-700'>Ver más ...</button>
-        </div>*/}
     </div>
   );
 };
