@@ -9,55 +9,82 @@ import ButtonPill from '../components/ButtonPill';
 import SliderProduct from '../components/SliderProduct';
 import Preguntas from '../components/Preguntas';
 import SliderPeticion from '../components/SliderPeticion';
-import { petition } from '../functions';
+import { petition, checkLogin } from '../functions';
 
 const Conversaciones = ({ authorization }) => {
   const history = useHistory();
-  const [publicaciones, setPublicaciones] = useState(null);
+  const [preguntas, setPreguntas] = useState([]);
+  const [respuestas, setRespuestas] = useState([]);
 
   useEffect(() => {
+    const getData = async () => {
+      if (!checkLogin()) {
+        Swal.fire(
+          'No Autorizado',
+          'Inicie sesión para continuar',
+          'error',
+        );
 
-    petition('usuarios', 'GET', authorization.authorization, {})
-      .then((response) => {
-        if (response.tipo === 'error') {
-          if (response.codigo === 'token_no_valido') {
+        history.push('/iniciarSesion');
+      }
+
+      // Traer Preguntas
+      petition('preguntas/mis-preguntas', 'GET', authorization.authorization)
+        .then((response) => {
+          if (response.tipo === 'error' || response.message === 'Internal Server Error') {
+            const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las preguntas';
             Swal.fire(
-              'No Autorizado',
-              response.mensaje,
+              'Error al traer las preguntas',
+              mensaje,
               'error',
             );
-          }
-          history.push('/iniciarSesion');
-          return;
-        }
-        console.log({ response });
-        const { cuerpo: usuario } = response;
-
-        // Traer publicaciones
-        petition('publicaciones/mis-publicaciones', 'GET', authorization.authorization)
-          .then((response) => {
-            if (response.tipo === 'error' || response.message === 'Internal Server Error') {
-              const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';
-              Swal.fire(
-                'Error al traer las publicaciones',
-                mensaje,
-                'error',
-              );
-            } else {
-              const { cuerpo: data } = response;
-              const publicaciones = [];
-
-              data.forEach((element, i) => {
-                publicaciones.push({
-                  ...element,
-                  imagen: `https://api.donar-app.com/uploads/${data[i].imagen}`,
-                });
-              });
-              console.log({ publicaciones });
-              setPublicaciones(publicaciones);
+            if (response.codigo === 'token_no_valido') {
+              history.push('/iniciarSesion');
             }
-          });
-      });
+          } else {
+            const { cuerpo: data } = response;
+            const preguntas = [];
+
+            data.forEach((element, i) => {
+              preguntas.push({
+                ...element,
+              // imagen: `https://api.donar-app.com/uploads/${data[i].imagen}`,
+              });
+            });
+            setPreguntas(preguntas);
+          }
+        })
+        .catch((error) => console.error({ error }));
+
+      // Traer Preguntas
+      petition('preguntas/mis-respuestas', 'GET', authorization.authorization)
+        .then((response) => {
+          if (response.tipo === 'error' || response.message === 'Internal Server Error') {
+            const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las respuestas';
+            Swal.fire(
+              'Error al traer las respuestas',
+              mensaje,
+              'error',
+            );
+            if (response.codigo === 'token_no_valido') {
+              history.push('/iniciarSesion');
+            }
+          } else {
+            const { cuerpo: data } = response;
+            const respuestas = [];
+
+            data.forEach((element, i) => {
+              respuestas.push({
+                ...element,
+                // imagen: `https://api.donar-app.com/uploads/${data[i].imagen}`,
+              });
+            });
+            setRespuestas(respuestas);
+          }
+        })
+        .catch((error) => console.error({ error }));
+    };
+    return getData();
   }, []);
 
   return (
@@ -75,10 +102,10 @@ const Conversaciones = ({ authorization }) => {
           <Col sm={12}>
             <Tab.Content>
               <Tab.Pane eventKey='donaciones'>
-                <Preguntas smallText='Tus donaciones' productos={!Array.isArray(publicaciones) ? null : publicaciones.filter((publicacion) => { return publicacion.tipo === 'Donación'; })}>Donaciones</Preguntas>
+                <Preguntas smallText='Tus preguntas realizadas' preguntas={preguntas}>Preguntas</Preguntas>
               </Tab.Pane>
               <Tab.Pane eventKey='solicitudes'>
-                <SliderProduct smallText='Tus solicitudes' productos={!Array.isArray(publicaciones) ? null : publicaciones.filter((publicacion) => { return publicacion.tipo === 'Solicitud'; })}>Solicitudes</SliderProduct>
+                <Preguntas smallText='Tus preguntas realizadas' preguntas={respuestas}>Respuestas</Preguntas>
               </Tab.Pane>
             </Tab.Content>
           </Col>

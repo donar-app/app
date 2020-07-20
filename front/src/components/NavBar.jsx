@@ -11,7 +11,7 @@ const NavBar = ({ authorization }) => {
     checkLogin()
       .then((response) => setIsLogin(response))
       .catch((response) => setIsLogin(response));
-  });
+  }, []);
 
   function handleMenuOpen() {
     const menuNav = document.querySelector('.menu_nav');
