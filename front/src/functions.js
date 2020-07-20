@@ -34,6 +34,19 @@ export const petition = (path, method, authorization = '', objectBody = {}) => {
     });
 };
 
+export const checkLogin = () => {
+  const authorization = localStorage.getItem('authorization');
+
+  return petition('usuarios', 'GET', authorization, {})
+    .then((response) => {
+      if (response.tipo === 'error') {
+        return false;
+      }
+      return true;
+    })
+    .catch(() => false);
+};
+
 export const toBase64 = (file) => new Promise((resolve, reject) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);

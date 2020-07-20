@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/NavBar.css';
 import LogoCompeto from '../assets/static/logo-completo.png';
 import Avatar from '../assets/static/user.png';
+import { checkLogin } from '../functions';
 
 const NavBar = ({ authorization }) => {
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    checkLogin()
+      .then((response) => setIsLogin(response))
+      .catch((response) => setIsLogin(response));
+  });
 
   function handleMenuOpen() {
     const menuNav = document.querySelector('.menu_nav');
@@ -34,7 +41,7 @@ const NavBar = ({ authorization }) => {
           <div className='links tw-flex tw-flex-row-reverse tw-space-x-4 tw-space-x-reverse'>
 
             {
-              authorization && false && (
+              isLogin && (
                 <Link to='/salir'>
                   <i className='text-secondary fas fa-times-circle' />
                   <span className='pl-2'>Salir</span>
@@ -42,7 +49,7 @@ const NavBar = ({ authorization }) => {
               )
             }
             {
-              !authorization && (
+              !isLogin && (
                 <>
                   <Link to='/sobreNosotros'>
                     <i className='text-secondary fas fa-users' />
@@ -52,15 +59,23 @@ const NavBar = ({ authorization }) => {
               )
             }
             {
-              authorization && (
+              isLogin && (
                 <>
                   <Link to='/perfil'>
                     <i className='text-secondary fas fa-user-edit' />
                     <span className='pl-2'>Perfil</span>
                   </Link>
-                  <Link to='/dashboard'>
+                  <Link to='/misPublicaciones'>
                     <i className='text-secondary fas fa-bullhorn' />
-                    <span className='pl-3'>Dashboard</span>
+                    <span className='pl-3'>Publicaciones</span>
+                  </Link>
+                  <Link to='/conversaciones'>
+                    <i className='text-secondary fas fa-comments' />
+                    <span className='pl-3'>Conversaciones</span>
+                  </Link>
+                  <Link to='/entregas'>
+                    <i className='text-secondary fas fa-shipping-fast' />
+                    <span className='pl-3'>Entregas</span>
                   </Link>
                 </>
               )
@@ -70,7 +85,7 @@ const NavBar = ({ authorization }) => {
               <span className='pl-3'>Publicar</span>
             </Link>
             {
-              !authorization && (
+              !isLogin && (
                 <>
                   <Link to='/registrarse'>
                     <i className='text-secondary fas fa-cash-register' />
@@ -95,7 +110,7 @@ const NavBar = ({ authorization }) => {
         <div className='menu_nav d-block d-sm-block d-md-none'>
           <div className='px-5'>
             <div className={`${authorization ? 'tw-py-5' : 'py-5'}`}>
-              <div className={`row d-flex align-items-center${!authorization && 'pb-3'}`}>
+              <div className={`row d-flex align-items-center${!isLogin && 'pb-3'}`}>
                 <div className='col-3'>
                   <img src={Avatar} width={55} alt='avatar' />
                 </div>
@@ -112,7 +127,7 @@ const NavBar = ({ authorization }) => {
                 </div>
               </div>
               {
-                !authorization && (
+                !isLogin && (
                   <div className='row'>
                     <div className='col-6'>
                       <Link onClick={closeMenu} to='/iniciarSesion' className='btn bg-button btn-block'>Ingresar</Link>
@@ -166,7 +181,7 @@ const NavBar = ({ authorization }) => {
               </div>
               <div className='col-12'>
                 {
-                  authorization && (
+                  isLogin && (
                     <Link onClick={closeMenu} to='/salir'>
                       <i className='text-secondary fas fa-times-circle' />
                       <span className='pl-3'>Salir</span>
