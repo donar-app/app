@@ -8,11 +8,13 @@ import NavBar from '../components/NavBar';
 import Login from '../components/Login';
 import Registro from '../components/Registro';
 import Perfil from '../components/Perfil';
-import Dashboard from '../pages/Dashboard';
 import SobreNosotros from '../pages/SobreNosotros';
 import Donar from '../pages/Donar';
 import Solicitar from '../pages/Solicitar';
 import ViewProducto from '../pages/ViewProducto';
+import MisPublicaciones from '../pages/MisPublicaciones';
+import Conversaciones from '../pages/Conversaciones';
+import Entregas from '../pages/Entregas';
 
 const App = () => {
   const [authorization, setAuthorization] = useState({ authorization: localStorage.getItem('authorization') });
@@ -59,9 +61,17 @@ const App = () => {
               <ScrollToTop />
               <Perfil authorization={authorization} setAuthorization={setAuthorization} />
             </Route>
-            <Route path='/Dashboard'>
+            <Route path='/misPublicaciones'>
               <ScrollToTop />
-              <Dashboard authorization={authorization} setAuthorization={setAuthorization} />
+              <MisPublicaciones authorization={authorization} setAuthorization={setAuthorization} />
+            </Route>
+            <Route path='/conversaciones'>
+              <ScrollToTop />
+              <Conversaciones authorization={authorization} setAuthorization={setAuthorization} />
+            </Route>
+            <Route path='/entregas'>
+              <ScrollToTop />
+              <Entregas authorization={authorization} setAuthorization={setAuthorization} />
             </Route>
             <Route path='/Registrarse'>
               <ScrollToTop />

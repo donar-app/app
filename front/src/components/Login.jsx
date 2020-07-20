@@ -66,7 +66,7 @@ const Login = ({ setAuthorization }) => {
                 </div>
                 <div className='pt-2'>
                   <div className='form-group'>
-                    <LabelInput name='userLogin'>Usuario</LabelInput>
+                    <LabelInput name='userLogin'>E-Mail</LabelInput>
                   </div>
                   <div className='form-group'>
                     <LabelInput name='passLogin' className='alert' type='password'>Contraseña</LabelInput>
