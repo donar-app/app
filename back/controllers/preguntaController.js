@@ -43,6 +43,20 @@ const obtenerPregunta = asyncHandler(async (req, res) => {
   return res.json(responseJSON(true, 'pregunta-enviada', 'Pregunta enviada.', pregunta))
 })
 
+const obtenerMisPreguntas = asyncHandler(async (req, res) => {
+  const { jwt_usuario_id: usuarioID } = req.body
+
+  const preguntas = await PreguntaRepository.obtenerPreguntasPorUsuario(usuarioID)
+  return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas enviadas.', preguntas))
+})
+
+const obtenerMisRespuestas = asyncHandler(async (req, res) => {
+  const { jwt_usuario_id: usuarioID } = req.body
+
+  const preguntas = await PreguntaRepository.obtenerRespuestasPorUsuario(usuarioID)
+  return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas enviadas.', preguntas))
+})
+
 const obtenerPreguntas = asyncHandler(async (req, res) => {
   const { id: publicacionID } = req.params
 
@@ -50,7 +64,7 @@ const obtenerPreguntas = asyncHandler(async (req, res) => {
     return res.json(responseJSON(false, 'pregunta-sin_id', 'Publicacion no encontrada.', []))
   }
   const preguntas = await PreguntaRepository.obtenerPreguntasPorPublicacion(publicacionID)
-  return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas envias.', preguntas))
+  return res.json(responseJSON(true, 'preguntas_enviada', 'Preguntas enviadas.', preguntas))
 })
 
 const responderPregunta = asyncHandler(async (req, res) => {
@@ -78,5 +92,7 @@ module.exports = {
   crearPregunta,
   responderPregunta,
   obtenerPregunta,
-  obtenerPreguntas
+  obtenerPreguntas,
+  obtenerMisPreguntas,
+  obtenerMisRespuestas
 }
