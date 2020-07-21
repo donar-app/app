@@ -68,8 +68,6 @@ const Peticion = ({ usuario, peticion, authorization }) => {
                 )
               }
             </div>
-          </div>
-          <div>
             <ContenidoPeticion peticion={peticion} usuario={usuario} authorization={authorization} />
           </div>
         </div>
