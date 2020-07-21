@@ -201,7 +201,7 @@ const ViewProducto = ({ authorization, setAuthorization }) => {
             </div>
             <h3 className='text-center tw-m-5 tw-text-xl'>Preguntas</h3>
             <div className='tw-flex-1'>
-              <input value={pregunta} onChange={(e) => setPregunta(e.target.value)} className='bg-transparent focus:outline-none focus:outline-none border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal tw-ml-5' style={{ width: '80vw' }} placeholder='Preguntar...' />
+              <input value={pregunta} onChange={(e) => setPregunta(e.target.value)} className='bg-transparent focus:outline-none focus:outline-none border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal tw-ml-5' style={{ width: '80%' }} placeholder='Preguntar...' />
               <button onClick={handlePreguntar} className='tw-border-black tw-p-3 tw-border'>Enviar</button>
             </div>
             <div>
