@@ -6,13 +6,14 @@ import IosFlaskOutline from 'react-ionicons/lib/IosFlaskOutline';
 import MdRefresh from 'react-ionicons/lib/MdRefresh';
 import donando from '../assets/static/donando.png';
 import ButtonPill from '../components/ButtonPill';
-import SliderProduct from '../components/SliderProduct';
-import SliderPeticion from '../components/SliderPeticion';
+import Peticiones from '../components/Peticiones';
 import { petition } from '../functions';
+
+;
 
 const Entregas = ({ authorization }) => {
   const history = useHistory();
-  const [publicaciones, setPublicaciones] = useState(null);
+  const [peticiones, setPeticiones] = useState(null);
 
   useEffect(() => {
 
@@ -32,28 +33,27 @@ const Entregas = ({ authorization }) => {
         console.log({ response });
         const { cuerpo: usuario } = response;
 
-        // Traer publicaciones
-        petition('publicaciones/mis-publicaciones', 'GET', authorization.authorization)
+        // Traer peticiones
+        petition('peticiones', 'GET', authorization.authorization)
           .then((response) => {
             if (response.tipo === 'error' || response.message === 'Internal Server Error') {
-              const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las publicaciones';
+              const mensaje = response.mensaje || 'Espere unos minutos y vuelva a intentar para ver las peticiones';
               Swal.fire(
-                'Error al traer las publicaciones',
+                'Error al traer las peticiones',
                 mensaje,
                 'error',
               );
             } else {
               const { cuerpo: data } = response;
-              const publicaciones = [];
+              const peticiones = [];
 
               data.forEach((element, i) => {
-                publicaciones.push({
+                peticiones.push({
                   ...element,
-                  imagen: `https://api.donar-app.com/uploads/${data[i].imagen}`,
                 });
               });
-              console.log({ publicaciones });
-              setPublicaciones(publicaciones);
+
+              setPeticiones(peticiones);
             }
           });
       });
@@ -69,38 +69,38 @@ const Entregas = ({ authorization }) => {
           </p>
         </div>
       </div>
-      <Tab.Container id='left-tabs-example' defaultActiveKey='donaciones' transition={false}>
+      <Tab.Container id='left-tabs-example' defaultActiveKey='donaciones'>
         <Row>
           <Col sm={12}>
             <Tab.Content>
               <Tab.Pane eventKey='donaciones'>
-                <SliderProduct smallText='Tus donaciones' productos={!Array.isArray(publicaciones) ? null : publicaciones.filter((publicacion) => { return publicacion.tipo === 'Donación'; })}>Donaciones</SliderProduct>
+                <Peticiones smallText='En Curso' peticiones={!Array.isArray(peticiones) ? null : peticiones.filter((peticion) => { return peticion; })}>Peticiones</Peticiones>
               </Tab.Pane>
               <Tab.Pane eventKey='solicitudes'>
-                <SliderProduct smallText='Tus solicitudes' productos={!Array.isArray(publicaciones) ? null : publicaciones.filter((publicacion) => { return publicacion.tipo === 'Solicitud'; })}>Solicitudes</SliderProduct>
+                <Peticiones smallText='Historial' peticiones={!Array.isArray(peticiones) ? null : peticiones.filter((peticion) => { return peticion; })}>Peticiones</Peticiones>
               </Tab.Pane>
             </Tab.Content>
           </Col>
-          <Col sm={12} style={{ bottom: '0', position: 'fixed', width: '100vw' }}>
+          <div className='tw-shadow' style={{ bottom: '0', left: '0', position: 'fixed', width: '100vw', backgroundColor: 'white' }}>
             <Nav variant='pills' className='tw-flex tw-justify-center tw-items-center'>
-              <Nav.Item className='w-2/5'>
+              <Nav.Item className='w-2/12'>
                 <Nav.Link eventKey='donaciones' className='text-center'>
                   <center>
-                    <IosFlaskOutline fontSize='3em' />
+                    <IosFlaskOutline fontSize='2em' />
                   </center>
                   En Proceso
                 </Nav.Link>
               </Nav.Item>
-              <Nav.Item className='w-2/5'>
+              <Nav.Item className='w-2/12'>
                 <Nav.Link eventKey='solicitudes'>
                   <center>
-                    <MdRefresh fontSize='3em' />
+                    <MdRefresh fontSize='2em' />
                   </center>
                   Historial
                 </Nav.Link>
               </Nav.Item>
             </Nav>
-          </Col>
+          </div>
         </Row>
       </Tab.Container>
 

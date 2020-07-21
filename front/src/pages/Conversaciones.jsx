@@ -97,7 +97,7 @@ const Conversaciones = ({ authorization }) => {
           </p>
         </div>
       </div>
-      <Tab.Container id='left-tabs-example' defaultActiveKey='donaciones' transition={false}>
+      <Tab.Container id='left-tabs-example' defaultActiveKey='donaciones'>
         <Row>
           <Col sm={12}>
             <Tab.Content>
@@ -109,26 +109,26 @@ const Conversaciones = ({ authorization }) => {
               </Tab.Pane>
             </Tab.Content>
           </Col>
-          <Col sm={12} style={{ bottom: '0', position: 'fixed', width: '100vw' }}>
+          <div className='shadow' style={{ bottom: '0', left: '0', position: 'fixed', width: '100vw', backgroundColor: 'white' }}>
             <Nav variant='pills' className='tw-flex tw-justify-center tw-items-center'>
-              <Nav.Item className='w-2/5'>
+              <Nav.Item className='w-2/12'>
                 <Nav.Link eventKey='donaciones' className='text-center'>
                   <center>
-                    <IosHandOutline fontSize='3em' />
+                    <IosHandOutline fontSize='2em' />
                   </center>
                   Preguntas
                 </Nav.Link>
               </Nav.Item>
-              <Nav.Item className='w-2/5'>
+              <Nav.Item className='w-2/12'>
                 <Nav.Link eventKey='solicitudes'>
                   <center>
-                    <MdDoneAll fontSize='3em' />
+                    <MdDoneAll fontSize='2em' />
                   </center>
                   Respuestas
                 </Nav.Link>
               </Nav.Item>
             </Nav>
-          </Col>
+          </div>
         </Row>
       </Tab.Container>
 

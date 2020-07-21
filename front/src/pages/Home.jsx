@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { Tabs, Tab, Nav, Row, Col } from 'react-bootstrap';
+import IosFlaskOutline from 'react-ionicons/lib/IosFlaskOutline';
+import MdThumbsUp from 'react-ionicons/lib/MdThumbsUp';
+import IosMegaphone from 'react-ionicons/lib/IosMegaphone';
+import MdRefresh from 'react-ionicons/lib/MdRefresh';
 import donando from '../assets/static/donando.png';
 import ButtonPill from '../components/ButtonPill';
-import SliderProduct from '../components/SliderProduct';
+import Peticiones from '../components/Peticiones';
 import { petition } from '../functions';
+import SliderProduct from '../components/SliderProduct';
 
 const Home = ({ authorization }) => {
   const history = useHistory();
@@ -49,13 +55,45 @@ const Home = ({ authorization }) => {
           <p className='tw-pb-3 tw-font-bold tw-text-lg tw-text-white md:tw-text-4xl text-shadow'>
             Dona o solicita lo que (no) necesites!
           </p>
-          {/* <div className='tw-text-right tw-w-full md:tw-text-center'>
-            <ButtonPill bgColor='tw-bg-white' textColor='text-orange-donar' px='tw-px-6' py='tw-py-0' textSize='tw-text-2xl' handleClick={() => goTo('/publicar/donar')}>Donar</ButtonPill>
-          </div> */}
         </div>
       </div>
-      <SliderProduct smallText='Recibé una donación' productos={!Array.isArray(productos) ? null : productos.filter((producto) => { return producto.tipo === 'Donación'; })}>Donaciones</SliderProduct>
-      <SliderProduct smallText='Solicita una donación' productos={!Array.isArray(productos) ? null : productos.filter((producto) => { return producto.tipo === 'Solicitud'; })}>Solicitudes de donaciones</SliderProduct>
+      <Tab.Container id='left-tabs-example' defaultActiveKey='solicitudes'>
+        <Row>
+          <Col sm={12}>
+            <Tab.Content>
+              <Tab.Pane eventKey='donaciones'>
+                <SliderProduct smallText='Recibé una donación' productos={!Array.isArray(productos) ? null : productos.filter((producto) => { return producto.tipo === 'Donación'; })}>Donaciones</SliderProduct>
+              </Tab.Pane>
+              <Tab.Pane eventKey='solicitudes'>
+                <SliderProduct smallText='Solicita una donación' productos={!Array.isArray(productos) ? null : productos.filter((producto) => { return producto.tipo === 'Solicitud'; })}>Solicitudes de donaciones</SliderProduct>
+              </Tab.Pane>
+            </Tab.Content>
+          </Col>
+          <div className='shadow' style={{ bottom: '0', left: '0', position: 'fixed', width: '100vw', backgroundColor: 'white' }}>
+            <Nav variant='pills' className='tw-flex tw-justify-center tw-items-center'>
+              <Nav.Item className='w-2/12'>
+                <Nav.Link eventKey='donaciones' className='text-center'>
+                  <center>
+                    <MdThumbsUp fontSize='2em' />
+                  </center>
+                  Donaciones
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item className='w-2/12'>
+                <Nav.Link eventKey='solicitudes'>
+                  <center>
+                    <IosMegaphone fontSize='2em' />
+                  </center>
+                  Solicitudes
+                </Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </div>
+        </Row>
+      </Tab.Container>
+
+      {/* <SliderPeticion smallText='Tus Peticiones' peticiones={!Array.isArray(peticiones) ? null : peticiones.filter((peticion) => { return true; })}>Peticiones</SliderPeticion> */}
+
     </main>
   );
 };
