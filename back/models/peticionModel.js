@@ -17,6 +17,11 @@ const Peticion = new Schema({
     required: false,
     default: false
   },
+  es_rechazada: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   es_recibida: {
     type: Boolean,
     required: false,
@@ -57,6 +62,13 @@ const Peticion = new Schema({
   toJSON: {
     virtuals: true
   }
+})
+
+Peticion.virtual('publicacion', {
+  ref: 'Publicacion',
+  localField: 'publicacion_id',
+  foreignField: '_id',
+  justOne: true
 })
 
 module.exports = mongoose.model('Peticion', Peticion)

@@ -22,6 +22,7 @@ class PeticionRepository {
 
   async obtenerMisPeticiones (id) {
     return await this.model.find({ usuario_id: id })
+      .populate('publicacion')
   }
 
   async actualizar (id, object) {
