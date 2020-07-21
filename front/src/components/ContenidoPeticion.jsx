@@ -140,20 +140,125 @@ const ContenidoPeticion = ({ usuario, peticion, authorization }) => {
   };
 
   const PeticionEspera = () => {
-    return <>Petición En Espera</>;
+    const ownerPeticion = () => (
+      <>
+        <div className=''>
+          Aguarde mientras procesan solicitud de donación...
+        </div>
+      </>
+    );
+    const ownerPublicacion = () => (
+      <>
+        <div className=''>
+          Aceptar / Rechazar
+        </div>
+      </>
+    );
+
+    if (isOwnerPeticion) {
+      return ownerPeticion();
+    }
+    if (isOwnerPublicacion) {
+      return ownerPublicacion();
+    }
+    return null;
   };
 
   const PeticionAceptada = () => {
-    return <>Petición Aceptada</>;
+    const ownerPeticion = () => (
+      <>
+        <div className=''>
+          Han aceptado su solicitud de donación, ponte en contacto con el receptor...
+        </div>
+      </>
+    );
+    const ownerPublicacion = () => (
+      <>
+        <div className=''>
+          Haz aceptado la solicitud de donación, ahora ponte en contacto con el donante...
+        </div>
+      </>
+    );
+
+    if (isOwnerPeticion) {
+      return ownerPeticion();
+    }
+    if (isOwnerPublicacion) {
+      return ownerPublicacion();
+    }
+    return null;
   };
   const PeticionRechazada = () => {
-    return <>Petición Rechazada</>;
+    const ownerPeticion = () => (
+      <>
+        <div className=''>
+          Su solicitud de donación a sido rechazada : (
+        </div>
+      </>
+    );
+    const ownerPublicacion = () => (
+      <>
+        <div className=''>
+          Haz rechazado la solicitud de donación
+        </div>
+      </>
+    );
+
+    if (isOwnerPeticion) {
+      return ownerPeticion();
+    }
+    if (isOwnerPublicacion) {
+      return ownerPublicacion();
+    }
+    return null;
   };
   const PeticionRecibida = () => {
-    return <>Petición Recibida</>;
+    const ownerPeticion = () => (
+      <>
+        <div className=''>
+          Han indicado que entregaste la donación
+        </div>
+      </>
+    );
+    const ownerPublicacion = () => (
+      <>
+        <div className=''>
+          Haz indicado que recibiste la donación
+        </div>
+      </>
+    );
+
+    if (isOwnerPeticion) {
+      return ownerPeticion();
+    }
+    if (isOwnerPublicacion) {
+      return ownerPublicacion();
+    }
+    return null;
   };
   const PeticionEntregada = () => {
-    return <>Petición Entregada</>;
+    const ownerPeticion = () => (
+      <>
+        <div className=''>
+          Haz indicado que entregaste tu donación
+        </div>
+      </>
+    );
+    const ownerPublicacion = () => (
+      <>
+        <div className=''>
+          Han indicado que recibiste la donación
+        </div>
+      </>
+    );
+
+    if (isOwnerPeticion) {
+      return ownerPeticion();
+    }
+    if (isOwnerPublicacion) {
+      return ownerPublicacion();
+    }
+    return null;
   };
 
   if (peticion.es_rechazada) {
