@@ -37,4 +37,11 @@ const PreguntaSchema = new Schema({
   }
 })
 
+PreguntaSchema.virtual('publicacion', {
+  ref: 'Publicacion',
+  localField: 'publicacion_id',
+  foreignField: '_id',
+  justOne: true
+})
+
 module.exports = mongoose.model('Pregunta', PreguntaSchema)

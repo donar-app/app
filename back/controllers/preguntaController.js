@@ -85,7 +85,7 @@ const responderPregunta = asyncHandler(async (req, res) => {
     return res.json(responseJSON(false, 'pregunta-error_no_encontada', 'No se pudo responder la pregunta.', []))
   }
 
-  return res.json(responseJSON(false, 'pregunta_respondida', 'Se respondia la pregunta correctamente.', pregunta))
+  return res.json(responseJSON(true, 'pregunta_respondida', 'Se respondió la pregunta correctamente.', pregunta))
 })
 
 module.exports = {

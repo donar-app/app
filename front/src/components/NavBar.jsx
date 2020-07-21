@@ -11,7 +11,7 @@ const NavBar = ({ authorization }) => {
     checkLogin()
       .then((response) => setIsLogin(response))
       .catch((response) => setIsLogin(response));
-  });
+  }, []);
 
   function handleMenuOpen() {
     const menuNav = document.querySelector('.menu_nav');
@@ -115,7 +115,7 @@ const NavBar = ({ authorization }) => {
                   <img src={Avatar} width={55} alt='avatar' />
                 </div>
                 <div className='col-9'>
-                  <h3>¡Bienvenido!</h3>
+                  <h3>¡Hola!</h3>
                   {
                     authorization ? (
                       <div>

@@ -69,7 +69,7 @@ const MisPublicaciones = ({ authorization }) => {
           </p>
         </div>
       </div>
-      <Tab.Container id='left-tabs-example' defaultActiveKey='donaciones' transition={false}>
+      <Tab.Container id='left-tabs-example' defaultActiveKey='donaciones'>
         <Row>
           <Col sm={12}>
             <Tab.Content>
@@ -81,26 +81,26 @@ const MisPublicaciones = ({ authorization }) => {
               </Tab.Pane>
             </Tab.Content>
           </Col>
-          <Col sm={12} style={{ bottom: '0', position: 'fixed', width: '100vw' }}>
+          <div className='shadow' style={{ bottom: '0', left: '0', position: 'fixed', width: '100vw', backgroundColor: 'white' }}>
             <Nav variant='pills' className='tw-flex tw-justify-center tw-items-center'>
-              <Nav.Item className='w-2/5'>
+              <Nav.Item className='w-2/12'>
                 <Nav.Link eventKey='donaciones' className='text-center'>
                   <center>
-                    <MdThumbsUp fontSize='3em' />
+                    <MdThumbsUp fontSize='2em' />
                   </center>
                   Donaciones
                 </Nav.Link>
               </Nav.Item>
-              <Nav.Item className='w-2/5'>
+              <Nav.Item className='w-2/12'>
                 <Nav.Link eventKey='solicitudes'>
                   <center>
-                    <IosMegaphone fontSize='3em' />
+                    <IosMegaphone fontSize='2em' />
                   </center>
                   Solicitudes
                 </Nav.Link>
               </Nav.Item>
             </Nav>
-          </Col>
+          </div>
         </Row>
       </Tab.Container>
 

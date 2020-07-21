@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import Slider from 'react-slick';
-import Producto from './Producto';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/styles/slickStyle.css';
 import { checkLogin } from '../functions';
-import Pregunta from './Pregunta';
+import Peticion from './Peticion';
 
-const Preguntas = ({ smallText, children, preguntas, authorization }) => {
+const Peticiones = ({ smallText, children, peticiones, authorization }) => {
   const [usuario, setUsuario] = useState(null);
   useEffect(() => {
     const getUsuario = async () => {
@@ -30,11 +28,11 @@ const Preguntas = ({ smallText, children, preguntas, authorization }) => {
       </div>
       <div className='tw-overflow-x-hidden'>
         {
-          preguntas && preguntas.map((pregunta) => <Pregunta authorization={authorization} pregunta={pregunta} usuario={usuario} key={pregunta._id} />)
+          peticiones && peticiones.map((peticion) => <Peticion authorization={authorization} peticion={peticion} usuario={usuario} key={peticion._id} />)
         }
       </div>
     </div>
   );
 };
 
-export default Preguntas;
+export default Peticiones;

@@ -13,7 +13,7 @@ router.get('/', obtenerPublicaciones)
 /**
  * Obtienes todas mis publicaciones activas
  */
-router.get('/mis-publicaciones', obtenerMisPublicaciones)
+router.get('/mis-publicaciones', verificaToken, obtenerMisPublicaciones)
 
 /**
  * Obtiene una publicacion por su ID

@@ -20,7 +20,7 @@ export const petition = (path, method, authorization = '', objectBody = {}) => {
       // credentials: 'include',
     };
   }
-  return fetch(`https://api.donar-app.com/${path}`, headers)
+  return fetch(`http://api.donar-app.com/${path}`, headers)
     .then((response) => {
       authorizationChange = `Bearer ${response.headers.get('Authorization')}`;
       return response.json();
@@ -42,7 +42,7 @@ export const checkLogin = () => {
       if (response.tipo === 'error') {
         return false;
       }
-      return true;
+      return response.cuerpo;
     })
     .catch(() => false);
 };
